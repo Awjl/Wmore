@@ -10,7 +10,6 @@ export function getBanner () {
 // 获取课程列表
 export function getCourse (id, pn) {
   const url = `./api/wmore/course/getCourse`
-  console.log(id, pn)
   return axios.get(url, {
     params: {
       id: id,
