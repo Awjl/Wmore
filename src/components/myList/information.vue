@@ -61,7 +61,7 @@
         </div>
       </div>
       <div class="line"></div>
-      <div class="informationItem">
+      <div class="informationItem" @click="handlePlaylist()">
         <div>&nbsp;&nbsp;&nbsp;城市</div>
         <div class="informationItem-img">
           <span>上海</span>
@@ -102,12 +102,27 @@ export default {
   data () {
     return {
       heartImg: './static/images/my/tou.jpg',
-      helloUrl: './static/images/my/hello.png'
+      helloUrl: './static/images/my/hello.png',
+      datanowValue: [],
+      cityData: []
     }
   },
   methods: {
     handlePlaylist () {
-      this.$refs.scroll.refresh()
+      new Picker({
+        'title': '请选择', // 标题(可选)
+        'defaultValue': this.datanowValue, // 默认值-多个以空格分开（可选）
+        'data': this.cityData, // 数据(必传)
+        'keys': {
+          'id': 'Code',
+          'value': 'Name',
+          'childData': 'level' // 最多3级联动
+        }, // 数组内的键名称(必传，id、text、data)
+        'callBack': function (val) {
+          // 回调函数（val为选择的值）
+          this.datanowValue = val
+        }
+      })
     }
   }
 }
