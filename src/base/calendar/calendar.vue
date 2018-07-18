@@ -47,22 +47,22 @@
         <span v-if="dayobject.day.getMonth()+1 != currentMonth" class="other-month">{{ dayobject.day.getDate() }}</span>
         <!--如果是本月  还需要判断是不是这一天-->
         <span v-else class="days-cla">
-        <img src="./OptionalTwo-icon.png" alt="" v-show="dayobject.data">
-        <img src="./fullTwo-icon.png" alt="" v-show="full == 2">
-        <img src="./alreadyTwo-icon.png" alt="" v-show="already == 3">
-        <img src="./teamTwo-icon.png" alt="" v-show="team == 4" style="top: 0;
+        <img src="./OptionalTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state == 2">
+        <img src="./fullTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state == 1">
+        <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state1 == 1">
+        <img src="./teamTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.type == 2" style="top: 0;
             left:22px;
             width: 5px;
             height: 5px;">
         <!--今天  同年同月同日-->
           <span v-if="dayobject.day.getFullYear() == new Date().getFullYear() && dayobject.day.getMonth() == new Date().getMonth() && dayobject.day.getDate() == new Date().getDate()"
           class="active">{{ dayobject.day.getDate() }}</span>
-
           <span v-else>{{ dayobject.day.getDate() }}</span>
         </span>
         <!--显示剩余多少数量-->
-        <p>剩余剩余剩余
-          <span style="color: red">{{dayobject.data}}</span>
+        <p v-if="dayobject.data">
+          <span>{{ dayobject.data.courseName }}</span>
+          <span>{{ dayobject.data.courseNameen }}</span>
         </p>
       </li>
     </ul>
@@ -89,7 +89,7 @@ export default {
   },
   created () {
     // 在vue初始化时调用
-    this.initData(null)
+    this.dataTime()
     this._getCourse()
   },
   methods: {
@@ -99,26 +99,21 @@ export default {
       }
       getCourse('8', `${this.currentYear}-${this.currentMonth}`).then((res) => {
         if (res.code === ERR_OK) {
-          // console.log(res.data)
           this.datas = res.data
           console.log(this.datas)
-          for (let i = 0; i < this.days.length; i++) {
-            // console.log(this.days[i].day)
-            for (let j = 0; j < this.datas.length; j++) {
-              if (this.days[i].day.getFullYear() === new Date(this.datas[j].courseDate).getFullYear() && this.days[i].day.getMonth() + 1 === new Date(this.datas[j].courseDate).getMonth() + 1 && this.days[i].day.getDate() === new Date(this.datas[j].courseDate).getDate()) {
-                // this.days[i].data
-                this.days[i].data = this.datas[j]
-              }
-            }
-          }
+          this.initData(null)
         }
       })
-      console.log(this.days)
+    },
+    dataTime () {
+      let date = new Date()
+      this.currentDay = date.getDate()
+      this.currentYear = date.getFullYear()
+      this.currentMonth = date.getMonth() + 1
     },
     initData (cur) {
       // let leftcount = 0 // 存放剩余数量
       let date
-      let index = 0 // 控制显示预定的天数 ，比如下面设置只能预定三天的
       // this.initleftcount(); 每次初始化更新数量
       // 有两种方案  一种是每次翻页 ajax获取数据初始化   http请求过多会导致资源浪费
       // 一种是每次请求 ajax获取数据初始化    数据更新过慢会导致缺少实时性
@@ -154,15 +149,12 @@ export default {
 
         let dayobject = {}
         dayobject.day = d
-        let now = new Date()
-        if (
-          d.getDate() === now.getDate() &&
-          d.getMonth() === now.getMonth() &&
-          d.getFullYear() === now.getFullYear()
-        ) {
-          dayobject.index = index++ // 从今天开始显示供预定的数量
-        } else if (index !== 0 && index < 3) dayobject.index = index++ // 从今天开始3天内显示供预定的数量
-
+        for (let j = 0; j < this.datas.length; j++) {
+          let courseDateDay = this.datas[j].courseDate
+          if (d.getFullYear() === new Date(courseDateDay).getFullYear() && d.getMonth() + 1 === new Date(courseDateDay).getMonth() + 1 && d.getDate() === new Date(courseDateDay).getDate()) {
+            dayobject.data = this.datas[j]
+          }
+        }
         this.days.push(dayobject)
       }
       // 其他周
@@ -171,16 +163,15 @@ export default {
         d.setDate(d.getDate() + i)
         let dayobject = {}
         dayobject.day = d
-        let now = new Date()
-        if (
-          d.getDate() === now.getDate() &&
-          d.getMonth() === now.getMonth() &&
-          d.getFullYear() === now.getFullYear()
-        ) {
-          dayobject.index = index++
-        } else if (index !== 0 && index < 3) dayobject.index = index++
+        for (let j = 0; j < this.datas.length; j++) {
+          let courseDateDay = this.datas[j].courseDate
+          if (dayobject.day.getFullYear() === new Date(courseDateDay).getFullYear() && dayobject.day.getMonth() + 1 === new Date(courseDateDay).getMonth() + 1 && dayobject.day.getDate() === new Date(courseDateDay).getDate()) {
+            dayobject.data = this.datas[j]
+          }
+        }
         this.days.push(dayobject)
       }
+      console.log(this.days)
     },
     pickPre (year, month) {
       // setDate(0); 上月最后一天
@@ -207,6 +198,22 @@ export default {
       let d = day
       if (d < 10) d = '0' + d
       return y + '-' + m + '-' + d
+    }
+    // // 数据填充
+    // dataList() {
+    //   for (let j = 0; j < this.datas.length; j++) {
+    //     let courseDateDay = this.datas[j].courseDate
+    //     if (this.days[i].day.getFullYear() === new Date(courseDateDay).getFullYear() && this.days[i].day.getMonth() + 1 === new Date(courseDateDay).getMonth() + 1 && this.days[i].day.getDate() === new Date(courseDateDay).getDate()) {
+    //       this.days[i].data = []
+    //       this.days[i].data.push(this.datas[j])
+    //       console.log(this.days[i])
+    //       console.log(this.days)
+    //     }
+    //   }
+    // }
+  },
+  watch: {
+    datas: function () {
     }
   }
 }
