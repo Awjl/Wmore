@@ -1,77 +1,198 @@
 <template>
-  <div class="MyNotice" ref="MyClass">
-    <div class="ClassTitle">
-      <div class="Title" :class="{TitleActive:index==1}" @click="appointment()">未读</div>
-      <div class="line"></div>
-      <div class="Title" :class="{TitleActive:index==2}" @click="over()">已读</div>
+  <div class="MyNotice">
+    <div class="popup" v-if="stateShow">
+        <div class="popup-box">
+          <div class="popup-title">{{dataContent.title}}</div>
+          <div class="popup-line"></div>
+          <div class="popup-content">{{dataContent.content}}</div>
+          <div class="popup-timer">{{new Date(dataContent.noticeDate).getMonth() + 1}}月{{ new Date(dataContent.noticeDate).getDate()}}日</div>
+        </div>
+        <div class="popup-btn" @click="gohide()">
+            确定
+        </div>
     </div>
-    <div class="line-clo"></div>
-    <scroll class="toplist" :data="topList" ref="toplist">
+    <div class="heard">
+      <div class="ClassTitle">
+        <div class="Title" :class="{TitleActive:index==1}" @click="appointment()">未读</div>
+          <div class="line"></div>
+          <div class="Title" :class="{TitleActive:index==2}" @click="over()">已读</div>
+        </div>
+      <div class="line-clo"></div>
+    </div>
+    <div class="toplist">
         <!-- <li v-for="(list, index) in topList" :key="index">{{list}}</li> -->
-      <div class="list">
+      <div class="list" v-for="(list, index) in topList" :key="index" @click="goReatNotice(list.id, index)">
         <div class="Item">
-          <div class="Item-img">
+          <div class="Item-img" v-if="list.isRead == 1">
               <img src="../Icon/wei-icon.png" alt="">
           </div>
-          <div class="name">
-            <div><span>您预约的课程即将开始</span> <span>7月3日</span></div>
-            <p>您预约的课您预约的课程您预约的课程您预约的课程您预约的课程程</p>
-          </div>
-        </div>
-        <div class="line-clo">
-
-        </div>
-      </div>
-      <div class="list">
-        <div class="Item">
-          <div class="Item-img">
+          <div class="Item-img" v-else>
               <img src="../Icon/yi-icon.png" alt="">
           </div>
           <div class="name">
-            <div><span>您预约的课程即将开始</span> <span>7月3日</span></div>
-            <p>您预约的课您预约的课程您预约的课程您预约的课程您预约的课程程</p>
+            <div><span>{{list.title}}</span> <span>{{new Date(list.noticeDate).getMonth() + 1}}月{{new Date(list.noticeDate).getDate()}}日</span></div>
+            <p>{{list.content}}</p>
           </div>
         </div>
         <div class="line-clo">
-
         </div>
       </div>
-    </scroll>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import Scroll from 'base/scroll/scroll'
+import {getUnreadNotice, getReadNotice, toReadNotice} from 'api/dataList'
+import { ERR_OK } from 'api/config'
 
 export default {
   created () {
+    this._getUnreadNotice()
   },
   data () {
     return {
       topList: [],
-      index: 1
+      index: 1,
+      dataContent: [],
+      stateShow: false,
+      overState: false
     }
   },
   methods: {
     appointment () {
       this.index = 1
+      this.overState = false
+      this._getUnreadNotice()
     },
     over () {
       this.index = 2
+      this.overState = true
+      this._getReadNotice()
+    },
+    goReatNotice (id, index) {
+      this.dataContent = []
+      if (!this.overState) {
+        this.topList.splice(index, 1)
+      }
+      this._toReadNotice(id)
+      this.stateShow = true
+    },
+    gohide () {
+      this.stateShow = false
+    },
+    _getUnreadNotice () {
+      getUnreadNotice('8').then((res) => {
+        if (res.code === ERR_OK) {
+          console.log('未读')
+          console.log(res.data)
+          this.topList = res.data
+        }
+      })
+    },
+    _getReadNotice () {
+      getReadNotice('8').then((res) => {
+        if (res.code === ERR_OK) {
+          console.log('已读')
+          console.log(res.data)
+          this.topList = res.data
+        }
+      })
+    },
+    _toReadNotice (item) {
+      toReadNotice(item).then((res) => {
+        if (res.code === ERR_OK) {
+          console.log('查看通知')
+          console.log(res.data)
+          this.dataContent = res.data
+        }
+      })
     }
   },
   components: {
-    Scroll
   }
 }
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
 .MyNotice {
-  position: fixed;
   width: 100%;
+  height: 100%;
   top: 0;
-  bottom: 120px;
+  padding-bottom: 120px;
+  padding-top: 134px;
+  overflow-x: auto;
+  .popup{
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(000, 000, 000, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    .popup-box{
+      width: 80vw;
+      height: 60vh;
+      background: #fff;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .popup-title{
+        width: 90%;
+        height: 60px;
+        text-align: center;
+        line-height: 60px;
+        font-size: 30px;
+        margin: 20px 0;
+        font-weight: bold;
+      }
+      .popup-line{
+        width: 100%;
+        height: 2px;
+        background: -webkit-linear-gradient(left, #81d1db, #c6cbcc, #85d2db);
+        background: -o-linear-gradient(right, #81d1db, #c6cbcc, #85d2db);
+        background: -moz-linear-gradient(right, #81d1db, #c6cbcc, #85d2db);
+        background: linear-gradient(to right, #81d1db, #c6cbcc, #85d2db);
+      }
+      .popup-timer{
+        width: 90%;
+        height: 60px;
+        line-height: 60px;
+        margin: 0 auto;
+        text-align: right;
+        font-size: 18px;
+      }
+      .popup-content{
+        width: 90%;
+        margin: 40px auto;
+        word-wrap:break-word;
+        font-size: 28px;
+        line-height: 36px;
+        letter-spacing: 2px;
+        text-indent: 2em;
+      }
+    }
+    .popup-btn{
+      margin-top: 80px;
+      width: 80vw;
+      text-align: center;
+      padding: 30px 0;
+      background: #000;
+      color: #fff;
+      border-radius: 40px;
+    }
+  }
+  .heard{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+  }
   .ClassTitle {
     height: 134px;
     width: 100%;

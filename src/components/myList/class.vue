@@ -1,58 +1,44 @@
 <template>
   <div class="MyClass" ref="MyClass">
-    <div class="ClassTitle">
+    <div class="heard">
+      <div class="ClassTitle">
       <div class="Title" :class="{TitleActive:index==1}" @click="appointment()">已预约</div>
       <div class="line"></div>
       <div class="Title" :class="{TitleActive:index==2}" @click="over()">已完成</div>
     </div>
     <div class="line-clo"></div>
-    <scroll class="toplist" :data="topList" ref="toplist">
+    </div>
+    <div class="toplist">
         <!-- <li v-for="(list, index) in topList" :key="index">{{list}}</li> -->
-      <div class="list">
+      <div class="list" v-for="(list, index) in topList" :key="index">
         <div class="Item">
           <div class="time">
-            <p>6月10日</p>
-            <p>14:00</p>
+            <p>{{new Date(list.courseDate).getMonth() + 1}}月{{new Date(list.courseDate).getDate()}}日</p>
+            <p>{{new Date(list.courseDate).getHours()}}:{{new Date(list.courseDate).getMinutes()}}</p>
           </div>
           <div class="line-shu">
 
           </div>
           <div class="name">
-            <p>瑜伽中级 YOGA-INTERMEDIATE</p>
-            <p><img src="../Icon/yuan-icon.png" alt=""> 员工课</p>
+            <p>{{list.courseName}} {{list.courseNameEN}}</p>
+            <p v-if="list.type == 1"><img src="../Icon/yuan-icon.png" alt=""> 员工课</p>
+            <p v-if="list.type == 2"><img src="../Icon/hu-icon.png" alt=""> 户外课</p>
           </div>
         </div>
         <div class="line-clo">
-
         </div>
       </div>
-      <div class="list">
-        <div class="Item">
-          <div class="time">
-            <p>6月10日</p>
-            <p>14:00</p>
-          </div>
-          <div class="line-shu">
-
-          </div>
-          <div class="name">
-            <p>瑜伽中级 YOGA-INTERMEDIATE</p>
-            <p><img src="../Icon/hu-icon.png" alt=""> 户外课</p>
-          </div>
-        </div>
-        <div class="line-clo">
-
-        </div>
-      </div>
-    </scroll>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import Scroll from 'base/scroll/scroll'
+import {getReservedCourse, getFinishedCourse} from 'api/dataList'
+import { ERR_OK } from 'api/config'
 
 export default {
   created () {
+    this._getReservedCourse()
   },
   data () {
     return {
@@ -63,26 +49,54 @@ export default {
   methods: {
     appointment () {
       this.index = 1
+      this._getReservedCourse()
     },
     over () {
       this.index = 2
+      this._getFinishedCourse()
+    },
+    _getReservedCourse () {
+      console.log('我的课程')
+      getReservedCourse('8').then((res) => {
+        if (res.code === ERR_OK) {
+          console.log('已预约')
+          console.log(res.data)
+          this.topList = res.data
+        }
+      })
+    },
+    _getFinishedCourse () {
+      getFinishedCourse('8').then((res) => {
+        if (res.code === ERR_OK) {
+          console.log('已完成')
+          console.log(res.data)
+          this.topList = res.data
+        }
+      })
     }
   },
   components: {
-    Scroll
   }
 }
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
 .MyClass {
-  position: fixed;
   width: 100%;
+  height: 100%;
   top: 0;
-  bottom: 120px;
+  padding-bottom: 120px;
+  padding-top: 134px;
+  overflow-x: auto;
+  .heard{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+  }
   .ClassTitle {
     height: 134px;
-    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
