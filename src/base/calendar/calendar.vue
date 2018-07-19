@@ -170,7 +170,7 @@ export default {
         }
         this.days.push(dayobject)
       }
-      console.log(this.days)
+      // console.log(this.days)
     },
     pickPre (year, month) {
       // setDate(0); 上月最后一天
@@ -213,6 +213,8 @@ export default {
   },
   watch: {
     datas: function () {
+      console.log('das')
+      this.$emit('datas', this.datas)
     }
   }
 }

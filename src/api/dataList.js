@@ -1,8 +1,15 @@
 // import { api } from './config'
 import axios from 'axios'
 // 首页banner
-export function getBanner () {
-  const url = `./api/wmore/picture/getBannerPictures`
+export function getBigBannerPictures () {
+  const url = `./api/wmore/picture/getBigBannerPictures`
+  return axios.get(url).then((res) => {
+    return Promise.resolve(res.data)
+  })
+}
+// 课程banner
+export function getSmallBannerPictures () {
+  const url = `./api/wmore/picture/getSmallBannerPictures`
   return axios.get(url).then((res) => {
     return Promise.resolve(res.data)
   })
@@ -74,6 +81,31 @@ export function toReadNotice (noticeId) {
   return axios.get(url, {
     params: {
       noticeId: noticeId
+    }
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  })
+}
+
+// 获取积分列表
+// GET /wmore/action/getActionById
+export function getActionById (id) {
+  const url = `./api/wmore/user/getActionById`
+  return axios.get(url, {
+    params: {
+      id: id
+    }
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  })
+}
+// 获取个人信息
+// /wmore/user/getUserById
+export function getUserById (id) {
+  const url = `./api/wmore/user/getUserById`
+  return axios.get(url, {
+    params: {
+      userId: id
     }
   }).then((res) => {
     return Promise.resolve(res.data)

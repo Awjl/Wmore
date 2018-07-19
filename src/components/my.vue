@@ -8,10 +8,10 @@
       <div class="myHello">
         <img :src="helloUrl" alt="">
         <div class="myName">
-        Summer
+        {{myList.name}}
         </div>
         <div class="myId">
-        ID：1234567
+        ID：{{myList.id}}
         </div>
       </div>
       <div class="myTou">
@@ -39,11 +39,17 @@
 </template>
 
 <script>
+import {getUserById} from 'api/dataList'
+import {ERR_OK} from 'api/config'
 export default {
+  created () {
+    this._getUserById()
+  },
   data () {
     return {
       helloUrl: './static/images/my/hello.png',
-      touUrl: './static/images/my/tou.jpg'
+      touUrl: './static/images/my/tou.jpg',
+      myList: {}
     }
   },
   methods: {
@@ -65,6 +71,15 @@ export default {
     MyInformation () {
       this.$router.push({
         path: `/MyInformation`
+      })
+    },
+    _getUserById () {
+      getUserById('8').then((res) => {
+        if (res.code === ERR_OK) {
+          console.log('个人信息')
+          console.log(res)
+          this.myList = Object.assign({}, this.myList, res.data)
+        }
       })
     }
   }
@@ -113,7 +128,7 @@ export default {
       }
       .myName{
         font-size: 70px;
-        margin-left: -30px;
+        margin-left: -26px;
         color: #fff;
       }
       .myId{
@@ -121,6 +136,7 @@ export default {
         color: #fff;
         margin-top: 10px;
         letter-spacing: 4px;
+        margin-left: -18px;
       }
     }
     .myTou{

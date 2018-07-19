@@ -9,7 +9,7 @@
             <div class="heart-title">
               <span>变野值</span>
               <img src="../Icon/integral-icon.png" alt="">
-              <span>380</span>
+              <span>{{ dataList.points }}</span>
             </div>
             <div class="heart-tou">
               <img :src="heartImg" alt="">
@@ -44,17 +44,35 @@
 </template>
 
 <script>
+import { getActionById } from 'api/dataList'
+import { ERR_OK } from 'api/config'
 export default {
+  created () {
+    this._getActionById()
+  },
   data () {
     return {
-      heartImg: './static/images/my/tou.jpg'
-      // touUrl: './static/images/my/tou.png'
+      heartImg: './static/images/my/tou.jpg',
+      dataList: {
+        points: 0
+      }
     }
   },
   methods: {
     goInformation () {
       this.$router.push({
         path: `/MyInformation`
+      })
+    },
+    _getActionById () {
+      console.log('我的积分')
+      getActionById('8').then((res) => {
+        if (res.code === ERR_OK) {
+          console.log('我的积分')
+          this.topList = res.data
+          this.dataList = Object.assign({}, this.dataList, res.data)
+          console.log(this.topList)
+        }
       })
     }
   }

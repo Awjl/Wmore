@@ -17,15 +17,17 @@
     "axios": "^0.16.1",
     "better-scroll": "^0.1.15",
     "good-storage": "^1.0.1",
-    "vue": "^2.5.2",
-    "vue-router": "^3.0.1",
+    "node-sass": "4.9.2",
     "postcss-px2rem": "^0.3.0",
     "px2rem-loader": "^0.1.9",
+    "sass-loader": "7.0.3",
     "swiper": "^4.3.3",
+    "v-distpicker": "^1.0.17",
+    "vue": "^2.5.2",
+    "vue-router": "^3.0.1",
     "vue-wechat-title": "^2.0.4",
-    "vuex": "^2.3.1",
-    "node-sass": "4.9.2",
-    "sass-loader": "7.0.3"
+    "vue2-datepick": "^3.0.6",
+    "vuex": "^2.3.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

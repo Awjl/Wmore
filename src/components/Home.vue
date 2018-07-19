@@ -17,7 +17,7 @@
 
 <script>
 import Swiper from 'base/swiper/swiper'
-import {getBanner} from 'api/dataList'
+import {getBigBannerPictures} from 'api/dataList'
 import {ERR_OK} from 'api/config'
 export default {
   data () {
@@ -35,8 +35,7 @@ export default {
     }
   },
   created () {
-    this._getBanner()
-    console.log(123)
+    this._getBigBannerPictures()
   },
   methods: {
     login () {
@@ -44,9 +43,11 @@ export default {
         path: `/Login`
       })
     },
-    _getBanner () {
-      getBanner().then((res) => {
+    _getBigBannerPictures () {
+      console.log('banner')
+      getBigBannerPictures().then((res) => {
         if (res.code === ERR_OK) {
+          console.log('banner-内部')
           console.log(res)
         }
       })

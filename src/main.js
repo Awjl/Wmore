@@ -5,7 +5,9 @@ import App from './App'
 import router from './router'
 import './common/style/index.css'
 import VueWechatTitle from 'vue-wechat-title'
-Vue.use(VueWechatTitle)
+import Calendar from 'vue2-datepick'
+Vue.use(Calendar) // 日期选择器
+Vue.use(VueWechatTitle) // 修改标题
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

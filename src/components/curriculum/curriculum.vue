@@ -1,52 +1,37 @@
 <template>
   <div class="curriculum">
     <Swiper :listImg="listImg" :height="height"></Swiper>
-    <Calendar></Calendar>
+    <Calendar v-on:datas="datas"></Calendar>
     <div class="line-clo">
     </div>
-    <div class="listcomment"  @click="goDetails(111)">
+    <div class="listcomment"  @click="goDetails(111)" v-for="(item, index) in listItem" :key="index">
       <div class="list">
         <div class="Item">
           <div class="time">
-            <p>6月10日</p>
-            <p>14:00</p>
+            <p>{{new Date(item.courseDate).getMonth() + 1}}月{{ new Date(item.courseDate).getDate() > 10 ? new Date(item.courseDate).getDate() : '0' + new Date(item.courseDate).getDate()}}日</p>
+            <p>{{new Date(item.courseDate).getHours()}}:{{new Date(item.courseDate).getMinutes() > 10 ? new Date(item.courseDate).getMinutes() : '0' + new Date(item.courseDate).getMinutes()}}</p>
           </div>
           <div class="line-shu">
           </div>
           <div class="name">
-            <p>瑜伽中级 YOGA-INTERMEDIATE</p>
+            <p>{{item.courseName}} {{item.courseNameen}}</p>
             <p><img src="../Icon/yuan-icon.png" alt=""> 员工课</p>
           </div>
         </div>
-        <div class="list-btn">
+        <div class="list-btn" v-if="item.courseState == 2 && item.state != 1">
           可选
+        </div>
+        <div class="list-btn" v-if="item.state == 1 ">
+          已选
+        </div>
+        <div class="list-btn" v-if="item.courseState == 1">
+          已选
         </div>
       </div>
       <div class="line-clo">
       </div>
     </div>
-    <div class="listcomment" @click="goDetails(4444)">
-      <div class="list">
-        <div class="Item">
-          <div class="time">
-            <p>6月10日</p>
-            <p>14:00</p>
-          </div>
-          <div class="line-shu">
-          </div>
-          <div class="name">
-            <p>瑜伽中级 YOGA-INTERMEDIATE</p>
-            <p><img src="../Icon/yuan-icon.png" alt=""> 员工课</p>
-          </div>
-        </div>
-        <div class="list-btn">
-          可选
-        </div>
-      </div>
-      <div class="line-clo">
-      </div>
-    </div>
-    <div class="listcomment"  @click="goDetails(23123)">
+    <!-- <div class="listcomment"  @click="goDetails(23123)">
       <div class="list">
         <div class="Item">
           <div class="time">
@@ -66,15 +51,15 @@
       </div>
       <div class="line-clo">
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import Calendar from 'base/calendar/calendar'
 import Swiper from 'base/swiper/swiper'
-// import { getCourse } from 'api/dataList'
-// import { ERR_OK } from 'api/config'
+import { getSmallBannerPictures } from 'api/dataList'
+import {ERR_OK} from 'api/config'
 
 export default {
   data () {
@@ -87,11 +72,12 @@ export default {
         { url: './static/images/banner/home-banner.jpg' },
         { url: './static/images/banner/home-banner.jpg' },
         { url: './static/images/banner/home-banner.jpg' }
-      ]
+      ],
+      listItem: []
     }
   },
   created () {
-    // this._getCourse()
+    this._getSmallBannerPictures()
   },
   methods: {
     goDetails (item) {
@@ -100,14 +86,19 @@ export default {
         path: `/Details/${item}`
       })
       console.log(item)
+    },
+    datas (datas) {
+      this.listItem = datas
+      console.log(`父组件获取数据`)
+    },
+    _getSmallBannerPictures () {
+      getSmallBannerPictures().then((res) => {
+        if (res.code === ERR_OK) {
+          console.log('小banner-内部')
+          console.log(res)
+        }
+      })
     }
-    // _getCourse () {
-    //   getCourse(8,).then((res) => {
-    //     if (res.code === ERR_OK) {
-    //       console.log(res)
-    //     }
-    //   })
-    // }
   },
   components: {
     Calendar,
