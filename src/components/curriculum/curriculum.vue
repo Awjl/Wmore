@@ -1,10 +1,10 @@
 <template>
   <div class="curriculum">
-    <Swiper :listImg="listImg" :height="height"></Swiper>
+    <Swiper :listImg="listImg"></Swiper>
     <Calendar v-on:datas="datas"></Calendar>
     <div class="line-clo">
     </div>
-    <div class="listcomment"  @click="goDetails(111)" v-for="(item, index) in listItem" :key="index">
+    <div class="listcomment"  @click="goDetails(item.id)" v-for="(item, index) in listItem" :key="index">
       <div class="list">
         <div class="Item">
           <div class="time">
@@ -64,8 +64,6 @@ import {ERR_OK} from 'api/config'
 export default {
   data () {
     return {
-      height: '150px',
-      userId: '231',
       listImg: [
         { url: './static/images/banner/home-banner.jpg' },
         { url: './static/images/banner/home-banner.jpg' },

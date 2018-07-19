@@ -1,6 +1,6 @@
 <template>
   <div class="details">
-    <Swiper :listImg="listImg" :height="height"></Swiper>
+    <Swiper :listImg="listImg"></Swiper>
     <div class="details-content">
       <div class="details-title">
         <div class="detalis-name">
@@ -92,10 +92,11 @@
 
 <script>
 import Swiper from 'base/swiper/swiper'
+import { getCourseById } from 'api/dataList'
+import {ERR_OK} from 'api/config'
 export default {
   data () {
     return {
-      height: '150px',
       widthOen: '50px',
       widthTwo: '100px',
       widthThree: '120px',
@@ -113,11 +114,19 @@ export default {
     Swiper
   },
   created () {
-    this.datas()
+    this._getCourseById()
   },
   methods: {
-    datas () {
-      console.log(this.$route.params.item)
+    // datas () {
+    //   console.log(this.$route.params.item)
+    // },
+    _getCourseById () {
+      getCourseById(this.$route.params.item).then((res) => {
+        if (res.code === ERR_OK) {
+          console.log('课程详情')
+          console.log(res)
+        }
+      })
     }
   }
 }

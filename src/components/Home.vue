@@ -1,6 +1,6 @@
 <template>
   <div class="cla">
-    <Swiper :listImg="listImg" :height="height"></Swiper>
+    <Swiper :listImg="listImg"></Swiper>
     <div class="appointment">
       <div class="img">
         <img :src="imgUrl" alt="">
@@ -24,13 +24,12 @@ export default {
     return {
       imgUrl: './static/images/icon/slogan.png',
       logo: './static/images/icon/logo.png',
-      height: '323px',
       listImg: [
-        { url: './static/images/banner/home-banner.jpg' },
-        { url: './static/images/banner/home-banner.jpg' },
-        { url: './static/images/banner/home-banner.jpg' },
-        { url: './static/images/banner/home-banner.jpg' },
-        { url: './static/images/banner/home-banner.jpg' }
+        { url: './static/images/banner/home-banner.jpg', arr: '1' },
+        { url: './static/images/banner/home-banner.jpg', arr: '2' },
+        { url: './static/images/banner/home-banner.jpg', arr: '3' },
+        { url: './static/images/banner/home-banner.jpg', arr: '4' },
+        { url: './static/images/banner/home-banner.jpg', arr: '5' }
       ]
     }
   },
@@ -44,11 +43,11 @@ export default {
       })
     },
     _getBigBannerPictures () {
-      console.log('banner')
       getBigBannerPictures().then((res) => {
         if (res.code === ERR_OK) {
           console.log('banner-内部')
           console.log(res)
+          // this.listImg = res.data
         }
       })
     }

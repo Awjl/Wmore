@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Notice></Notice>
     <keep-alive>
       <router-view v-wechat-title="$route.meta.title"></router-view>
     </keep-alive>
@@ -9,9 +10,11 @@
 
 <script>
 import Comment from 'components/comment/comment'
+import Notice from 'base/notice/notice'
 export default {
   components: {
-    Comment
+    Comment,
+    Notice
   }
 }
 </script>

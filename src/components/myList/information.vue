@@ -71,7 +71,7 @@
         </div>
       </div>
       <div class="line"></div>
-      <div class="informationItem">
+      <div class="informationItem" @click="educationClick()">
         <div>&nbsp;&nbsp;&nbsp;学历</div>
         <div class="informationItem-img">
           <span>{{myList.education}}</span>
@@ -79,7 +79,7 @@
         </div>
       </div>
       <div class="line"></div>
-      <div class="informationItem">
+      <div class="informationItem" @click="industryClick()">
         <div>&nbsp;&nbsp;&nbsp;行业</div>
         <div class="informationItem-img">
           <span>{{myList.industry}}</span>
@@ -87,7 +87,7 @@
         </div>
       </div>
       <div class="line"></div>
-      <div class="informationItem">
+      <div class="informationItem" @click="hobbyClick()">
         <div>&nbsp;&nbsp;&nbsp;爱好</div>
         <div class="informationItem-img">
           <span>{{myList.hobby}}</span>
@@ -99,12 +99,26 @@
         保存
       </div>
     </div>
-    <Addres :addresStater = "addresStater"  v-on:Addres="Addres"></Addres>
+    <div class="education-box" v-if="educationState">
+        <div class="box">
+          <div class="education-title">学历选择 <span @click="quxiao()">取消</span></div>
+          <div class="education-iten">
+            <div v-for="(item, index) in education" :key="index" @click="goueducation(item.name)">{{item.name}}</div>
+          </div>
+        </div>
+    </div>
+    <div class="industry" v-if="industry">
+      <input type="text" placeholder="请输入行业名称" v-model="industryData"> <span @click="industryover()">确定</span>
+    </div>
+    <div  class="industry" v-if="hobby">
+      <input type="text" placeholder="请输入爱好" v-model="hobbyData"> <span @click="hobbyover()">确定</span>
+    </div>
+    <!-- <Addres :addresStater = "addresStater"  v-on:Addres="Addres"></Addres> -->
   </div>
 </template>
 
 <script>
-import Addres from 'base/addres/addres'
+// import Addres from 'base/addres/addres'
 import { getUserById } from 'api/dataList'
 import {ERR_OK} from 'api/config'
 
@@ -121,7 +135,13 @@ export default {
       myList: {},
       date: '',
       timerStater: false,
-      addresStater: false
+      addresStater: false,
+      education: [{name: '小学'}, {name: '初中'}, {name: '中专'}, {name: '高中'}, {name: '专科'}, {name: '本科'}, {name: '硕士研究生'}, {name: '博士研究生'}, {name: '其他'}],
+      educationState: false,
+      hobby: false,
+      industry: false,
+      hobbyData: '',
+      industryData: ''
     }
   },
   methods: {
@@ -136,22 +156,51 @@ export default {
         }
       })
     },
+    educationClick () {
+      this.educationState = true
+    },
+    quxiao () {
+      this.educationState = false
+    },
+    industryClick () {
+      this.industry = true
+    },
+    hobbyClick () {
+      this.hobby = true
+    },
+    industryover () {
+      this.industry = false
+      console.log(this.industryData)
+      this.myList.industry = this.industryData
+      console.log(this.myList)
+    },
+    hobbyover () {
+      this.hobby = false
+      this.myList.hobby = this.hobbyData
+      console.log(this.myList)
+    },
+    goueducation (item) {
+      console.log(item)
+      this.educationState = false
+      this.myList.education = item
+      console.log(this.myList)
+    },
     setAddres () {
       this.addresStater = true
     },
-    Addres: function (Addres) {
-      // childValue就是子组件传过来的值
-      this.addresStater = false
-      console.log(Addres)
-      if (!Addres){
-        console.log('进入')
-        this.myList.city = ''
-      } else {
-        this.myList.city = `${Addres.Province}-${Addres.City}-${Addres.District}`
-      }
-      console.log(this.myList.city)
-      // this.myList = childValue
-    },
+    // Addres: function (Addres) {
+    //   // childValue就是子组件传过来的值
+    //   this.addresStater = false
+    //   console.log(Addres)
+    //   if (!Addres){
+    //     console.log('进入')
+    //     this.myList.city = ''
+    //   } else {
+    //     this.myList.city = `${Addres.Province}-${Addres.City}-${Addres.District}`
+    //   }
+    //   console.log(this.myList.city)
+    //   // this.myList = childValue
+    // },
     _getUserById () {
       getUserById('8').then((res) => {
         if (res.code === ERR_OK) {
@@ -164,7 +213,7 @@ export default {
     }
   },
   components: {
-    Addres
+    // Addres
   }
 }
 </script>
@@ -291,6 +340,81 @@ export default {
           height: 15px;
         }
       }
+    }
+  }
+  .education-box{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba($color: #000000, $alpha: 0.5);
+    z-index: 99;
+    .box{
+      width: 100%;
+      height: 50vh;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background: #fff;
+      .education-title{
+        width: 100;
+        height: 80px;
+        line-height: 80px;
+        text-align: center;
+        position: relative;
+        border-bottom: 2px solid #ddd;
+        span{
+          position: absolute;
+          right:30px;
+          padding: 0 20px;
+        }
+      }
+      .education-iten{
+        margin-top: 30px;
+        display: flex;
+        justify-content:space-between;
+        flex-wrap: wrap;
+        padding: 0 5%;
+        div{
+          width: 45%;
+          height: 50px;
+          line-height: 50px;
+          text-align: center;
+          border-radius: 10px;
+          border:2px solid #ddd;
+          margin-bottom: 30px;
+        }
+      }
+    }
+  }
+  .industry{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba($color: #000000, $alpha: 0.5);
+    z-index: 99;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    span {
+     display: block;
+     height: 60px;
+     line-height: 60px;
+     text-align: center;
+     width: 100px;
+     color: #fff;
+     background: #000;
+     border-radius: 10px;
+     margin-left: 20px;
+    }
+    input{
+      width: 500px;
+      height: 60px;
+      padding: 0 20px;
+      border-radius: 10px;
     }
   }
 }

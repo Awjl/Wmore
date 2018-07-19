@@ -1,7 +1,9 @@
 <template>
-    <div class="swiper-container" :style="{height:height}">
+    <div class="swiper-container">
         <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="(str, index) in listImg" :style="{ backgroundImage: 'url(' + str.url + ')' }" :key="index"></div>
+            <div class="swiper-slide" v-for="(str, index) in listImg" :key="index">
+               <img :src="str.url"  @click="goDetail(index)"/>
+            </div>
         </div>
         <div class="swiper-pagination swiper-pagination-white"></div>
     </div>
@@ -11,7 +13,7 @@
 import Swiper from 'swiper'
 import 'swiper/dist/css/swiper.min.css'
 export default {
-  props: ['listImg', 'height'],
+  props: ['listImg'],
   mounted () {
     var swiper = new Swiper('.swiper-container', {
       observer: true,
@@ -22,7 +24,7 @@ export default {
         // bulletActiveClass: 'my-bullet-active'
       },
       paginationClickable: true,
-      loop: true,
+      loop: false,
       speed: 600,
       autoplay: {
         delay: 1000,
@@ -32,6 +34,11 @@ export default {
         swiper.startAutoplay()
       }
     })
+  },
+  methods: {
+    goDetail (item) {
+      console.log(item)
+    }
   }
 }
 </script>
@@ -39,7 +46,6 @@ export default {
 <style lang="scss" rel="stylesheet/scss" scoped>
 .swiper-container {
   width: 100%;
-  // height: 647px;
   .swiper-wrapper {
     width: 100%;
     height: 100%;
