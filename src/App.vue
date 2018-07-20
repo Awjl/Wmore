@@ -1,9 +1,7 @@
 <template>
   <div id="app">
     <Notice></Notice>
-    <keep-alive>
-      <router-view v-wechat-title="$route.meta.title"></router-view>
-    </keep-alive>
+    <router-view v-wechat-title="$route.meta.title"></router-view>
     <comment></comment>
   </div>
 </template>

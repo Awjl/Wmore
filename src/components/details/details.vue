@@ -4,11 +4,11 @@
     <div class="details-content">
       <div class="details-title">
         <div class="detalis-name">
-          <p>尾波划水</p>
-          <p>WAKEBOARD</p>
+          <p>{{dataList.courseName}}</p>
+          <p>{{dataList.courseNameen}}</p>
         </div>
         <div class="detalis-addres">
-          <img src="../Icon/addres-icon.png" alt="">上海索道滑水公园
+          <img src="../Icon/addres-icon.png" alt="">{{dataList.coursePlace}}
         </div>
       </div>
     </div>
@@ -16,14 +16,14 @@
       <p><img src="../Icon/classTwo-icon.png" alt="">课程简介</p>
     </div>
     <div class="detalis-claText">
-      尾波是一种人借助动力的牵引,在水面上“行走”的滑水运动。滑水者通常要穿着“水鞋”,即水橇,在水面上完成各种动作。根据滑水者所使用的水橇种类或不使用水橇,滑水大致可以分成花样(Tricks)、回旋( Slalom)、跳跃( Jumping)、尾波( Wakeboard)、跪板( Kneeboard)、竞速( Ski Racing)、赤脚( Barefoot)等项目。滑水既可以使人感受高速滑行带来的刺激,又能使人体会翻、转、跳、跃带来的“玩”快乐,让人充分享受蓝天碧水的温情以及体育运动带给人的无穷乐趣。
+      {{dataList.introduction}}
     </div>
     <div class="line"></div>
     <div class="detalis-class active">
       <p><img src="../Icon/propers-icon.png" alt="">适合人群</p>
     </div>
     <div class="detalis-claText">
-      尾波滑水适合所有人群,特别是工作压力大、上半身力量缺乏、需要改善自身体质、身上有旧伤或有心理疗愈需求的人群。如果有较为严重的骨骼伤或关节问题,建议咨询医生或教练后再进行选择28°训练效果
+      {{dataList.crowd}}
     </div>
     <div class="line"></div>
     <div class="detalis-class active">
@@ -62,7 +62,7 @@
       <p><img src="../Icon/zhun-icon.png" alt="">训练准备</p>
     </div>
     <div class="detalis-claText">
-      尾波滑水适合所有人群,特别是工作压力大、上半身力量缺乏、需要改善自身体质、身上有旧伤或有心理疗愈需求的人群。如果有较为严重的骨骼伤或关节问题,建议咨询医生或教练后再进行选择28°训练效果
+      {{dataList.trainingPreparation}}
     </div>
     <div class="line"></div>
     <div class="detalis-class active">
@@ -80,7 +80,7 @@
       <div class="line"></div>
         <div class="footer-bot">
           <div>
-            <img src="../Icon/timer-icon.png" alt="">7月3日 14:00
+            <img src="../Icon/timer-icon.png" alt="">{{new Date(dataList.courseDate).getMonth() + 1}}月{{new Date(dataList.courseDate).getDate()}}日 {{new Date(dataList.courseDate).getHours()}} :{{new Date(dataList.courseDate).getMinutes()}}
           </div>
           <div class="footer-active">
             <img src="../Icon/xiao-icon.png" alt="">确认预约
@@ -92,7 +92,7 @@
 
 <script>
 import Swiper from 'base/swiper/swiper'
-import { getCourseById } from 'api/dataList'
+import { getCourseDetail } from 'api/dataList'
 import {ERR_OK} from 'api/config'
 export default {
   data () {
@@ -107,24 +107,29 @@ export default {
         { url: './static/images/banner/home-banner.jpg' },
         { url: './static/images/banner/home-banner.jpg' },
         { url: './static/images/banner/home-banner.jpg' }
-      ]
+      ],
+      dataList: {}
     }
   },
   components: {
     Swiper
   },
   created () {
-    this._getCourseById()
+    this._getCourseDetail()
+    console.log('课程333333详情')
   },
   methods: {
     // datas () {
     //   console.log(this.$route.params.item)
     // },
-    _getCourseById () {
-      getCourseById(this.$route.params.item).then((res) => {
+    _getCourseDetail () {
+      getCourseDetail('8', this.$route.params.item).then((res) => {
+        console.log(this.$route.params.item)
         if (res.code === ERR_OK) {
           console.log('课程详情')
           console.log(res)
+          this.dataList = res.data
+          console.log(this.dataList)
         }
       })
     }

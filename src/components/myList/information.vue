@@ -113,12 +113,12 @@
     <div  class="industry" v-if="hobby">
       <input type="text" placeholder="请输入爱好" v-model="hobbyData"> <span @click="hobbyover()">确定</span>
     </div>
-    <!-- <Addres :addresStater = "addresStater"  v-on:Addres="Addres"></Addres> -->
+    <Addres :addresStater = "addresStater"  v-on:Addres="Addres"></Addres>
   </div>
 </template>
 
 <script>
-// import Addres from 'base/addres/addres'
+import Addres from 'base/addres/addres'
 import { getUserById } from 'api/dataList'
 import {ERR_OK} from 'api/config'
 
@@ -188,19 +188,19 @@ export default {
     setAddres () {
       this.addresStater = true
     },
-    // Addres: function (Addres) {
-    //   // childValue就是子组件传过来的值
-    //   this.addresStater = false
-    //   console.log(Addres)
-    //   if (!Addres){
-    //     console.log('进入')
-    //     this.myList.city = ''
-    //   } else {
-    //     this.myList.city = `${Addres.Province}-${Addres.City}-${Addres.District}`
-    //   }
-    //   console.log(this.myList.city)
-    //   // this.myList = childValue
-    // },
+    Addres: function (Addres) {
+      // childValue就是子组件传过来的值
+      this.addresStater = false
+      console.log(Addres)
+      if (!Addres) {
+        console.log('进入')
+        this.myList.city = ''
+      } else {
+        this.myList.city = `${Addres.Province}-${Addres.City}-${Addres.District}`
+      }
+      console.log(this.myList.city)
+      // this.myList = childValue
+    },
     _getUserById () {
       getUserById('8').then((res) => {
         if (res.code === ERR_OK) {
@@ -213,7 +213,7 @@ export default {
     }
   },
   components: {
-    // Addres
+    Addres
   }
 }
 </script>

@@ -112,12 +112,13 @@ export function getUserById (id) {
   })
 }
 // 查看详情
-// GET /wmore_back/course/getCourseById
-export function getCourseById (id) {
-  const url = `./api/wmore_back/course/getCourseById`
+// GET /wmore/course/getCourseDetail
+export function getCourseDetail (id, courseId) {
+  const url = `./api/wmore/course/getCourseDetail`
   return axios.get(url, {
     params: {
-      id: id
+      id: id,
+      courseId: courseId
     }
   }).then((res) => {
     return Promise.resolve(res.data)
@@ -128,7 +129,7 @@ export function getnoticeByDay (id) {
   const url = `./api/wmore/notice/noticeByDay`
   return axios.get(url, {
     params: {
-      id: id
+      userId: id
     }
   }).then((res) => {
     return Promise.resolve(res.data)

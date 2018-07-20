@@ -1,8 +1,10 @@
 <template>
-  <div class="notice">
-    <img src="./yi-icon.png" alt="">
-    <span>通知标题</span>
-    <span>时间</span>
+  <div class="notice" v-show="showstate">
+    <div class="notice-box" v-for="(list, index) in data" :key="index" @click="godie()">
+      <img src="./yi-icon.png" alt="">
+      <span>{{list.title}}</span>
+      <span>{{list.noticeDate}}</span>
+    </div>
   </div>
 </template>
 
@@ -15,7 +17,8 @@ export default {
   },
   data () {
     return {
-
+      data: [],
+      showstate: false
     }
   },
   methods: {
@@ -23,9 +26,29 @@ export default {
       getnoticeByDay('8').then((res) => {
         if (res.code === ERR_OK) {
           console.log('顶部通知')
-          console.log(res)
+          console.log(res.data)
+          this.data = res.data
+          if (this.data.length > 0) {
+            this.showstate = true
+          }
         }
       })
+    },
+    godie () {
+      this.showstate = false
+      // clearTimeout(timer)
+      this.$router.push({
+        path: `/MyNotice`
+      })
+    }
+  },
+  watch: {
+    showstate: function () {
+      console.log('12312')
+      var self = this
+      setTimeout(function () {
+        self.showstate = false
+      }, 4000)
     }
   }
 }
@@ -43,11 +66,17 @@ export default {
   top: 40px;
   margin: 0 auto;
   border-radius: 20px;
+  padding: 0 30px;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 30px;
-  box-sizing: border-box;
+  .notice-box{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   img {
     width: 56px;
     height: 62px;
