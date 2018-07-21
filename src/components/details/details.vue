@@ -70,8 +70,7 @@
     </div>
     <div class="detalis-claText">
       <ul>
-        <ol><span>&bull;</span> <p>如果有较严重的骨骼伤或关节问题，建议咨询医生或教练后再进行选择。</p>  </ol>
-        <ol><span>&bull;</span> <p>所选课程一经预约不可取消。</p></ol>
+        <ol v-for="(item, index) in zhuyiData" :key="index"><span>&bull;</span> <p>{{item.otherBusiness}}</p>  </ol>
       </ul>
     </div>
     <div class="line"></div>
@@ -80,10 +79,14 @@
       <div class="line"></div>
         <div class="footer-bot">
           <div>
-            <img src="../Icon/timer-icon.png" alt="">{{new Date(dataList.courseDate).getMonth() + 1}}月{{new Date(dataList.courseDate).getDate()}}日 {{new Date(dataList.courseDate).getHours()}} :{{new Date(dataList.courseDate).getMinutes()}}
+            <img src="../Icon/timer-icon.png" alt="">{{new Date(dataList.courseDate).getMonth() + 1}}月{{new Date(dataList.courseDate).getDate() > 10}}日 {{new Date(dataList.courseDate).getHours()}} :{{new Date(dataList.courseDate).getMinutes()}}
           </div>
           <div class="footer-active">
-            <img src="../Icon/xiao-icon.png" alt="">确认预约
+            <img src="../Icon/xiao-icon.png" alt=""> 
+            <span v-show="dataList.state != 2 && dataList.state != 1 && dataList.courseState == 1 " @click="courseState()">确认预约</span>
+            <span v-show="dataList.state == 1">已预约</span>
+            <span v-show="dataList.state == 2">已完成</span>
+            <span v-show="dataList.state != 2 && dataList.state != 1 && dataList.courseState == 2">已满员</span>
           </div>
         </div>
       </div>
@@ -92,23 +95,19 @@
 
 <script>
 import Swiper from 'base/swiper/swiper'
-import { getCourseDetail } from 'api/dataList'
+import { getCourseDetail,insertUC } from 'api/dataList'
 import {ERR_OK} from 'api/config'
 export default {
   data () {
     return {
-      widthOen: '50px',
-      widthTwo: '100px',
-      widthThree: '120px',
-      widthFour: '80px',
-      listImg: [
-        { url: './static/images/banner/home-banner.jpg' },
-        { url: './static/images/banner/home-banner.jpg' },
-        { url: './static/images/banner/home-banner.jpg' },
-        { url: './static/images/banner/home-banner.jpg' },
-        { url: './static/images/banner/home-banner.jpg' }
-      ],
-      dataList: {}
+      widthOen: '',
+      widthTwo: '',
+      widthThree: '',
+      widthFour: '',
+      listImg: [],
+      dataList: [],
+      zhuyiData: [],
+      queren: true
     }
   },
   components: {
@@ -119,17 +118,34 @@ export default {
     console.log('课程333333详情')
   },
   methods: {
-    // datas () {
-    //   console.log(this.$route.params.item)
-    // },
+    courseState () {
+      console.log('确认预约')
+      insertUC('8', this.$route.params.item).then((res) => {
+        if (res.code === ERR_OK) {
+          console.log('确认预约')
+          this.dataList.state = 1
+          console.log(this.dataList.state)
+        }
+      })
+    },
     _getCourseDetail () {
       getCourseDetail('8', this.$route.params.item).then((res) => {
-        console.log(this.$route.params.item)
         if (res.code === ERR_OK) {
           console.log('课程详情')
-          console.log(res)
+          console.log(res.data)
           this.dataList = res.data
-          console.log(this.dataList)
+          var arr = this.dataList.pictureUrl.split(',');
+          var arr2 = this.dataList.trainingEffect.split(',');
+          this.widthOen = arr2[0] + 'px'
+          this.widthTwo = arr2[1] + 'px'
+          this.widthThree = arr2[2] + 'px'
+          this.widthFour = arr2[3] + 'px'
+          var obj = {}
+          for (let i = 0; i < arr.length; i++) {
+            obj.pictureUrl = arr[i]
+            this.listImg.push(obj)
+          }
+          this.zhuyiData = JSON.parse(this.dataList.otherBusiness)
         }
       })
     }
@@ -271,7 +287,10 @@ export default {
         }
         &.footer-active{
           background: #81d1db;
-          color: #fff;
+          span{
+            color: #fff;
+            font-weight: bold;
+          }
         }
       }
     }

@@ -18,10 +18,10 @@
             <div class="line"></div>
             <div class="iphone">
               <div class="iphone-line">
-                <input type="text" placeholder="输入手机号">
+                <input type="text" placeholder="输入手机号" v-model="iphone">
                 <div class="line"></div>
               </div>
-              <div class="yanzhen">
+              <div class="yanzhen" @click="yanzheng()">
                   发送验证
               </div>
             </div>
@@ -39,10 +39,12 @@
 </template>
 
 <script type="text/ecmascript-6">
+import {sendSMS} from 'api/dataList'
 export default {
   data () {
     return {
-      loginImg: '../static/images/login/login-bg.jpg'
+      loginImg: '../static/images/login/login-bg.jpg',
+      iphone: ''
     }
   },
   methods: {
@@ -50,6 +52,15 @@ export default {
       this.$router.push({
         path: `/Curriculum`
       })
+    },
+    yanzheng() {
+      console.log(this.iphone)
+      if (this.iphone) {
+        console.log('进入')
+        sendSMS(this.iphone).then((res) => {
+          console.log('发送验证码')
+        })
+      }
     }
   }
 }

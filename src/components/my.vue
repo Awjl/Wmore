@@ -1,7 +1,7 @@
 <template>
 <div class="myBg">
   <div class="myBg-bg">
-    <img :src="touUrl" alt="">
+    <img :src="`http://${myList.profileUrl}?x-oss-process=image/format,png`" alt="">
   </div>
   <div class="my" >
     <div class="myHeard">
@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="myTou">
-        <img :src="touUrl" alt="">
+        <img :src="`http://${myList.profileUrl}?x-oss-process=image/format,png`" alt="">
       </div>
     </div>
     <div class="myList">
@@ -48,7 +48,6 @@ export default {
   data () {
     return {
       helloUrl: './static/images/my/hello.png',
-      touUrl: './static/images/my/tou.jpg',
       myList: {}
     }
   },

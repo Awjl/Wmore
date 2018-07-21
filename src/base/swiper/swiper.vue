@@ -2,7 +2,7 @@
     <div class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide" v-for="(str, index) in listImg" :key="index">
-               <img :src="str.url"  @click="goDetail(index)"/>
+               <img :src="`http://${str.pictureUrl}?x-oss-process=image/format,png`"  @click="goDetails(str.id)"/>
             </div>
         </div>
         <div class="swiper-pagination swiper-pagination-white"></div>
@@ -36,7 +36,11 @@ export default {
     })
   },
   methods: {
-    goDetail (item) {
+    goDetails (item) {
+      // 路由跳转
+      this.$router.push({
+        path: `/Details/${item}`
+      })
       console.log(item)
     }
   }

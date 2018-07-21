@@ -24,13 +24,7 @@ export default {
     return {
       imgUrl: './static/images/icon/slogan.png',
       logo: './static/images/icon/logo.png',
-      listImg: [
-        { url: './static/images/banner/home-banner.jpg', arr: '1' },
-        { url: './static/images/banner/home-banner.jpg', arr: '2' },
-        { url: './static/images/banner/home-banner.jpg', arr: '3' },
-        { url: './static/images/banner/home-banner.jpg', arr: '4' },
-        { url: './static/images/banner/home-banner.jpg', arr: '5' }
-      ]
+      listImg: []
     }
   },
   created () {
@@ -47,7 +41,7 @@ export default {
         if (res.code === ERR_OK) {
           console.log('banner-内部')
           console.log(res)
-          // this.listImg = res.data
+          this.listImg = res.data
         }
       })
     }

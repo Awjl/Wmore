@@ -3,7 +3,7 @@
     <div class="scroll">
         <div class="heart">
         <div class="heart-img">
-          <img :src="heartImg" alt="">
+          <img :src="`http://${myList.pictureUrl}?x-oss-process=image/format,png`" alt="">
         </div>
         <div class="heart-name">
           <div class="myHello">
@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="heart-tou">
-            <img :src="heartImg" alt="">
+            <img :src="`http://${myList.pictureUrl}?x-oss-process=image/format,png`" alt="">
           </div>
         </div>
       </div>
@@ -95,7 +95,7 @@
         </div>
       </div>
       <div class="line"></div>
-      <div class="btn">
+      <div class="btn" @click="baocunBtn()">
         保存
       </div>
     </div>
@@ -119,7 +119,7 @@
 
 <script>
 import Addres from 'base/addres/addres'
-import { getUserById } from 'api/dataList'
+import { getUserById, editUser} from 'api/dataList'
 import {ERR_OK} from 'api/config'
 
 export default {
@@ -128,7 +128,6 @@ export default {
   },
   data () {
     return {
-      heartImg: './static/images/my/tou.jpg',
       helloUrl: './static/images/my/hello.png',
       datanowValue: [],
       cityData: [],
@@ -200,6 +199,14 @@ export default {
       }
       console.log(this.myList.city)
       // this.myList = childValue
+    },
+    baocunBtn (){
+      console.log(this.myList)
+      editUser(this.myList).then((res) => {
+        if (res.code === ERR_OK) {
+          console.log('保存成功')
+        }
+      })
     },
     _getUserById () {
       getUserById('8').then((res) => {

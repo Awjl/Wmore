@@ -47,9 +47,10 @@
         <span v-if="dayobject.day.getMonth()+1 != currentMonth" class="other-month">{{ dayobject.day.getDate() }}</span>
         <!--如果是本月  还需要判断是不是这一天-->
         <span v-else class="days-cla">
-        <img src="./OptionalTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.courseState == 2  && dayobject.data.state != 1">
-        <img src="./fullTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.courseState == 1 && dayobject.data.state != 1">
+        <img src="./OptionalTwo-icon.png" alt="" v-show="dayobject.data && dayobject.state != 1 && dayobject.data.courseState == 1 && dayobject.data.state != 2">
+        <img src="./fullTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state != 1 && dayobject.data.courseState == 2 &&  dayobject.data.state != 2">
         <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state == 1">
+        <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data .state == 2 ">
         <img src="./teamTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.type == 2" style="top: 0;
             left:22px;
             width: 5px;

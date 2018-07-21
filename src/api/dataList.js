@@ -135,3 +135,37 @@ export function getnoticeByDay (id) {
     return Promise.resolve(res.data)
   })
 }
+// 确认预约
+// POST /wmore/userCourse/insertUC
+export function insertUC (id, claId) {
+  const url = `./api/wmore/userCourse/insertUC`
+  return axios.post(url, {
+      userId: id,
+      courseId: claId
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  })
+}
+
+// 保存信息
+// /wmore/user/editUser
+export function editUser (list) {
+  const url = `./api/wmore/user/editUser`
+  console.log(list)
+  return axios.post(url, list).then((res) => {
+    return Promise.resolve(res.data)
+  })
+}
+// 获取验证码
+// POST /wmore/user/sendSMS
+export function sendSMS (ip) {
+  console.log(ip)
+  const url = `./api/wmore/user/sendSMS`
+  return axios.get(url, {
+    params: {
+      mobile: ip
+    }
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  })
+}

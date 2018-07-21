@@ -18,14 +18,17 @@
             <p><img src="../Icon/yuan-icon.png" alt=""> 员工课</p>
           </div>
         </div>
-        <div class="list-btn" v-if="item.courseState == 2 && item.state != 1">
+        <div class="list-btn" v-if="item.state != 1 && item.courseState == 1 && item.state != 2">
           可选
         </div>
         <div class="list-btn" v-if="item.state == 1 ">
           已选
         </div>
-        <div class="list-btn" v-if="item.courseState == 1">
-          已选
+        <div class="list-btn" v-if="item.state == 2 ">
+          完成
+        </div>
+        <div class="list-btn active" v-if="item.state != 1 && item.courseState == 2 &&  item.state != 2">
+          满员
         </div>
       </div>
       <div class="line-clo">
@@ -64,13 +67,7 @@ import {ERR_OK} from 'api/config'
 export default {
   data () {
     return {
-      listImg: [
-        { url: './static/images/banner/home-banner.jpg' },
-        { url: './static/images/banner/home-banner.jpg' },
-        { url: './static/images/banner/home-banner.jpg' },
-        { url: './static/images/banner/home-banner.jpg' },
-        { url: './static/images/banner/home-banner.jpg' }
-      ],
+      listImg: [],
       listItem: []
     }
   },
@@ -93,7 +90,8 @@ export default {
       getSmallBannerPictures().then((res) => {
         if (res.code === ERR_OK) {
           console.log('小banner-内部')
-          console.log(res)
+          console.log(res.data)
+          this.listImg = res.data
         }
       })
     }
