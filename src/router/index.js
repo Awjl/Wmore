@@ -24,56 +24,64 @@ export default new Router({
           path: '/Home',
           component: Home,
           meta: {
-            title: '约课'
+            title: '约课',
+            keepAlive: true
           }
         },
         {
           path: '/my',
           component: My,
           meta: {
-            title: '个人中心'
+            title: '个人中心',
+            keepAlive: true
           }
         },
         {
           path: '/MyClass',
           component: MyClass,
           meta: {
-            title: '我的课程'
+            title: '我的课程',
+            keepAlive: true
           }
         },
         {
           path: '/MyInformation',
           component: MyInformation,
           meta: {
-            title: '个人信息'
+            title: '个人信息',
+            keepAlive: true
           }
         },
         {
           path: '/MyIntegral',
           component: MyIntegral,
           meta: {
-            title: '我的积分'
+            title: '我的积分',
+            keepAlive: true
           }
         },
         {
           path: '/MyNotice',
           component: MyNotice,
           meta: {
-            title: '我的通知'
+            title: '我的通知',
+            keepAlive: false
           }
         },
         {
           path: '/Login',
           component: Login,
           meta: {
-            title: '登录'
+            title: '登录',
+            keepAlive: true
           }
         },
         {
           path: '/Curriculum',
           component: Curriculum,
           meta: {
-            title: '课程列表'
+            title: '课程列表',
+            keepAlive: true
           }
         }
       ]
@@ -82,7 +90,8 @@ export default new Router({
       path: '/Details/:item',
       component: Details,
       meta: {
-        title: '课程详情'
+        title: '课程详情',
+        keepAlive: false
       }
     }
   ]

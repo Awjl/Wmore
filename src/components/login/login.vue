@@ -12,7 +12,7 @@
           <div class="login-node">
             <input type="text" placeholder="企业代码">
             <div class="line"></div>
-            <input type="text" placeholder="真是姓名">
+            <input type="text" placeholder="真实姓名">
             <div class="line"></div>
             <input type="text" placeholder="企业邮箱">
             <div class="line"></div>

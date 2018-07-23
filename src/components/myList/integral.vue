@@ -2,7 +2,7 @@
   <div class="myIntegral">
     <div class="heart">
       <div class="heart-img">
-        <img :src="heartImg" alt="">
+        <img :src="`http://${dataList.pictureUrl }?x-oss-process=image/format,png`" alt="">
       </div>
       <div class="heart-name">
           <div class="heart-item">
@@ -12,7 +12,7 @@
               <span>{{ dataList.points }}</span>
             </div>
             <div class="heart-tou">
-              <img :src="heartImg" alt="">
+              <img :src="`http://${dataList.pictureUrl }?x-oss-process=image/format,png`" alt="">
             </div>
           </div>
       </div>
@@ -69,6 +69,7 @@ export default {
       getActionById('8').then((res) => {
         if (res.code === ERR_OK) {
           console.log('我的积分')
+          console.log(res)
           this.topList = res.data
           this.dataList = Object.assign({}, this.dataList, res.data)
           console.log(this.topList)

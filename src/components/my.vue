@@ -1,7 +1,7 @@
 <template>
 <div class="myBg">
   <div class="myBg-bg">
-    <img :src="`http://${myList.profileUrl}?x-oss-process=image/format,png`" alt="">
+    <img :src="`http://${myList.pictureUrl}?x-oss-process=image/format,png`" alt="">
   </div>
   <div class="my" >
     <div class="myHeard">
@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="myTou">
-        <img :src="`http://${myList.profileUrl}?x-oss-process=image/format,png`" alt="">
+        <img :src="`http://${myList.pictureUrl}?x-oss-process=image/format,png`" alt="">
       </div>
     </div>
     <div class="myList">
@@ -77,7 +77,7 @@ export default {
         if (res.code === ERR_OK) {
           console.log('个人信息')
           console.log(res)
-          this.myList = Object.assign({}, this.myList, res.data)
+          this.myList =  res.data
         }
       })
     }

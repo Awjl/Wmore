@@ -79,7 +79,7 @@
       <div class="line"></div>
         <div class="footer-bot">
           <div>
-            <img src="../Icon/timer-icon.png" alt="">{{new Date(dataList.courseDate).getMonth() + 1}}月{{new Date(dataList.courseDate).getDate() > 10}}日 {{new Date(dataList.courseDate).getHours()}} :{{new Date(dataList.courseDate).getMinutes()}}
+            <img src="../Icon/timer-icon.png" alt="">{{new Date(dataList.courseDate).getMonth() + 1}}月{{(new Date(dataList.courseDate).getDate() > 10) ? new Date(dataList.courseDate).getDate() :"0"+ new Date(dataList.courseDate).getDate()}}日 {{new Date(dataList.courseDate).getHours()}} :{{new Date(dataList.courseDate).getMinutes()}}
           </div>
           <div class="footer-active">
             <img src="../Icon/xiao-icon.png" alt=""> 

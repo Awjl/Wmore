@@ -13,12 +13,10 @@
     <!-- 年份 月份 -->
     <div class="month">
       <div class="Optional">
-        <img src="./Optional-icon.png" alt="">
-        可选
+        <img src="./Optional-icon.png" alt=""> 可选
       </div>
       <div class="full">
-        <img src="./full-icon.png" alt="">
-        满员
+        <img src="./full-icon.png" alt=""> 满员
       </div>
       <ul>
         <!--点击会触发pickpre函数，重新刷新当前日期 @click(vue v-on:click缩写) -->
@@ -30,34 +28,31 @@
         <li class="arrow" @click="pickNext(currentYear,currentMonth)">❯</li>
       </ul>
       <div class="already">
-        <img src="./already-icon.png" alt="">
-        已约
+        <img src="./already-icon.png" alt=""> 已约
       </div>
       <div class="team">
-        <img src="./teamOne-icon.png" alt="">
-        团建
+        <img src="./teamOne-icon.png" alt=""> 团建
       </div>
     </div>
     <!-- 日期 -->
     <ul class="days">
       <!-- v-for循环 每一次循环用<li>标签创建一天 -->
-      <li v-for="(dayobject, index) in days" style='height: 56px' :key='index' >
-      <!--本月-->
-      <!--如果不是本月  改变类名加灰色-->
+      <li v-for="(dayobject, index) in days" style='height: 56px' :key='index'>
+        <!--本月-->
+        <!--如果不是本月  改变类名加灰色-->
         <span v-if="dayobject.day.getMonth()+1 != currentMonth" class="other-month">{{ dayobject.day.getDate() }}</span>
         <!--如果是本月  还需要判断是不是这一天-->
         <span v-else class="days-cla">
-        <img src="./OptionalTwo-icon.png" alt="" v-show="dayobject.data && dayobject.state != 1 && dayobject.data.courseState == 1 && dayobject.data.state != 2">
-        <img src="./fullTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state != 1 && dayobject.data.courseState == 2 &&  dayobject.data.state != 2">
-        <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state == 1">
-        <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data .state == 2 ">
-        <img src="./teamTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.type == 2" style="top: 0;
+          <img src="./OptionalTwo-icon.png" alt="" v-show="dayobject.data && dayobject.state != 1 && dayobject.data.courseState == 1 && dayobject.data.state != 2">
+          <img src="./fullTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state != 1 && dayobject.data.courseState == 2 &&  dayobject.data.state != 2">
+          <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state == 1">
+          <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data .state == 2 ">
+          <img src="./teamTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.type == 2" style="top: 0;
             left:22px;
             width: 5px;
             height: 5px;">
-        <!--今天  同年同月同日-->
-          <span v-if="dayobject.day.getFullYear() == new Date().getFullYear() && dayobject.day.getMonth() == new Date().getMonth() && dayobject.day.getDate() == new Date().getDate()"
-          class="active">{{ dayobject.day.getDate() }}</span>
+          <!--今天  同年同月同日-->
+          <span v-if="dayobject.day.getFullYear() == new Date().getFullYear() && dayobject.day.getMonth() == new Date().getMonth() && dayobject.day.getDate() == new Date().getDate()" class="active">{{ dayobject.day.getDate() }}</span>
           <span v-else>{{ dayobject.day.getDate() }}</span>
         </span>
         <!--显示剩余多少数量-->
@@ -74,7 +69,7 @@
 import { getCourse } from 'api/dataList'
 import { ERR_OK } from 'api/config'
 export default {
-  data () {
+  data() {
     return {
       currentDay: 1, // 默认1号
       currentMonth: 1, // 默认一月
@@ -88,13 +83,13 @@ export default {
       datas: []
     }
   },
-  created () {
+  created() {
     // 在vue初始化时调用
     this.dataTime()
     this._getCourse()
   },
   methods: {
-    _getCourse () {
+    _getCourse(cur) {
       if (this.currentMonth < 10) {
         this.currentMonth = '0' + this.currentMonth
       }
@@ -102,17 +97,17 @@ export default {
         if (res.code === ERR_OK) {
           this.datas = res.data
           console.log(this.datas)
-          this.initData(null)
+          this.initData(cur)
         }
       })
     },
-    dataTime () {
+    dataTime() {
       let date = new Date()
       this.currentDay = date.getDate()
       this.currentYear = date.getFullYear()
       this.currentMonth = date.getMonth() + 1
     },
-    initData (cur) {
+    initData(cur) {
       // let leftcount = 0 // 存放剩余数量
       let date
       // this.initleftcount(); 每次初始化更新数量
@@ -149,10 +144,12 @@ export default {
         d.setDate(d.getDate() - i)
         let dayobject = {}
         dayobject.day = d
-        for (let j = 0; j < this.datas.length; j++) {
-          let courseDateDay = this.datas[j].courseDate
-          if (d.getFullYear() === new Date(courseDateDay).getFullYear() && d.getMonth() + 1 === new Date(courseDateDay).getMonth() + 1 && d.getDate() === new Date(courseDateDay).getDate()) {
-            dayobject.data = this.datas[j]
+        if (this.datas.length > 0) {
+          for (let j = 0; j < this.datas.length; j++) {
+            let courseDateDay = this.datas[j].courseDate
+            if (d.getFullYear() === new Date(courseDateDay).getFullYear() && d.getMonth() + 1 === new Date(courseDateDay).getMonth() + 1 && d.getDate() === new Date(courseDateDay).getDate()) {
+              dayobject.data = this.datas[j]
+            }
           }
         }
         this.days.push(dayobject)
@@ -163,35 +160,38 @@ export default {
         d.setDate(d.getDate() + i)
         let dayobject = {}
         dayobject.day = d
-        for (let j = 0; j < this.datas.length; j++) {
-          let courseDateDay = this.datas[j].courseDate
-          if (dayobject.day.getFullYear() === new Date(courseDateDay).getFullYear() && dayobject.day.getMonth() + 1 === new Date(courseDateDay).getMonth() + 1 && dayobject.day.getDate() === new Date(courseDateDay).getDate()) {
-            dayobject.data = this.datas[j]
+        if (this.datas.length > 0) {
+          for (let j = 0; j < this.datas.length; j++) {
+            let courseDateDay = this.datas[j].courseDate
+            if (dayobject.day.getFullYear() === new Date(courseDateDay).getFullYear() && dayobject.day.getMonth() + 1 === new Date(courseDateDay).getMonth() + 1 && dayobject.day.getDate() === new Date(courseDateDay).getDate()) {
+              dayobject.data = this.datas[j]
+            }
           }
         }
+
         this.days.push(dayobject)
       }
       // console.log(this.days)
     },
-    pickPre (year, month) {
+    pickPre(year, month) {
       // setDate(0); 上月最后一天
       // setDate(-1); 上月倒数第二天
       // setDate(dx) 参数dx为 上月最后一天的前后dx天
       let d = new Date(this.formatDate(year, month, 1))
       d.setDate(0)
       this.currentMonth = d.getMonth() + 1
-      console.log(this.currentMonth)
-      this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
+      this._getCourse(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
+      // this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
     },
-    pickNext (year, month) {
+    pickNext(year, month) {
+      console.log(month)
       let d = new Date(this.formatDate(year, month, 1))
       d.setDate(42)
       this.currentMonth = d.getMonth() + 1
-      console.log(this.currentMonth)
-      this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
+      this._getCourse(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
     },
     // 返回 类似 2016-01-02 格式的字符串
-    formatDate (year, month, day) {
+    formatDate(year, month, day) {
       let y = year
       let m = month
       if (m < 10) m = '0' + m
