@@ -10,22 +10,22 @@
         </div>
         <div class="login-inp">
           <div class="login-node">
-            <input type="text" placeholder="企业代码">
+            <input type="text" placeholder="企业代码" v-model="userData.code">
             <div class="line"></div>
-            <input type="text" placeholder="真实姓名">
+            <input type="text" placeholder="真实姓名" v-model="userData.name">
             <div class="line"></div>
-            <input type="text" placeholder="企业邮箱">
+            <input type="text" placeholder="企业邮箱" v-model="userData.email">
             <div class="line"></div>
             <div class="iphone">
               <div class="iphone-line">
-                <input type="text" placeholder="输入手机号" v-model="iphone">
+                <input type="text" placeholder="输入手机号" v-model="userData.moblie">
                 <div class="line"></div>
               </div>
               <div class="yanzhen" @click="yanzheng()">
-                  发送验证
+                发送验证
               </div>
             </div>
-            <input type="text" placeholder="输入验证码">
+            <input type="text" placeholder="输入验证码" v-model="userData.verCode">
             <div class="line"></div>
             <p>请确认您所在的企业已购买Wmore企业课程</p>
             <div class="loging-btn" @click="Curriculum()">
@@ -39,25 +39,36 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {sendSMS} from 'api/dataList'
+import { sendSMS, getmatchUser } from 'api/dataList'
 export default {
-  data () {
+  data() {
     return {
       loginImg: '../static/images/login/login-bg.jpg',
-      iphone: ''
+      iphone: '',
+      userData: {
+        code: '',
+        name: '',
+        moblie: '',
+        email: '',
+        verCode: ''
+      }
     }
   },
   methods: {
-    Curriculum () {
-      this.$router.push({
-        path: `/Curriculum`
+    Curriculum() {
+      console.log(this.userData)
+      getmatchUser(this.userData).then((res) => {
+        console.log('保存成功')
+        this.$router.push({
+          path: `/Curriculum`
+        })
       })
     },
     yanzheng() {
-      console.log(this.iphone)
-      if (this.iphone) {
+      console.log(this.userData.moblie)
+      if (this.userData.moblie) {
         console.log('进入')
-        sendSMS(this.iphone).then((res) => {
+        sendSMS(this.userData.moblie).then((res) => {
           console.log('发送验证码')
         })
       }
@@ -77,7 +88,7 @@ export default {
     width: 100%;
     height: 100%;
     overflow-y: auto;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     .login-list {
       width: 100vw;
       .login-text {

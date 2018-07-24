@@ -41,7 +41,7 @@ export default new Router({
           component: MyClass,
           meta: {
             title: '我的课程',
-            keepAlive: true
+            keepAlive: false
           }
         },
         {
@@ -57,7 +57,7 @@ export default new Router({
           component: MyIntegral,
           meta: {
             title: '我的积分',
-            keepAlive: true
+            keepAlive: false
           }
         },
         {

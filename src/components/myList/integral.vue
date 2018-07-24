@@ -46,6 +46,8 @@
 <script>
 import { getActionById } from 'api/dataList'
 import { ERR_OK } from 'api/config'
+import storage from 'good-storage'
+
 export default {
   created () {
     this._getActionById()
@@ -66,7 +68,7 @@ export default {
     },
     _getActionById () {
       console.log('我的积分')
-      getActionById('8').then((res) => {
+      getActionById(storage.get('__userID__', [])).then((res) => {
         if (res.code === ERR_OK) {
           console.log('我的积分')
           console.log(res)

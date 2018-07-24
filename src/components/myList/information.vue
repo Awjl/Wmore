@@ -114,6 +114,9 @@
       <input type="text" placeholder="请输入爱好" v-model="hobbyData"> <span @click="hobbyover()">确定</span>
     </div>
     <Addres :addresStater = "addresStater"  v-on:Addres="Addres"></Addres>
+    <div class="true-box" v-if="trueBox">
+      <span>保存成功</span>
+    </div>
   </div>
 </template>
 
@@ -121,6 +124,8 @@
 import Addres from 'base/addres/addres'
 import { getUserById, editUser} from 'api/dataList'
 import {ERR_OK} from 'api/config'
+import storage from 'good-storage'
+
 
 export default {
   created () {
@@ -140,7 +145,8 @@ export default {
       hobby: false,
       industry: false,
       hobbyData: '',
-      industryData: ''
+      industryData: '',
+      trueBox: false
     }
   },
   methods: {
@@ -190,26 +196,26 @@ export default {
     Addres: function (Addres) {
       // childValue就是子组件传过来的值
       this.addresStater = false
-      console.log(Addres)
       if (!Addres) {
-        console.log('进入')
         this.myList.city = ''
       } else {
         this.myList.city = `${Addres.Province}-${Addres.City}-${Addres.District}`
       }
-      console.log(this.myList.city)
       // this.myList = childValue
     },
     baocunBtn (){
-      console.log(this.myList)
       editUser(this.myList).then((res) => {
         if (res.code === ERR_OK) {
-          console.log('保存成功')
+          this.trueBox = true
+          var self = this
+          setTimeout(function() {
+            self.trueBox = false
+          },1500)
         }
       })
     },
     _getUserById () {
-      getUserById('8').then((res) => {
+      getUserById(storage.get('__userID__', [])).then((res) => {
         if (res.code === ERR_OK) {
           console.log('个人信息')
           console.log(res)
@@ -422,6 +428,23 @@ export default {
       height: 60px;
       padding: 0 20px;
       border-radius: 10px;
+    }
+  }
+  .true-box{
+    width: 150px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 5px;
+    position: fixed;
+    top: 0;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background: rgba($color: #000000, $alpha: 0.7);
+    span{
+      color: #fff;
     }
   }
 }

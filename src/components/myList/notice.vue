@@ -38,12 +38,16 @@
         </div>
       </div>
     </div>
+    <div class="toplist-none" v-if="topList.length == 0">
+      <span>暂无数据</span>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import {getUnreadNotice, getReadNotice, toReadNotice} from 'api/dataList'
 import { ERR_OK } from 'api/config'
+import storage from 'good-storage'
 
 export default {
   created () {
@@ -81,7 +85,7 @@ export default {
       this.stateShow = false
     },
     _getUnreadNotice () {
-      getUnreadNotice('8').then((res) => {
+      getUnreadNotice(storage.get('__userID__', [])).then((res) => {
         if (res.code === ERR_OK) {
           console.log('未读')
           console.log(res.data)
@@ -90,7 +94,7 @@ export default {
       })
     },
     _getReadNotice () {
-      getReadNotice('8').then((res) => {
+      getReadNotice(storage.get('__userID__', [])).then((res) => {
         if (res.code === ERR_OK) {
           console.log('已读')
           console.log(res.data)
@@ -121,6 +125,19 @@ export default {
   padding-bottom: 120px;
   padding-top: 134px;
   overflow-x: auto;
+  .toplist-none{
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    span {
+      font-size: 30px;
+      // font-weight: bold;
+    }
+  }
   .popup{
     position: fixed;
     top:0;

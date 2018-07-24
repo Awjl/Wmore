@@ -17,26 +17,33 @@
 
 <script>
 import Swiper from 'base/swiper/swiper'
-import {getBigBannerPictures} from 'api/dataList'
-import {ERR_OK} from 'api/config'
+import { getBigBannerPictures } from 'api/dataList'
+import { ERR_OK } from 'api/config'
+import storage from 'good-storage'
 export default {
-  data () {
+  data() {
     return {
       imgUrl: './static/images/icon/slogan.png',
       logo: './static/images/icon/logo.png',
       listImg: []
     }
   },
-  created () {
+  created() {
     this._getBigBannerPictures()
   },
   methods: {
-    login () {
-      this.$router.push({
-        path: `/Login`
-      })
+    login() {
+      if (!storage.get('__userID__', [])) {
+        this.$router.push({
+          path: `/Curriculum`
+        })
+      } else {
+        this.$router.push({
+          path: `/Login`
+        })
+      }
     },
-    _getBigBannerPictures () {
+    _getBigBannerPictures() {
       getBigBannerPictures().then((res) => {
         if (res.code === ERR_OK) {
           console.log('banner-内部')

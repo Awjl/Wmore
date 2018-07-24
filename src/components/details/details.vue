@@ -97,6 +97,8 @@
 import Swiper from 'base/swiper/swiper'
 import { getCourseDetail,insertUC } from 'api/dataList'
 import {ERR_OK} from 'api/config'
+import storage from 'good-storage'
+
 export default {
   data () {
     return {
@@ -120,7 +122,7 @@ export default {
   methods: {
     courseState () {
       console.log('确认预约')
-      insertUC('8', this.$route.params.item).then((res) => {
+      insertUC(storage.get('__userID__', []), this.$route.params.item).then((res) => {
         if (res.code === ERR_OK) {
           console.log('确认预约')
           this.dataList.state = 1
@@ -129,7 +131,7 @@ export default {
       })
     },
     _getCourseDetail () {
-      getCourseDetail('8', this.$route.params.item).then((res) => {
+      getCourseDetail(storage.get('__userID__', []), this.$route.params.item).then((res) => {
         if (res.code === ERR_OK) {
           console.log('课程详情')
           console.log(res.data)

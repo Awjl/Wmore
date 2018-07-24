@@ -68,6 +68,8 @@
 <script>
 import { getCourse } from 'api/dataList'
 import { ERR_OK } from 'api/config'
+import storage from 'good-storage'
+
 export default {
   data() {
     return {
@@ -93,7 +95,7 @@ export default {
       if (this.currentMonth < 10) {
         this.currentMonth = '0' + this.currentMonth
       }
-      getCourse('8', `${this.currentYear}-${this.currentMonth}`).then((res) => {
+      getCourse(storage.get('__userID__', []), `${this.currentYear}-${this.currentMonth}`).then((res) => {
         if (res.code === ERR_OK) {
           this.datas = res.data
           console.log(this.datas)

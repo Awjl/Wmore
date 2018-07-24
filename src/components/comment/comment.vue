@@ -2,159 +2,164 @@
   <div class="comment" ref="comment">
     <div class="comment-list">
       <div class="comment-title">
-          评价
+        评价
       </div>
       <div class="comment-item">
-         <div class="comment-text">您的评价会让我们做的更好</div>
-         <div class="comment-name">瑜伽中级</div>
-         <div class="comment-name">YOGA-INTERMEDIATE</div>
-         <div class="comment-timer">7月3日14:00</div>
-         <div class="comment-listItem">
-           <div class="comment-iconName">教练专业性</div>
-           <div class="comment-icon">
-              <div @click="ListItemOne(1)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemOne >= 1">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-              <div @click="ListItemOne(2)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemOne >= 2">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-              <div @click="ListItemOne(3)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemOne >= 3">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-              <div @click="ListItemOne(4)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemOne >= 4">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-              <div @click="ListItemOne(5)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemOne >= 5">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-           </div>
-         </div>
-         <div class="comment-listItem">
-           <div class="comment-iconName">课程功能性</div>
-           <div class="comment-icon">
-              <div @click="ListItemTwo(1)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemTwo >= 1">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-               <div @click="ListItemTwo(2)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemTwo >= 2">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-               <div @click="ListItemTwo(3)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemTwo >= 3">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-               <div @click="ListItemTwo(4)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemTwo >= 4">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-               <div @click="ListItemTwo(5)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemTwo >= 5">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-           </div>
-         </div>
-         <div class="comment-listItem">
-           <div class="comment-iconName">课程互动性</div>
-           <div class="comment-icon">
-              <div @click="ListItemThree(1)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemThree >= 1">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-              <div @click="ListItemThree(2)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemThree >= 2">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-              <div @click="ListItemThree(3)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemThree >= 3">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-              <div @click="ListItemThree(4)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemThree >= 4">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-              <div @click="ListItemThree(5)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemThree >= 5">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-           </div>
-         </div>
-         <div class="comment-listItem">
-           <div class="comment-iconName">预约流畅度</div>
-           <div class="comment-icon">
-              <div @click="ListItemFour(1)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemFour >= 1">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-              <div @click="ListItemFour(2)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemFour >= 2">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-              <div @click="ListItemFour(3)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemFour >= 3">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-              <div @click="ListItemFour(4)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemFour >= 4">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-              <div @click="ListItemFour(5)">
-                <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemFour >= 5">
-                <img src="../Icon/commentwei-icon.png" alt="" v-else>
-              </div>
-           </div>
-         </div>
-         <div class="comment-btn" @click="btn()">
-           确认提交
-         </div>
+        <div class="comment-text">您的评价会让我们做的更好</div>
+        <div class="comment-name">{{dataList.courseName}}</div>
+        <div class="comment-name">{{dataList.courseNameEN}}</div>
+        <div class="comment-timer">{{new Date(dataList.courseDate).getMonth() + 1}}月{{new Date(dataList.courseDate).getDate()}}日{{new Date(dataList.courseDate).getHours()}}:{{new Date(dataList.courseDate).getMinutes()}}</div>
+        <div class="comment-listItem">
+          <div class="comment-iconName">教练专业性</div>
+          <div class="comment-icon">
+            <div @click="ListItemOne(1)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemOne >= 1">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+            <div @click="ListItemOne(2)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemOne >= 2">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+            <div @click="ListItemOne(3)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemOne >= 3">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+            <div @click="ListItemOne(4)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemOne >= 4">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+            <div @click="ListItemOne(5)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemOne >= 5">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+          </div>
+        </div>
+        <div class="comment-listItem">
+          <div class="comment-iconName">课程功能性</div>
+          <div class="comment-icon">
+            <div @click="ListItemTwo(1)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemTwo >= 1">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+            <div @click="ListItemTwo(2)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemTwo >= 2">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+            <div @click="ListItemTwo(3)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemTwo >= 3">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+            <div @click="ListItemTwo(4)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemTwo >= 4">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+            <div @click="ListItemTwo(5)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemTwo >= 5">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+          </div>
+        </div>
+        <div class="comment-listItem">
+          <div class="comment-iconName">课程互动性</div>
+          <div class="comment-icon">
+            <div @click="ListItemThree(1)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemThree >= 1">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+            <div @click="ListItemThree(2)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemThree >= 2">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+            <div @click="ListItemThree(3)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemThree >= 3">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+            <div @click="ListItemThree(4)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemThree >= 4">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+            <div @click="ListItemThree(5)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemThree >= 5">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+          </div>
+        </div>
+        <div class="comment-listItem">
+          <div class="comment-iconName">预约流畅度</div>
+          <div class="comment-icon">
+            <div @click="ListItemFour(1)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemFour >= 1">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+            <div @click="ListItemFour(2)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemFour >= 2">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+            <div @click="ListItemFour(3)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemFour >= 3">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+            <div @click="ListItemFour(4)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemFour >= 4">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+            <div @click="ListItemFour(5)">
+              <img src="../Icon/commentyi-icon.png" alt="" v-if="ItemFour >= 5">
+              <img src="../Icon/commentwei-icon.png" alt="" v-else>
+            </div>
+          </div>
+        </div>
+        <div class="comment-btn" @click="btn()">
+          确认提交
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { getIsEvaluateCourse, setScore } from 'api/dataList'
+import { ERR_OK } from 'api/config'
+import storage from 'good-storage'
 export default {
-  beforeCreate () {
+  beforeCreate() {
   },
-  created () {
+  created() {
+    this._getIsEvaluateCourse()
   },
-  beforeMount () {
+  beforeMount() {
   },
-  mounted () {
+  mounted() {
     this.stateList()
   },
-  data () {
+  data() {
     return {
       ItemOne: 3,
       ItemTwo: 4,
       ItemThree: 2,
       ItemFour: 5,
-      states: false
+      states: false,
+      dataList: {}
     }
   },
   methods: {
-    btn () {
-      this.states = false
+    btn() {
+      this._setScore()
       console.log(this.states)
     },
-    ListItemOne (item) {
+    ListItemOne(item) {
       this.ItemOne = item
     },
-    ListItemTwo (item) {
+    ListItemTwo(item) {
       this.ItemTwo = item
     },
-    ListItemThree (item) {
+    ListItemThree(item) {
       this.ItemThree = item
     },
-    ListItemFour (item) {
+    ListItemFour(item) {
       this.ItemFour = item
     },
-    stateList () {
+    stateList() {
       if (this.states) {
         this.$refs.comment.style.bottom = 0
         this.$refs.comment.style.display = 'block'
@@ -162,6 +167,40 @@ export default {
         this.$refs.comment.style.bottom = -100 + '%'
         this.$refs.comment.style.display = 'none'
       }
+    },
+    _getIsEvaluateCourse() {
+      console.log("未评价")
+      getIsEvaluateCourse('8').then((res) => {
+        if (res.code === ERR_OK) {
+          console.log('未评价22222222222222222222222222222')
+          console.log(res.data)
+          this.dataList = res.data
+          if (res.data.lenght < 1) {
+            this.states = true
+          }
+        }
+      })
+    },
+    _setScore() {
+      let data = {
+        courseId: this.dataList.courseId,
+        courseName: this.dataList.courseName,
+        courseNameEN: this.dataList.courseNameEN,
+        fluency: this.ItemFour,
+        functionality: this.ItemTwo,
+        id: this.dataList.id,
+        interaction: this.ItemThree,
+        professional: this.ItemOne,
+        userId: storage.get('__userID__', [])
+      }
+      console.log(data)
+      this.states = false
+      setScore(data).then((res) => {
+        if (res.code === ERR_OK) {
+          console.log('提交评价')
+          this.states = false
+        }
+      })
     }
   },
   watch: {
@@ -178,7 +217,7 @@ export default {
   width: 100vw;
   height: 100vh;
   position: fixed;
-  bottom:0;
+  bottom: 0;
   left: 0;
   z-index: 9999;
   transition: bottom 2s;

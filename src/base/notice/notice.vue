@@ -11,6 +11,8 @@
 <script>
 import { getnoticeByDay } from 'api/dataList'
 import {ERR_OK} from 'api/config'
+import storage from 'good-storage'
+
 export default {
   created () {
     this._getnoticeByDay()
@@ -23,7 +25,7 @@ export default {
   },
   methods: {
     _getnoticeByDay () {
-      getnoticeByDay('8').then((res) => {
+      getnoticeByDay(storage.get('__userID__', [])).then((res) => {
         if (res.code === ERR_OK) {
           console.log('顶部通知')
           console.log(res.data)

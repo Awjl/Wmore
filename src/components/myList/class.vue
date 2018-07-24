@@ -2,14 +2,14 @@
   <div class="MyClass" ref="MyClass">
     <div class="heard">
       <div class="ClassTitle">
-      <div class="Title" :class="{TitleActive:index==1}" @click="appointment()">已预约</div>
-      <div class="line"></div>
-      <div class="Title" :class="{TitleActive:index==2}" @click="over()">已完成</div>
-    </div>
-    <div class="line-clo"></div>
+        <div class="Title" :class="{TitleActive:index==1}" @click="appointment()">已预约</div>
+        <div class="line"></div>
+        <div class="Title" :class="{TitleActive:index==2}" @click="over()">已完成</div>
+      </div>
+      <div class="line-clo"></div>
     </div>
     <div class="toplist">
-        <!-- <li v-for="(list, index) in topList" :key="index">{{list}}</li> -->
+      <!-- <li v-for="(list, index) in topList" :key="index">{{list}}</li> -->
       <div class="list" v-for="(list, index) in topList" :key="index">
         <div class="Item">
           <div class="time">
@@ -29,35 +29,39 @@
         </div>
       </div>
     </div>
+    <div class="toplist-none" v-if="topList.length == 0">
+      <span>暂无数据</span>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import {getReservedCourse, getFinishedCourse} from 'api/dataList'
+import { getReservedCourse, getFinishedCourse } from 'api/dataList'
 import { ERR_OK } from 'api/config'
+import storage from 'good-storage'
 
 export default {
-  created () {
+  created() {
     this._getReservedCourse()
   },
-  data () {
+  data() {
     return {
       topList: [],
       index: 1
     }
   },
   methods: {
-    appointment () {
+    appointment() {
       this.index = 1
       this._getReservedCourse()
     },
-    over () {
+    over() {
       this.index = 2
       this._getFinishedCourse()
     },
-    _getReservedCourse () {
+    _getReservedCourse() {
       console.log('我的课程')
-      getReservedCourse('8').then((res) => {
+      getReservedCourse(storage.get('__userID__', [])).then((res) => {
         if (res.code === ERR_OK) {
           console.log('已预约')
           console.log(res.data)
@@ -65,8 +69,8 @@ export default {
         }
       })
     },
-    _getFinishedCourse () {
-      getFinishedCourse('8').then((res) => {
+    _getFinishedCourse() {
+      getFinishedCourse(storage.get('__userID__', [])).then((res) => {
         if (res.code === ERR_OK) {
           console.log('已完成')
           console.log(res.data)
@@ -88,7 +92,20 @@ export default {
   padding-bottom: 120px;
   padding-top: 134px;
   overflow-x: auto;
-  .heard{
+  .toplist-none{
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    span {
+      font-size: 30px;
+      // font-weight: bold;
+    }
+  }
+  .heard {
     position: fixed;
     top: 0;
     left: 0;
@@ -114,47 +131,47 @@ export default {
       color: #57c2cf;
     }
   }
-  .line-clo{
+  .line-clo {
     width: 100%;
     height: 2px;
-    background: -webkit-linear-gradient(left, #81d1db ,#c6cbcc, #85d2db);
-    background: -o-linear-gradient(right,#81d1db ,#c6cbcc, #85d2db);
-    background: -moz-linear-gradient(right,#81d1db ,#c6cbcc, #85d2db);
-    background: linear-gradient(to right, #81d1db ,#c6cbcc, #85d2db);
+    background: -webkit-linear-gradient(left, #81d1db, #c6cbcc, #85d2db);
+    background: -o-linear-gradient(right, #81d1db, #c6cbcc, #85d2db);
+    background: -moz-linear-gradient(right, #81d1db, #c6cbcc, #85d2db);
+    background: linear-gradient(to right, #81d1db, #c6cbcc, #85d2db);
   }
   .toplist {
     height: 100%;
     overflow: hidden;
-    .Item{
+    .Item {
       height: 112px;
       width: 100%;
       display: flex;
       align-items: center;
-      .time{
+      .time {
         width: 137px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        p{
+        p {
           font-size: 26px;
           font-weight: bold;
-          line-height:45px;
+          line-height: 45px;
         }
       }
-      .line-shu{
+      .line-shu {
         height: 75px;
         width: 2px;
         background: #89d4dd;
         margin-right: 23px;
       }
-      .name{
-        p{
+      .name {
+        p {
           font-size: 26px;
           font-weight: bold;
           line-height: 45px;
         }
-        img{
+        img {
           width: 26px;
           height: 26px;
           margin-right: 10px;

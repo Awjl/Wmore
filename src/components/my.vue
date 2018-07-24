@@ -1,102 +1,114 @@
 <template>
-<div class="myBg">
-  <div class="myBg-bg">
-    <img :src="`http://${myList.pictureUrl}?x-oss-process=image/format,png`" alt="">
-  </div>
-  <div class="my" >
-    <div class="myHeard">
-      <div class="myHello">
-        <img :src="helloUrl" alt="">
-        <div class="myName">
-        {{myList.name}}
-        </div>
-        <div class="myId">
-        ID：{{myList.id}}
-        </div>
-      </div>
-      <div class="myTou">
-        <img :src="`http://${myList.pictureUrl}?x-oss-process=image/format,png`" alt="">
-      </div>
+  <div class="myBg">
+    <div class="myBg-bg">
+      <img :src="`http://${myList.pictureUrl}?x-oss-process=image/format,png`" alt="">
     </div>
-    <div class="myList">
+    <div class="my">
+      <div class="myHeard">
+        <div class="myHello">
+          <img :src="helloUrl" alt="">
+          <div class="myName">
+            {{myList.name}}
+          </div>
+          <div class="myId">
+            ID：{{myList.id}}
+          </div>
+        </div>
+        <div class="myTou">
+          <img :src="`http://${myList.pictureUrl}?x-oss-process=image/format,png`" alt="">
+        </div>
+      </div>
+      <div class="myList">
         <ul>
-          <li  @click="MyClass()">
-            <img src="./Icon/class-icon.png" alt=""><span>我的课程</span>
+          <li @click="MyClass()">
+            <img src="./Icon/class-icon.png" alt="">
+            <span>我的课程</span>
           </li>
-          <li  @click="MyIntegral()">
-            <img src="./Icon/integral-icon.png" alt=""><span>我的积分</span>
+          <li @click="MyIntegral()">
+            <img src="./Icon/integral-icon.png" alt="">
+            <span>我的积分</span>
           </li>
-          <li  @click="MyNotice()">
-            <img src="./Icon/notice-icon.png" alt=""><span>我的通知</span>
+          <li @click="MyNotice()">
+            <img src="./Icon/notice-icon.png" alt="">
+            <span>我的通知</span>
           </li>
-          <li  @click="MyInformation()">
-            <img src="./Icon/information-icon.png" alt=""><span>个人信息</span>
+          <li @click="MyInformation()">
+            <img src="./Icon/information-icon.png" alt="">
+            <span>个人信息</span>
           </li>
         </ul>
+      </div>
     </div>
-</div>
   </div>
 </template>
 
 <script>
-import {getUserById} from 'api/dataList'
-import {ERR_OK} from 'api/config'
+import { getUserById } from 'api/dataList'
+import { ERR_OK } from 'api/config'
+import storage from 'good-storage'
+
 export default {
-  created () {
+  created() {
     this._getUserById()
   },
-  data () {
+  data() {
     return {
       helloUrl: './static/images/my/hello.png',
       myList: {}
     }
   },
   methods: {
-    MyClass () {
+    MyClass() {
       this.$router.push({
         path: `/MyClass`
       })
     },
-    MyIntegral () {
+    MyIntegral() {
       this.$router.push({
         path: `/MyIntegral`
       })
     },
-    MyNotice () {
+    MyNotice() {
       this.$router.push({
         path: `/MyNotice`
       })
     },
-    MyInformation () {
+    MyInformation() {
       this.$router.push({
         path: `/MyInformation`
       })
     },
-    _getUserById () {
-      getUserById('8').then((res) => {
-        if (res.code === ERR_OK) {
-          console.log('个人信息')
-          console.log(res)
-          this.myList =  res.data
-        }
-      })
+    _getUserById() {
+      if (!storage.get('__userID__', [])) {
+        getUserById(storage.get('__userID__', [])).then((res) => {
+          if (res.code === ERR_OK) {
+            console.log('个人信息')
+            console.log(res)
+            this.myList = res.data
+          }
+        })
+      } else {
+        this.$router.push({
+          path: `/Login`
+        })
+      }
     }
   }
 }
 </script>
 
 <style  lang="scss" rel="stylesheet/scss" scoped>
-.myBg{
+.myBg {
   width: 100%;
   height: 100vh;
   position: relative;
-  .myBg-bg{
+  .myBg-bg {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    img{
+    img {
       height: 100%;
       width: 100%;
       -webkit-filter: blur(20px);
@@ -104,33 +116,33 @@ export default {
     }
   }
 }
-.my{
+.my {
   position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   flex-direction: column;
   align-items: center;
-  .myHeard{
+  .myHeard {
     width: 580px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 110px;
-    .myHello{
-      img{
+    .myHello {
+      img {
         width: 268px;
         height: 62px;
       }
-      .myName{
+      .myName {
         font-size: 70px;
         margin-left: -26px;
         color: #fff;
       }
-      .myId{
+      .myId {
         font-size: 30px;
         color: #fff;
         margin-top: 10px;
@@ -138,20 +150,20 @@ export default {
         margin-left: -18px;
       }
     }
-    .myTou{
+    .myTou {
       width: 187px;
       height: 187px;
       border-radius: 93px;
       overflow: hidden;
-      img{
+      img {
         width: 100%;
         height: 100%;
       }
     }
   }
-  .myList{
+  .myList {
     margin-top: 143px;
-    li{
+    li {
       width: 243px;
       height: 88px;
       background: #000;
@@ -160,10 +172,10 @@ export default {
       justify-content: center;
       align-items: center;
       border-radius: 44px;
-      span{
+      span {
         color: #fff;
       }
-      img{
+      img {
         width: 29px;
         height: 29px;
         margin-right: 15px;
