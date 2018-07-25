@@ -33,7 +33,8 @@ export default {
   },
   methods: {
     login() {
-      if (!storage.get('__userID__', [])) {
+      console.log("首页约课"+storage.get('__userID__', []))
+      if (storage.get('__userID__', []) != '0') {
         this.$router.push({
           path: `/Curriculum`
         })
@@ -46,7 +47,6 @@ export default {
     _getBigBannerPictures() {
       getBigBannerPictures().then((res) => {
         if (res.code === ERR_OK) {
-          console.log('banner-内部')
           console.log(res)
           this.listImg = res.data
         }

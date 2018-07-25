@@ -35,33 +35,40 @@
       </div>
     </div>
     <!-- 日期 -->
-    <ul class="days">
-      <!-- v-for循环 每一次循环用<li>标签创建一天 -->
-      <li v-for="(dayobject, index) in days" style='height: 56px' :key='index'>
-        <!--本月-->
-        <!--如果不是本月  改变类名加灰色-->
-        <span v-if="dayobject.day.getMonth()+1 != currentMonth" class="other-month">{{ dayobject.day.getDate() }}</span>
-        <!--如果是本月  还需要判断是不是这一天-->
-        <span v-else class="days-cla">
-          <img src="./OptionalTwo-icon.png" alt="" v-show="dayobject.data && dayobject.state != 1 && dayobject.data.courseState == 1 && dayobject.data.state != 2">
-          <img src="./fullTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state != 1 && dayobject.data.courseState == 2 &&  dayobject.data.state != 2">
-          <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state == 1">
-          <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data .state == 2 ">
-          <img src="./teamTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.type == 2" style="top: 0;
+    <div class="days-box">
+      <div class="box" v-show="datas.length<1">
+        <div class="box-cont">
+          当月课程更新中，<br> 您目前没有可选的课程。
+        </div>
+      </div>
+      <ul class="days">
+        <!-- v-for循环 每一次循环用<li>标签创建一天 -->
+        <li v-for="(dayobject, index) in days" style='height: 56px' :key='index'>
+          <!--本月-->
+          <!--如果不是本月  改变类名加灰色-->
+          <span v-if="dayobject.day.getMonth()+1 != currentMonth" class="other-month">{{ dayobject.day.getDate() }}</span>
+          <!--如果是本月  还需要判断是不是这一天-->
+          <span v-else class="days-cla">
+            <img src="./OptionalTwo-icon.png" alt="" v-show="dayobject.data && dayobject.state != 1 && dayobject.data.courseState == 2 && dayobject.data.state != 2">
+            <img src="./fullTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state != 1 && dayobject.data.courseState == 1 &&  dayobject.data.state != 2">
+            <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state == 1">
+            <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data .state == 2 ">
+            <img src="./teamTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.type == 2" style="top: 0;
             left:22px;
             width: 5px;
             height: 5px;">
-          <!--今天  同年同月同日-->
-          <span v-if="dayobject.day.getFullYear() == new Date().getFullYear() && dayobject.day.getMonth() == new Date().getMonth() && dayobject.day.getDate() == new Date().getDate()" class="active">{{ dayobject.day.getDate() }}</span>
-          <span v-else>{{ dayobject.day.getDate() }}</span>
-        </span>
-        <!--显示剩余多少数量-->
-        <p v-if="dayobject.data">
-          <span>{{ dayobject.data.courseName }}</span>
-          <span>{{ dayobject.data.courseNameen }}</span>
-        </p>
-      </li>
-    </ul>
+            <!--今天  同年同月同日-->
+            <span v-if="dayobject.day.getFullYear() == new Date().getFullYear() && dayobject.day.getMonth() == new Date().getMonth() && dayobject.day.getDate() == new Date().getDate()" class="active">{{ dayobject.day.getDate() }}</span>
+            <span v-else>{{ dayobject.day.getDate() }}</span>
+          </span>
+          <!--显示剩余多少数量-->
+          <p v-if="dayobject.data">
+            <span>{{ dayobject.data.courseName }}</span>
+            <span>{{ dayobject.data.courseNameen }}</span>
+          </p>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -98,7 +105,6 @@ export default {
       getCourse(storage.get('__userID__', []), `${this.currentYear}-${this.currentMonth}`).then((res) => {
         if (res.code === ERR_OK) {
           this.datas = res.data
-          console.log(this.datas)
           this.initData(cur)
         }
       })
@@ -216,7 +222,6 @@ export default {
   },
   watch: {
     datas: function () {
-      console.log('das')
       this.$emit('datas', this.datas)
     }
   }
@@ -273,6 +278,30 @@ export default {
       }
       .year-month {
         margin-top: 7px;
+      }
+    }
+  }
+  .days-box {
+    position: relative;
+    .box {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba($color: #000000, $alpha: 0.5);
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999999;
+      .box-cont {
+        width: 490px;
+        height: 172px;
+        background: #fff;
+        text-align: center;
+        padding-top: 50px;
+        box-sizing: border-box;
+        line-height: 40px;
       }
     }
   }

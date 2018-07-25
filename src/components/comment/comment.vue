@@ -170,16 +170,19 @@ export default {
     },
     _getIsEvaluateCourse() {
       console.log("未评价")
-      getIsEvaluateCourse('8').then((res) => {
-        if (res.code === ERR_OK) {
-          console.log('未评价22222222222222222222222222222')
-          console.log(res.data)
-          this.dataList = res.data
-          if (res.data.lenght < 1) {
-            this.states = true
+      console.log("我的未评价"+storage.get('__userID__', []))
+      if (storage.get('__userID__', []) != '0') {
+        getIsEvaluateCourse(storage.get('__userID__', [])).then((res) => {
+          if (res.code === ERR_OK) {
+            console.log('未评价22222222222222222222222222222')
+            console.log(res.data)
+            this.dataList = res.data
+            if (res.data.lenght < 1) {
+              this.states = true
+            }
           }
-        }
-      })
+        })
+      }
     },
     _setScore() {
       let data = {

@@ -18,7 +18,7 @@
             <p><img src="../Icon/yuan-icon.png" alt=""> 员工课</p>
           </div>
         </div>
-        <div class="list-btn" v-if="item.state != 1 && item.courseState == 1 && item.state != 2">
+        <div class="list-btn" v-if="item.state != 1 && item.courseState == 2 && item.state != 2">
           可选
         </div>
         <div class="list-btn" v-if="item.state == 1 ">
@@ -27,7 +27,7 @@
         <div class="list-btn" v-if="item.state == 2 ">
           完成
         </div>
-        <div class="list-btn active" v-if="item.state != 1 && item.courseState == 2 &&  item.state != 2">
+        <div class="list-btn active" v-if="item.state != 1 && item.courseState == 1 &&  item.state != 2">
           满员
         </div>
       </div>

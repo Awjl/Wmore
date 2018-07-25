@@ -79,7 +79,8 @@ export default {
       })
     },
     _getUserById() {
-      if (!storage.get('__userID__', [])) {
+      console.log("我的个人中心"+storage.get('__userID__', []))
+      if (storage.get('__userID__', []) != '0') {
         getUserById(storage.get('__userID__', [])).then((res) => {
           if (res.code === ERR_OK) {
             console.log('个人信息')
@@ -139,7 +140,6 @@ export default {
       }
       .myName {
         font-size: 70px;
-        margin-left: -26px;
         color: #fff;
       }
       .myId {
@@ -147,7 +147,6 @@ export default {
         color: #fff;
         margin-top: 10px;
         letter-spacing: 4px;
-        margin-left: -18px;
       }
     }
     .myTou {

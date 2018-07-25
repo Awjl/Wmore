@@ -18,11 +18,11 @@
             <div class="line"></div>
             <div class="iphone">
               <div class="iphone-line">
-                <input type="text" placeholder="输入手机号" v-model="userData.moblie">
+                <input type="text" placeholder="输入手机号" v-model="userData.mobile">
                 <div class="line"></div>
               </div>
               <div class="yanzhen" @click="yanzheng()">
-                发送验证
+                <span> {{content}}</span>
               </div>
             </div>
             <input type="text" placeholder="输入验证码" v-model="userData.verCode">
@@ -35,11 +35,16 @@
         </div>
       </div>
     </div>
+    <div class="box" v-if="show">
+      <span>匹配中</span>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import { sendSMS, getmatchUser } from 'api/dataList'
+import { ERR_OK } from 'api/config'
+import storage from 'good-storage'
 export default {
   data() {
     return {
@@ -48,28 +53,58 @@ export default {
       userData: {
         code: '',
         name: '',
-        moblie: '',
+        mobile: '',
         email: '',
         verCode: ''
-      }
+      },
+      show: false,
+      timer: 0,
+      content: '发送验证',
+      totalTime: 60,
+      canClick: true
     }
   },
   methods: {
     Curriculum() {
-      console.log(this.userData)
+      this.show = true
       getmatchUser(this.userData).then((res) => {
-        console.log('保存成功')
-        this.$router.push({
-          path: `/Curriculum`
-        })
-      })
+        if (res.code === ERR_OK) {
+          console.log('保存成功')
+          storage.set('__userID__', res.data.userId)
+          console.log('绑定好了' + storage.set('__userID__', res.data.userId))
+          this.show = false
+          this.$router.push({
+            path: `/Curriculum`
+          })
+        }
+      }).catch(function (err) {
+        alert(err)
+      });
     },
     yanzheng() {
-      console.log(this.userData.moblie)
-      if (this.userData.moblie) {
+      if (this.userData.mobile) {
+        console.log('12312')
+        if (!this.canClick) return  //改动的是这两行代码
+        this.canClick = false
+        this.content = this.totalTime + 's后重新发送'
+        let clock = window.setInterval(() => {
+          this.totalTime--
+          this.content = this.totalTime + 's后重新发送'
+          if (this.totalTime < 0) {
+            window.clearInterval(clock)
+            this.content = '重新发送'
+            this.totalTime = 10
+            this.canClick = true  //这里重新开启
+          }
+        }, 1000)
         console.log('进入')
-        sendSMS(this.userData.moblie).then((res) => {
+        sendSMS(this.userData.mobile).then((res) => {
           console.log('发送验证码')
+          this.timer = 60
+          var self = this
+          setInterval(function () {
+            self.timer = self.timer - 1;
+          }, 1000)
         })
       }
     }
@@ -84,6 +119,19 @@ export default {
   position: fixed;
   overflow: hidden;
   background-size: 100%;
+  .box {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999999;
+    span {
+      padding: 10px;
+      background: rgba($color: #000000, $alpha: 0.5);
+      color: #fff;
+    }
+  }
   .login-csroll {
     width: 100%;
     height: 100%;
@@ -173,7 +221,7 @@ export default {
               width: 200px;
             }
             .yanzhen {
-              width: 149px;
+              width: 160px;
               height: 65px;
               line-height: 65px;
               text-align: center;
@@ -181,6 +229,9 @@ export default {
               margin-top: -20px;
               color: #fff;
               border-radius: 30px;
+              span {
+                font-size: 18px;
+              }
             }
           }
         }

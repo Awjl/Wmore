@@ -10,33 +10,36 @@
 
 <script>
 import { getnoticeByDay } from 'api/dataList'
-import {ERR_OK} from 'api/config'
+import { ERR_OK } from 'api/config'
 import storage from 'good-storage'
 
 export default {
-  created () {
+  created() {
     this._getnoticeByDay()
   },
-  data () {
+  data() {
     return {
       data: [],
       showstate: false
     }
   },
   methods: {
-    _getnoticeByDay () {
-      getnoticeByDay(storage.get('__userID__', [])).then((res) => {
-        if (res.code === ERR_OK) {
-          console.log('顶部通知')
-          console.log(res.data)
-          this.data = res.data
-          if (this.data.length > 0) {
-            this.showstate = true
+    _getnoticeByDay() {
+      console.log("我的通知"+storage.get('__userID__', []))
+      if (storage.get('__userID__', []) != '0') {
+        getnoticeByDay(storage.get('__userID__', [])).then((res) => {
+          if (res.code === ERR_OK) {
+            console.log('顶部通知')
+            console.log(res.data)
+            this.data = res.data
+            if (this.data.length > 0) {
+              this.showstate = true
+            }
           }
-        }
-      })
+        })
+      }
     },
-    godie () {
+    godie() {
       this.showstate = false
       // clearTimeout(timer)
       this.$router.push({
@@ -73,7 +76,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  .notice-box{
+  .notice-box {
     width: 100%;
     display: flex;
     justify-content: space-between;

@@ -83,10 +83,10 @@
           </div>
           <div class="footer-active">
             <img src="../Icon/xiao-icon.png" alt=""> 
-            <span v-show="dataList.state != 2 && dataList.state != 1 && dataList.courseState == 1 " @click="courseState()">确认预约</span>
+            <span v-show="dataList.state != 2 && dataList.state != 1 && dataList.courseState == 2 " @click="courseState()">确认预约</span>
             <span v-show="dataList.state == 1">已预约</span>
             <span v-show="dataList.state == 2">已完成</span>
-            <span v-show="dataList.state != 2 && dataList.state != 1 && dataList.courseState == 2">已满员</span>
+            <span v-show="dataList.state != 2 && dataList.state != 1 && dataList.courseState == 1">已满员</span>
           </div>
         </div>
       </div>

@@ -2,12 +2,11 @@ import { api } from './config'
 import axios from 'axios'
 // 微信接口
 export function getWechat () {
-  const url = `${api}/wmore/wechat/index`
+  const url = `${api}/wmore/user/userId`
   return axios.get(url).then((res) => {
     return Promise.resolve(res.data)
   })
 }
-
 // 匹配用户 
 // /wmore/user/matchUser
 export function getmatchUser(list) {
@@ -192,7 +191,6 @@ export function sendSMS(ip) {
 export function getIsEvaluateCourse (id) {
   // const url = `${api}/wmore/userCourse/getIsEvaluateCourse`
   const url = `${api}/wmore/userCourse/getIsEvaluateCourse`
-  console.log(id)
   return axios.get(url, {
     params: {
       userId: id
