@@ -51,6 +51,7 @@
           <span v-else class="days-cla">
             <img src="./OptionalTwo-icon.png" alt="" v-show="dayobject.data && dayobject.state != 1 && dayobject.data.courseState == 2 && dayobject.data.state != 2">
             <img src="./fullTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state != 1 && dayobject.data.courseState == 1 &&  dayobject.data.state != 2">
+
             <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state == 1">
             <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data .state == 2 ">
             <img src="./teamTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.type == 2" style="top: 0;
@@ -105,6 +106,7 @@ export default {
       getCourse(storage.get('__userID__', []), `${this.currentYear}-${this.currentMonth}`).then((res) => {
         if (res.code === ERR_OK) {
           this.datas = res.data
+          console.log(this.datas)
           this.initData(cur)
         }
       })

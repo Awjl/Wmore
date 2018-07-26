@@ -10,6 +10,7 @@ import MyNotice from '@/components/myList/notice' // 我的通知
 import Login from '@/components/login/login' // 登陆
 import Curriculum from '@/components/curriculum/curriculum' // 我的课程页面
 import Details from '@/components/details/details'
+import QRcode from '@/components/QRcode'
 
 Vue.use(Router)
 
@@ -25,7 +26,7 @@ export default new Router({
           component: Home,
           meta: {
             title: '约课',
-            keepAlive: true
+            keepAlive: false
           }
         },
         {
@@ -33,7 +34,7 @@ export default new Router({
           component: My,
           meta: {
             title: '个人中心',
-            keepAlive: true
+            keepAlive: false
           }
         },
         {
@@ -49,7 +50,7 @@ export default new Router({
           component: MyInformation,
           meta: {
             title: '个人信息',
-            keepAlive: true
+            keepAlive: false
           }
         },
         {
@@ -73,7 +74,7 @@ export default new Router({
           component: Login,
           meta: {
             title: '登录',
-            keepAlive: true
+            keepAlive: false
           }
         },
         {
@@ -81,7 +82,15 @@ export default new Router({
           component: Curriculum,
           meta: {
             title: '课程列表',
-            keepAlive: true
+            keepAlive: false
+          }
+        },
+        {
+          path: '/QRcode',
+          component: QRcode,
+          meta: {
+            title: '签到',
+            keepAlive: false
           }
         }
       ]

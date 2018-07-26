@@ -55,7 +55,8 @@ export default {
         name: '',
         mobile: '',
         email: '',
-        verCode: ''
+        verCode: '',
+        key: ''
       },
       show: false,
       timer: 0,
@@ -67,9 +68,9 @@ export default {
   methods: {
     Curriculum() {
       this.show = true
+      this.userData.key =  storage.get('_key_', [])
       getmatchUser(this.userData).then((res) => {
         if (res.code === ERR_OK) {
-          console.log('保存成功')
           storage.set('__userID__', res.data.userId)
           console.log('绑定好了' + storage.set('__userID__', res.data.userId))
           this.show = false

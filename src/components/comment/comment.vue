@@ -1,14 +1,14 @@
 <template>
   <div class="comment" ref="comment">
-    <div class="comment-list">
+    <div class="comment-list" v-for="(list, index) in dataList" :key="index">
       <div class="comment-title">
         评价
       </div>
       <div class="comment-item">
         <div class="comment-text">您的评价会让我们做的更好</div>
-        <div class="comment-name">{{dataList.courseName}}</div>
-        <div class="comment-name">{{dataList.courseNameEN}}</div>
-        <div class="comment-timer">{{new Date(dataList.courseDate).getMonth() + 1}}月{{new Date(dataList.courseDate).getDate()}}日{{new Date(dataList.courseDate).getHours()}}:{{new Date(dataList.courseDate).getMinutes()}}</div>
+        <div class="comment-name">{{list.courseName}}</div>
+        <div class="comment-name">{{list.courseNameEN}}</div>
+        <div class="comment-timer">{{new Date(list.courseDate).getMonth() + 1}}月{{new Date(list.courseDate).getDate()}}日{{new Date(list.courseDate).getHours()}}:{{new Date(list.courseDate).getMinutes()}}</div>
         <div class="comment-listItem">
           <div class="comment-iconName">教练专业性</div>
           <div class="comment-icon">
@@ -134,12 +134,12 @@ export default {
   },
   data() {
     return {
-      ItemOne: 3,
-      ItemTwo: 4,
-      ItemThree: 2,
-      ItemFour: 5,
+      ItemOne: 0,
+      ItemTwo: 0,
+      ItemThree: 0,
+      ItemFour: 0,
       states: false,
-      dataList: {}
+      dataList: []
     }
   },
   methods: {
@@ -170,36 +170,44 @@ export default {
     },
     _getIsEvaluateCourse() {
       console.log("未评价")
-      console.log("我的未评价"+storage.get('__userID__', []))
+      alert("我的未评价" + storage.get('__userID__', []))
       if (storage.get('__userID__', []) != '0') {
         getIsEvaluateCourse(storage.get('__userID__', [])).then((res) => {
           if (res.code === ERR_OK) {
-            console.log('未评价22222222222222222222222222222')
+            console.log('未评价里边')
             console.log(res.data)
             this.dataList = res.data
-            if (res.data.lenght < 1) {
+            console.log("长度" + this.dataList, this.dataList.length)
+            if (this.dataList.length > 0) {
               this.states = true
             }
+            // this.dataList = res.data
+            // console.log(res.data.lenght)
+            // console.log(this.dataList)
+            // if (this.dataList.lenght > 0) {
+            //   this.states = true
+            // }
           }
         })
       }
     },
     _setScore() {
       let data = {
-        courseId: this.dataList.courseId,
-        courseName: this.dataList.courseName,
-        courseNameEN: this.dataList.courseNameEN,
+        courseId: this.dataList[0].courseId,
+        courseName: this.dataList[0].courseName,
+        courseNameEN: this.dataList[0].courseNameEN,
         fluency: this.ItemFour,
         functionality: this.ItemTwo,
-        id: this.dataList.id,
+        id: this.dataList[0].id,
         interaction: this.ItemThree,
         professional: this.ItemOne,
-        userId: storage.get('__userID__', [])
+        userId: this.dataList[0].userId
       }
       console.log(data)
       this.states = false
       setScore(data).then((res) => {
         if (res.code === ERR_OK) {
+          alert('提交完成')
           console.log('提交评价')
           this.states = false
         }

@@ -22,20 +22,21 @@ import Comment from 'components/comment/comment'
 import Notice from 'base/notice/notice'
 import storage from 'good-storage'
 
-import {getWechat} from 'api/dataList'
-import {ERR_OK} from 'api/config'
+import { getWechat } from 'api/dataList'
+import { ERR_OK } from 'api/config'
 
 export default {
   created() {
     this._getWechat()
   },
   methods: {
-     _getWechat () {
-      getWechat().then((res) => {
-        if (res.code === ERR_OK) {  
-          console.log(res)
-         storage.set('__userID__', res.data)
-         console.log('首次加载' + storage.set('__userID__', res.data))
+    _getWechat() {
+      storage.set('_key_', window.location.href.split('=')[1])
+      getWechat(window.location.href.split('=')[1]).then((res) => {
+        if (res.code === ERR_OK) {
+          console.log("获取USERID" + res.data)
+          storage.set('__userID__', res.data)
+          console.log('首次加载' + storage.set('__userID__', res.data))
         }
       })
     },

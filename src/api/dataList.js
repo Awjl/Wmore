@@ -1,9 +1,13 @@
 import { api } from './config'
 import axios from 'axios'
 // 微信接口
-export function getWechat () {
+export function getWechat (id) {
   const url = `${api}/wmore/user/userId`
-  return axios.get(url).then((res) => {
+  return axios.get(url,{
+    params: {
+      key: id
+    }
+  }).then((res) => {
     return Promise.resolve(res.data)
   })
 }
