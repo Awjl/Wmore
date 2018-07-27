@@ -194,7 +194,7 @@ export default {
         type: 'datePicker',
         onOk: (date) => {
           this.date = date.replace(new RegExp(/-/gm), "/")
-          this.myList.birthday = this.date
+          this.myList.birthday = this.date.replace(new RegExp(/-/gm), "-")
           console.log(this.myList.birthday.replace(new RegExp(/-/gm), "/"))
         }
       })
