@@ -1,18 +1,8 @@
 <template>
   <div id="app">
     <Notice></Notice>
-    <!-- <keep-alive>
-      <router-view v-wechat-title="$route.meta.title"></router-view>
-    </keep-alive> -->
-    <keep-alive>
-      <router-view v-if="$route.meta.keepAlive" v-wechat-title="$route.meta.title">
-        <!-- 这里是会被缓存的视图组件 -->
-      </router-view>
-    </keep-alive>
-    <router-view v-if="!$route.meta.keepAlive" v-wechat-title="$route.meta.title">
-      <!-- 这里是不被缓存的视图组件 -->
+    <router-view  v-wechat-title="$route.meta.title" v-if="isRouterAlive">
     </router-view>
-    <!-- <button @click="btn()">获取</button> -->
     <comment></comment>
   </div>
 </template>
@@ -26,19 +16,36 @@ import { getWechat } from 'api/dataList'
 import { ERR_OK } from 'api/config'
 
 export default {
+  provide () {
+    return {
+      reload: this.reload
+    }
+  },
+  data () {
+    return {
+      isRouterAlive: true
+    }
+  },
   created() {
     this._getWechat()
   },
   methods: {
+    reload() {
+      this.isRouterAlive = false
+      this.$nextTick(function() {
+        this.isRouterAlive = true
+      })
+    },
     _getWechat() {
       storage.set('_key_', window.location.href.split('=')[1])
-      getWechat(window.location.href.split('=')[1]).then((res) => {
-        if (res.code === ERR_OK) {
-          console.log("获取USERID" + res.data)
-          storage.set('__userID__', res.data)
-          console.log('首次加载' + storage.set('__userID__', res.data))
-        }
-      })
+      storage.set('__userID__',22)
+      // getWechat(window.location.href.split('=')[1]).then((res) => {
+      //   if (res.code === ERR_OK) {
+      //     console.log("获取USERID" + res.data)
+      //     storage.set('__userID__', res.data)
+      //     console.log('首次加载' + storage.set('__userID__', res.data))
+      //   }
+      // })
     },
   },
   components: {

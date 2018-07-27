@@ -25,72 +25,63 @@ export default new Router({
           path: '/Home',
           component: Home,
           meta: {
-            title: '约课',
-            keepAlive: false
+            title: '约课'
           }
         },
         {
           path: '/my',
           component: My,
           meta: {
-            title: '个人中心',
-            keepAlive: false
+            title: '个人中心'
           }
         },
         {
           path: '/MyClass',
           component: MyClass,
           meta: {
-            title: '我的课程',
-            keepAlive: false
+            title: '我的课程'
           }
         },
         {
           path: '/MyInformation',
           component: MyInformation,
           meta: {
-            title: '个人信息',
-            keepAlive: false
+            title: '个人信息'
           }
         },
         {
           path: '/MyIntegral',
           component: MyIntegral,
           meta: {
-            title: '我的积分',
-            keepAlive: false
+            title: '我的积分'
           }
         },
         {
           path: '/MyNotice',
           component: MyNotice,
           meta: {
-            title: '我的通知',
-            keepAlive: false
+            title: '我的通知'
           }
         },
         {
           path: '/Login',
           component: Login,
           meta: {
-            title: '登录',
-            keepAlive: false
+            title: '登录'
           }
         },
         {
           path: '/Curriculum',
           component: Curriculum,
           meta: {
-            title: '课程列表',
-            keepAlive: false
+            title: '课程列表'
           }
         },
         {
           path: '/QRcode',
           component: QRcode,
           meta: {
-            title: '签到',
-            keepAlive: false
+            title: '签到'
           }
         }
       ]
@@ -99,8 +90,7 @@ export default new Router({
       path: '/Details/:item',
       component: Details,
       meta: {
-        title: '课程详情',
-        keepAlive: false
+        title: '课程详情'
       }
     }
   ]

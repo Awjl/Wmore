@@ -1,12 +1,12 @@
 <template>
-    <div class="swiper-container">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="(str, index) in listImg" :key="index">
-               <img :src="`http://${str.pictureUrl}?x-oss-process=image/format,png`"  @click="goDetails(str.id)"/>
-            </div>
-        </div>
-        <div class="swiper-pagination swiper-pagination-white"></div>
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" v-for="(str, index) in listImg" :key="index">
+        <img :src="`http://${str.pictureUrl}?x-oss-process=image/format,png`" @click="goDetails(str.contentUrl)" />
+      </div>
     </div>
+    <div class="swiper-pagination swiper-pagination-white"></div>
+  </div>
 </template>
 
 <script>
@@ -14,7 +14,7 @@ import Swiper from 'swiper'
 import 'swiper/dist/css/swiper.min.css'
 export default {
   props: ['listImg'],
-  mounted () {
+  mounted() {
     var swiper = new Swiper('.swiper-container', {
       observer: true,
       observeParents: true,
@@ -36,12 +36,9 @@ export default {
     })
   },
   methods: {
-    goDetails (item) {
-      // 路由跳转
-      this.$router.push({
-        path: `/Details/${item}`
-      })
+    goDetails(item) {
       console.log(item)
+      window.location.href = item;
     }
   }
 }

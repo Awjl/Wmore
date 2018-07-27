@@ -1,5 +1,6 @@
 <template>
   <div class="details">
+    <Notice></Notice>
     <Swiper :listImg="listImg"></Swiper>
     <div class="details-content">
       <div class="details-title">
@@ -96,10 +97,12 @@
 <script>
 import Swiper from 'base/swiper/swiper'
 import { getCourseDetail,insertUC } from 'api/dataList'
+import Notice from 'base/notice/notice'
 import {ERR_OK} from 'api/config'
 import storage from 'good-storage'
 
 export default {
+  inject: ['reload'],
   data () {
     return {
       widthOen: '',
@@ -126,6 +129,7 @@ export default {
         if (res.code === ERR_OK) {
           console.log('确认预约')
           this.dataList.state = 1
+          this.reload()
           console.log(this.dataList.state)
         }
       })
@@ -151,6 +155,9 @@ export default {
         }
       })
     }
+  },
+  components: {
+    Notice
   }
 }
 </script>

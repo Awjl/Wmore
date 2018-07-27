@@ -91,7 +91,7 @@
       <div class="informationItem" @click="hobbyClick()">
         <div>&nbsp;&nbsp;&nbsp;爱好</div>
         <div class="informationItem-img">
-          <span style="width:200px;height:30px;line-height: 30px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;overflow: hidden;">{{myList.hobby}}</span>
+          <span>{{myList.hobby}}</span>
           <img src="../Icon/right-icon.png" alt="">
         </div>
       </div>
@@ -110,33 +110,20 @@
         </div>
       </div>
     </div>
-    <div class="list-box" v-if="industry">
-      <div class="item-box">
-        <div class="item-title">行业选择
-          <span @click="quxiaoindustry()">取消</span>
+    <!-- <div class="education-box" v-if="industry">
+      <div class="box">
+        <div class="education-title">行业选择
+          <span @click="quxiao()">取消</span>
         </div>
-        <div class="item-item">
-          <div v-for="(item, index) in industryList" :key="index" @click="goindustry(item.name)">{{item.name}}</div>
-        </div>
-      </div>
-    </div>
-    <div class="hobby-box" v-if="hobby">
-      <div class="hobbyItem-box">
-        <div class="hobbyItem-title">
-          <span @click="quxiaphobby()">取消</span>
-          <span>爱好选择</span>
-          <span @click="gohobby()">确定</span>
-        </div>
-        <p>已选</p>
-        <div class="hobbyItem-one">
-          <div v-for="(item, index) in hobbyListItem" :key="index" @click="hobbyItemOne(index)">{{item.name}}</div>
-        </div>
-        <p>未选</p>
-        <div class="hobbyItem-one">
-          <div v-for="(item, index) in hobbyList" :key="index" @click="hobbyItemTwo(index)">{{item.name}}</div>
+        <div class="education-iten">
+          <div v-for="(item, index) in industryList" :key="index" @click="goueducation(item.name)">{{item.name}}</div>
         </div>
       </div>
-    </div>
+    </div> -->
+    <!-- <div class="industry" v-if="hobby">
+      <input type="text" placeholder="请输入爱好" v-model="hobbyData">
+      <span @click="hobbyover()">确定</span>
+    </div> -->
     <div class="education-box" v-if="setSex">
       <div class="box">
         <div class="education-title">性别修改
@@ -182,9 +169,8 @@ export default {
       industryData: '',
       trueBox: false,
       setSex: false,
-      industryList: [{ name: '金融' }, { name: '会计' }, { name: '能源' }, { name: '餐饮' }, { name: '酒店' }, { name: '通讯' }, { name: '房地产' }, { name: '艺术' }, { name: '设计' }, { name: '娱乐' }, { name: '广告' }, { name: '媒体' }, { name: '出版' }, { name: '航天' }, { name: '建筑' }, { name: '教育' }, { name: '互联网' }, { name: '美容' }, { name: '医疗' }, { name: '健康' }, { name: '零售' }, { name: '服装' }, { name: '农业' }, { name: '制造业' }, { name: '旅游' }, { name: '司法' }, { name: '科研' }, { name: '物流' }, { name: '政府机关' }, { name: '咨询' }],
-      hobbyList: [{ name: '篮球' }, { name: '足球' }, { name: '排球' }, { name: '羽毛球' }, { name: '乒乓球' }, { name: '跑步' }, { name: '爬山' }, { name: '徒步' }, { name: '骑行' }, { name: '攀岩' }, { name: '速降' }, { name: '轮滑' }, { name: '唱歌' }, { name: '影视' }, { name: '游泳' }, { name: '舞蹈' }, { name: '摄影' }, { name: '钓鱼' }, { name: '书法' }, { name: '乐器' }, { name: '美食' }],
-      hobbyListItem: []
+      industryList: [{ name: '金融保险' }, { name: '采矿' }, { name: '能源' }, { name: '餐饮' }, { name: '酒店' }, { name: '通讯' }, { name: '房地产' }, { name: '服务业' }, { name: '服装' }, { name: '公益' }, { name: '广告' }, { name: '航空航天' }, { name: '化学' }, { name: '健康' }, { name: '建筑' }, { name: '教育' }, { name: 'IT互联网' }, { name: '公务员' }, { name: '会计' }, { name: '美容' }, { name: '媒体' }, { name: '出版' }, { name: '零售' }, { name: '农业' }, { name: '制造业' }, { name: '旅游业' }, { name: '司法' }, { name: '科研' }, { name: '演艺' }, { name: '医疗' }, { name: '艺术' }, { name: '设计' }, { name: '银行' }, { name: '音乐' }, { name: '物流' }, { name: '政府机关' }, { name: '咨询' }],
+      hobbyList: [{ name: '篮球' }, { name: '足球' }, { name: '排球' }, { name: '羽毛球' }, { name: '乒乓球' }, { name: '跑步' }, { name: '爬山' }, { name: '徒步' }, { name: '骑行' }, { name: '攀岩' }, { name: '速降' }, { name: '轮滑' }, { name: '唱歌' }, { name: '影视' }, { name: '游泳' }, { name: '舞蹈' }, { name: '摄影' }, { name: '钓鱼' }, { name: '书法' }, { name: '乐器' }, { name: '美食' }]
     }
   },
   methods: {
@@ -211,19 +197,6 @@ export default {
     },
     quxiao() {
       this.educationState = false
-    },
-    quxiaoindustry() {
-      this.industry = false
-    },
-    quxiaphobby() {
-      this.hobby = false
-    },
-    gohobby() {
-      this.myList.hobby = ''
-      for (let i = 0; i < this.hobbyListItem.length; i++) {
-        this.myList.hobby = this.myList.hobby + this.hobbyListItem[i].name + '、'
-      }
-      this.hobby = false
     },
     setSexquxiao() {
       this.setSex = false
@@ -264,14 +237,6 @@ export default {
     //     });
     //   });
     // },
-    hobbyItemOne(ind) {
-      var arr = this.hobbyListItem.splice(ind, 1)[0]
-      this.hobbyList.push(arr)
-    },
-    hobbyItemTwo(ind) {
-      var arr = this.hobbyList.splice(ind, 1)[0]
-      this.hobbyListItem.push(arr)
-    },
     industryover() {
       this.industry = false
       console.log(this.industryData)
@@ -288,11 +253,6 @@ export default {
       this.educationState = false
       this.myList.education = item
       console.log(this.myList)
-    },
-    goindustry(item) {
-      console.log(item)
-      this.industry = false
-      this.myList.industry = item
     },
     setAddres() {
       this.addresStater = true
@@ -505,7 +465,7 @@ export default {
       }
     }
   }
-  .list-box {
+  .industry {
     position: fixed;
     top: 0;
     left: 0;
@@ -513,86 +473,25 @@ export default {
     height: 100vh;
     background: rgba($color: #000000, $alpha: 0.5);
     z-index: 99;
-    .item-box {
-      width: 100%;
-      height: 50vh;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      background: #fff;
-      overflow-x: auto;
-      .item-title {
-        width: 100;
-        height: 80px;
-        line-height: 80px;
-        text-align: center;
-        position: relative;
-        border-bottom: 2px solid #ddd;
-        span {
-          position: absolute;
-          right: 30px;
-          padding: 0 20px;
-        }
-      }
-      .item-item {
-        margin-top: 30px;
-        display: flex;
-        // justify-content: space-between;
-        flex-wrap: wrap;
-        padding: 0 2%;
-        div {
-          padding: 10px 30px;
-          text-align: center;
-          border-radius: 10px;
-          border: 2px solid #ddd;
-          margin-bottom: 30px;
-          margin-right: 10px;
-        }
-      }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    span {
+      display: block;
+      height: 60px;
+      line-height: 60px;
+      text-align: center;
+      width: 100px;
+      color: #fff;
+      background: #000;
+      border-radius: 10px;
+      margin-left: 20px;
     }
-  }
-  .hobby-box {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba($color: #000000, $alpha: 0.5);
-    z-index: 99;
-    .hobbyItem-box {
-      width: 100%;
-      height: 50vh;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      background: #fff;
-      overflow-x: auto;
-      p {
-        padding: 20px;
-      }
-      .hobbyItem-title {
-        width: 100%;
-        height: 80px;
-        line-height: 80px;
-        text-align: center;
-        display: flex;
-        justify-content: space-around;
-        border-bottom: 2px solid #ddd;
-      }
-      .hobbyItem-one {
-        display: flex;
-        // justify-content: space-between;
-        flex-wrap: wrap;
-        padding: 0 2%;
-        div {
-          padding: 10px 30px;
-          text-align: center;
-          border-radius: 10px;
-          border: 2px solid #ddd;
-          margin-bottom: 30px;
-          margin-right: 10px;
-        }
-      }
+    input {
+      width: 500px;
+      height: 60px;
+      padding: 0 20px;
+      border-radius: 10px;
     }
   }
   .true-box {

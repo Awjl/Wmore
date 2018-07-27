@@ -22,14 +22,14 @@ export function getmatchUser(list) {
 
 // 首页banner
 export function getBigBannerPictures() {
-  const url = `${api}/wmore/picture/getBigBannerPictures`
+  const url = `${api}/wmore/picture/getBigBanner`
   return axios.get(url).then((res) => {
     return Promise.resolve(res.data)
   })
 }
 // 课程banner
 export function getSmallBannerPictures() {
-  const url = `${api}/wmore/picture/getSmallBannerPictures`
+  const url = `${api}/wmore/picture/getSmallBanner`
   return axios.get(url).then((res) => {
     return Promise.resolve(res.data)
   })

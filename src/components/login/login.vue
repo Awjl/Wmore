@@ -12,10 +12,16 @@
           <div class="login-node">
             <input type="text" placeholder="企业代码" v-model="userData.code">
             <div class="line"></div>
+            <div class="required">{{codeCenter}} </div>
+            <div class="he40"></div>
             <input type="text" placeholder="真实姓名" v-model="userData.name">
             <div class="line"></div>
+            <div class="required">{{nameCenter}}</div>
+            <div class="he40"></div>
             <input type="text" placeholder="企业邮箱" v-model="userData.email">
             <div class="line"></div>
+            <div class="required">{{emailCenter}}</div>
+            <div class="he40"></div>
             <div class="iphone">
               <div class="iphone-line">
                 <input type="text" placeholder="输入手机号" v-model="userData.mobile">
@@ -25,8 +31,12 @@
                 <span> {{content}}</span>
               </div>
             </div>
+            <div class="required">{{mobileCenter}}</div>
+            <div class="he40"></div>
             <input type="text" placeholder="输入验证码" v-model="userData.verCode">
             <div class="line"></div>
+            <div class="required">{{verCodeCenter}}</div>
+            <div class="he40"></div>
             <p>请确认您所在的企业已购买Wmore企业课程</p>
             <div class="loging-btn" @click="Curriculum()">
               确定
@@ -62,28 +72,81 @@ export default {
       timer: 0,
       content: '发送验证',
       totalTime: 60,
-      canClick: true
+      canClick: true,
+      codeCenter: '',
+      nameCenter: '',
+      mobileCenter: '',
+      emailCenter: '',
+      verCodeCenter: '',
     }
   },
   methods: {
     Curriculum() {
       this.show = true
-      this.userData.key =  storage.get('_key_', [])
-      getmatchUser(this.userData).then((res) => {
-        if (res.code === ERR_OK) {
-          storage.set('__userID__', res.data.userId)
-          console.log('绑定好了' + storage.set('__userID__', res.data.userId))
-          this.show = false
-          this.$router.push({
-            path: `/Curriculum`
-          })
+      this.userData.key = storage.get('_key_', [])
+      if (!this.userData.code) {
+        this.codeCenter = '请输入企业代码'
+      } else {
+        this.codeCenter = ''
+      }
+      if (!this.userData.name) {
+        this.nameCenter = '请输入姓名'
+      } else {
+        this.nameCenter = ''
+      }
+      if (!this.userData.mobile) {
+        this.mobileCenter = '请输入手机号'
+      } else {
+        var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+        if (!myreg.test(this.userData.mobile)) {
+           this.mobileCenter = '请输入正确的手机号'
+        } else {
+          this.mobileCenter = ''
         }
-      }).catch(function (err) {
-        alert(err)
-      });
+      }
+      if (!this.userData.email) {
+        this.emailCenter = '请输入邮箱号'
+      }
+      else {
+        var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
+        if (!reg.test(this.userData.email)) {
+          this.emailCenter = '请输入正确邮箱号'
+        } else {
+          this.mobileCenter = ''
+        }
+      }
+      if (!this.userData.verCode) {
+        this.verCodeCenter = '请输入验证码'
+      } else {
+        this.verCodeCenter = ''
+      }
+      var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
+      var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+      if (this.userData.code && this.userData.name && this.userData.mobile && this.userData.email && reg.test(this.userData.email) && this.userData.verCode && myreg.test(this.userData.mobile)) {
+        getmatchUser(this.userData).then((res) => {
+          if (res.code === ERR_OK) {
+            storage.set('__userID__', res.data.userId)
+            this.show = false
+            this.$router.push({
+              path: `/Curriculum`
+            })
+          }
+        }).catch(function (err) {
+          alert(err)
+        });
+      }
     },
     yanzheng() {
       if (this.userData.mobile) {
+        var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+        // alert(myreg.test(this.userData.mobile))
+        // return
+        // this.userData.mobile.test(str)
+        if (!myreg.test(this.userData.mobile)) {
+          return this.mobileCenter = '请输入正确的手机号'
+        } else {
+          this.mobileCenter = ''
+        }
         console.log('12312')
         if (!this.canClick) return  //改动的是这两行代码
         this.canClick = false
@@ -107,6 +170,8 @@ export default {
             self.timer = self.timer - 1;
           }, 1000)
         })
+      } else {
+        this.mobileCenter = '请输入手机号'
       }
     }
   }
@@ -187,6 +252,17 @@ export default {
             margin-top: 42px;
             margin-bottom: 140px;
           }
+          .he40 {
+            height: 10px;
+            width: 100%;
+          }
+          .required {
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            color: #fff;
+            font-size: 16px;
+          }
           .line {
             width: 100%;
             height: 2px;
@@ -200,7 +276,6 @@ export default {
             background: -moz-linear-gradient(right, #81d1db, #c6cbcc, #85d2db);
             background: linear-gradient(to right, #81d1db, #c6cbcc, #85d2db);
             margin-top: 10px;
-            margin-bottom: 40px;
           }
           input {
             width: 100%;

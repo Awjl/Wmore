@@ -169,15 +169,10 @@ export default {
       }
     },
     _getIsEvaluateCourse() {
-      console.log("未评价")
-      alert("我的未评价" + storage.get('__userID__', []))
       if (storage.get('__userID__', []) != '0') {
         getIsEvaluateCourse(storage.get('__userID__', [])).then((res) => {
           if (res.code === ERR_OK) {
-            console.log('未评价里边')
-            console.log(res.data)
             this.dataList = res.data
-            console.log("长度" + this.dataList, this.dataList.length)
             if (this.dataList.length > 0) {
               this.states = true
             }
@@ -203,12 +198,10 @@ export default {
         professional: this.ItemOne,
         userId: this.dataList[0].userId
       }
-      console.log(data)
       this.states = false
       setScore(data).then((res) => {
         if (res.code === ERR_OK) {
           alert('提交完成')
-          console.log('提交评价')
           this.states = false
         }
       })

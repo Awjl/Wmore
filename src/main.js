@@ -9,15 +9,7 @@ import Calendar from 'vue2-datepick'
 Vue.use(Calendar) // 日期选择器
 Vue.use(VueWechatTitle) // 修改标题
 Vue.config.productionTip = false
-router.beforeEach((to, from, next) => {
-  const toDepth = to.path.split('/').length
-  const fromDepth = from.path.split('/').length
-  if (toDepth < fromDepth) {
-    from.meta.keepAlive = false
-    to.meta.keepAlive = true
-  }
-  next()
-})
+
 
 /* eslint-disable no-new */
 new Vue({
