@@ -82,7 +82,7 @@
           <div>
             <img src="../Icon/timer-icon.png" alt="">{{new Date(dataList.courseDate).getMonth() + 1}}月{{(new Date(dataList.courseDate).getDate() > 10) ? new Date(dataList.courseDate).getDate() :"0"+ new Date(dataList.courseDate).getDate()}}日 {{new Date(dataList.courseDate).getHours()}} :{{new Date(dataList.courseDate).getMinutes()}}
           </div>
-          <div class="footer-active">
+          <div class="footer-active" :class="{ fooActive: dataList.state == 1}">
             <img src="../Icon/xiao-icon.png" alt=""> 
             <span v-show="dataList.state != 2 && dataList.state != 1 && dataList.courseState == 2 " @click="courseState()">确认预约</span>
             <span v-show="dataList.state == 1">已预约</span>
@@ -372,6 +372,9 @@ export default {
             color: #fff;
             font-weight: bold;
           }
+        }
+        &.fooActive {
+          background: #b3b3b3;
         }
       }
     }
