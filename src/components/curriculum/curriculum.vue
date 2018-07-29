@@ -1,7 +1,7 @@
 <template>
   <div class="curriculum">
     <Swiper :listImg="listImg"></Swiper>
-    <Calendar v-on:datas="datas"></Calendar>
+    <Calendar v-on:datas="datas" @my-event="getMyEvent"></Calendar>
     <div class="line-clo">
     </div>
     <div class="listcomment"  @click="goDetails(item.id)" v-for="(item, index) in listItem" :key="index">
@@ -59,48 +59,54 @@
 </template>
 
 <script>
-import Calendar from 'base/calendar/calendar'
-import Swiper from 'base/swiper/swiper'
-import { getSmallBannerPictures } from 'api/dataList'
-import {ERR_OK} from 'api/config'
+import Calendar from "base/calendar/calendar";
+import Swiper from "base/swiper/swiper";
+import { getSmallBannerPictures } from "api/dataList";
+import { ERR_OK } from "api/config";
 
 export default {
-  data () {
+  data() {
     return {
       listImg: [],
       listItem: []
-    }
+    };
   },
-  created () {
-    this._getSmallBannerPictures()
+  created() {
+    this._getSmallBannerPictures();
   },
   methods: {
-    goDetails (item) {
+    getMyEvent(msg) {
+      // console.log("接收的数据--------->" + msg); //接收的数据--------->我是子组件中的数据
+      if (msg) {
+         document.documentElement.scrollTop = 500
+      }
+    },
+    goDetails(item) {
       // 路由跳转
       this.$router.push({
         path: `/Details/${item}`
-      })
-      console.log(item)
+      });
+      console.log(item);
     },
-    datas (datas) {
-      this.listItem = datas
-      console.log(`父组件获取数据`)
+    datas(datas) {
+      this.listItem = datas;
+      console.log(`父组件获取数据`);
     },
-    _getSmallBannerPictures () {
-      getSmallBannerPictures().then((res) => {
+    _getSmallBannerPictures() {
+      getSmallBannerPictures().then(res => {
         if (res.code === ERR_OK) {
-          console.log('小banner-内部')
-          console.log(res.data)
-          this.listImg = res.data
+          console.log("小banner-内部");
+          console.log(res.data);
+          this.listImg = res.data;
         }
-      })
+      });
     }
   },
   components: {
     Calendar,
     Swiper
   }
-}
+};
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>

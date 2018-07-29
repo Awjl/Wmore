@@ -156,183 +156,254 @@
 </template>
 
 <script>
-import Addres from 'base/addres/addres'
-import { getUserById, editUser } from 'api/dataList'
-import { ERR_OK } from 'api/config'
-import storage from 'good-storage'
-
+import Addres from "base/addres/addres";
+import { getUserById, editUser, getParam } from "api/dataList";
+import { ERR_OK } from "api/config";
+import storage from "good-storage";
 
 export default {
   created() {
-    this._getUserById()
+    this._getUserById();
   },
   data() {
     return {
-      helloUrl: './static/images/my/hello.png',
+      helloUrl: "./static/images/my/hello.png",
       datanowValue: [],
       cityData: [],
       myList: {},
-      date: '',
+      date: "",
       addresStater: false,
-      education: [{ name: '小学' }, { name: '初中' }, { name: '中专' }, { name: '高中' }, { name: '专科' }, { name: '本科' }, { name: '硕士研究生' }, { name: '博士研究生' }, { name: '其他' }],
+      education: [
+        { name: "小学" },
+        { name: "初中" },
+        { name: "中专" },
+        { name: "高中" },
+        { name: "专科" },
+        { name: "本科" },
+        { name: "硕士研究生" },
+        { name: "博士研究生" },
+        { name: "其他" }
+      ],
       educationState: false,
       hobby: false,
       industry: false,
-      hobbyData: '',
-      industryData: '',
+      hobbyData: "",
+      industryData: "",
       trueBox: false,
       setSex: false,
-      industryList: [{ name: '金融' }, { name: '会计' }, { name: '能源' }, { name: '餐饮' }, { name: '酒店' }, { name: '通讯' }, { name: '房地产' }, { name: '艺术' }, { name: '设计' }, { name: '娱乐' }, { name: '广告' }, { name: '媒体' }, { name: '出版' }, { name: '航天' }, { name: '建筑' }, { name: '教育' }, { name: '互联网' }, { name: '美容' }, { name: '医疗' }, { name: '健康' }, { name: '零售' }, { name: '服装' }, { name: '农业' }, { name: '制造业' }, { name: '旅游' }, { name: '司法' }, { name: '科研' }, { name: '物流' }, { name: '政府机关' }, { name: '咨询' }],
-      hobbyList: [{ name: '篮球' }, { name: '足球' }, { name: '排球' }, { name: '羽毛球' }, { name: '乒乓球' }, { name: '跑步' }, { name: '爬山' }, { name: '徒步' }, { name: '骑行' }, { name: '攀岩' }, { name: '速降' }, { name: '轮滑' }, { name: '唱歌' }, { name: '影视' }, { name: '游泳' }, { name: '舞蹈' }, { name: '摄影' }, { name: '钓鱼' }, { name: '书法' }, { name: '乐器' }, { name: '美食' }],
+      industryList: [
+        { name: "金融" },
+        { name: "会计" },
+        { name: "能源" },
+        { name: "餐饮" },
+        { name: "酒店" },
+        { name: "通讯" },
+        { name: "房地产" },
+        { name: "艺术" },
+        { name: "设计" },
+        { name: "娱乐" },
+        { name: "广告" },
+        { name: "媒体" },
+        { name: "出版" },
+        { name: "航天" },
+        { name: "建筑" },
+        { name: "教育" },
+        { name: "互联网" },
+        { name: "美容" },
+        { name: "医疗" },
+        { name: "健康" },
+        { name: "零售" },
+        { name: "服装" },
+        { name: "农业" },
+        { name: "制造业" },
+        { name: "旅游" },
+        { name: "司法" },
+        { name: "科研" },
+        { name: "物流" },
+        { name: "政府机关" },
+        { name: "咨询" }
+      ],
+      hobbyList: [
+        { name: "篮球" },
+        { name: "足球" },
+        { name: "排球" },
+        { name: "羽毛球" },
+        { name: "乒乓球" },
+        { name: "跑步" },
+        { name: "爬山" },
+        { name: "徒步" },
+        { name: "骑行" },
+        { name: "攀岩" },
+        { name: "速降" },
+        { name: "轮滑" },
+        { name: "唱歌" },
+        { name: "影视" },
+        { name: "游泳" },
+        { name: "舞蹈" },
+        { name: "摄影" },
+        { name: "钓鱼" },
+        { name: "书法" },
+        { name: "乐器" },
+        { name: "美食" }
+      ],
       hobbyListItem: []
-    }
+    };
   },
   methods: {
     setDate() {
-      this.addresStater = false
+      this.addresStater = false;
       this.$picker.show({
-        type: 'datePicker',
-        onOk: (date) => {
-          this.date = date.replace(new RegExp(/-/gm), "/")
-          this.myList.birthday = this.date.replace(new RegExp(/-/gm), "-")
-          console.log(this.myList.birthday.replace(new RegExp(/-/gm), "/"))
+        type: "datePicker",
+        onOk: date => {
+          this.date = date.replace(new RegExp(/-/gm), "/");
+          this.myList.birthday = this.date.replace(new RegExp(/-/gm), "-");
+          console.log(this.myList.birthday.replace(new RegExp(/-/gm), "/"));
         }
-      })
+      });
     },
     setSexList() {
-      this.setSex = true
+      this.setSex = true;
     },
     setSexOver(sex) {
-      this.myList.sex = sex
-      this.setSex = false
+      this.myList.sex = sex;
+      this.setSex = false;
     },
     educationClick() {
-      this.educationState = true
+      this.educationState = true;
     },
     quxiao() {
-      this.educationState = false
+      this.educationState = false;
     },
     quxiaoindustry() {
-      this.industry = false
+      this.industry = false;
     },
     quxiaphobby() {
-      this.hobby = false
+      this.hobby = false;
     },
     gohobby() {
-      this.myList.hobby = ''
+      this.myList.hobby = "";
       for (let i = 0; i < this.hobbyListItem.length; i++) {
-        this.myList.hobby = this.myList.hobby + this.hobbyListItem[i].name + '、'
+        this.myList.hobby =
+          this.myList.hobby + this.hobbyListItem[i].name + "、";
       }
-      this.hobby = false
+      this.hobby = false;
     },
     setSexquxiao() {
-      this.setSex = false
+      this.setSex = false;
     },
     industryClick() {
-      this.industry = true
+      this.industry = true;
     },
     hobbyClick() {
-      this.hobby = true
+      this.hobby = true;
     },
-    // uplode() {
-    //   wx.config({
-    //     debug: false,//调试模式   当为tru时，开启调试模式 
-    //     appId: appId,
-    //     timestamp: timestamp.toString(),//签名时间戳
-    //     nonceStr: nonceStr, //生成签名的随机串 
-    //     signature: signature,//签名                    
-    //     jsApiList: ['chooseImage', 'uploadImage', 'getLocalImgData', 'downloadImage'],
-    //     success: function () {
-    //       alert("配置成功")
-    //     },
-    //     fail: function () {
-    //       alert("配置失败")
-    //     } 
-    //   })
-    //   wx.ready(function () {
-    //     // 在这里调用 API
-    //     wx.checkJsApi({
-    //       jsApiList: [
-    //         'chooseImage',
-    //         'uploadImage',
-    //         'getLocalImgData',
-    //         'downloadImage'
-    //       ],
-    //       success: function (res) {
-    //         console.log(JSON.stringify(res));
-    //       }
-    //     });
-    //   });
-    // },
+    uplode() {
+      console.log(window.location.href);
+      getParam(window.location.href).then(res => {
+        if (res.code === ERR_OK) {
+          console.log(res.data);
+          wx.config({
+            debug: false, //调试模式   当为tru时，开启调试模式
+            appId: res.data.appid,
+            timestamp: res.data.timestamp, //签名时间戳
+            nonceStr: res.data.nonceStr, //生成签名的随机串
+            signature: res.data.signature, //签名
+            jsApiList: ['chooseImage', 'uploadImage', 'downloadImage'],
+            success: function() {
+              alert("配置成功");
+            },
+            fail: function() {
+              alert("配置失败");
+            }
+          });
+        }
+      });
+      wx.ready(function () {
+        // 在这里调用 API
+        wx.checkJsApi({
+          jsApiList: [
+            'chooseImage',
+            'uploadImage',
+            'getLocalImgData',
+            'downloadImage'
+          ],
+          success: function (res) {
+            console.log(JSON.stringify(res));
+          }
+        });
+      });
+    },
     hobbyItemOne(ind) {
-      var arr = this.hobbyListItem.splice(ind, 1)[0]
-      this.hobbyList.push(arr)
+      var arr = this.hobbyListItem.splice(ind, 1)[0];
+      this.hobbyList.push(arr);
     },
     hobbyItemTwo(ind) {
-      var arr = this.hobbyList.splice(ind, 1)[0]
-      this.hobbyListItem.push(arr)
+      var arr = this.hobbyList.splice(ind, 1)[0];
+      this.hobbyListItem.push(arr);
     },
     industryover() {
-      this.industry = false
-      console.log(this.industryData)
-      this.myList.industry = this.industryData
-      console.log(this.myList)
+      this.industry = false;
+      console.log(this.industryData);
+      this.myList.industry = this.industryData;
+      console.log(this.myList);
     },
     hobbyover() {
-      this.hobby = false
-      this.myList.hobby = this.hobbyData
-      console.log(this.myList)
+      this.hobby = false;
+      this.myList.hobby = this.hobbyData;
+      console.log(this.myList);
     },
     goueducation(item) {
-      console.log(item)
-      this.educationState = false
-      this.myList.education = item
-      console.log(this.myList)
+      console.log(item);
+      this.educationState = false;
+      this.myList.education = item;
+      console.log(this.myList);
     },
     goindustry(item) {
-      console.log(item)
-      this.industry = false
-      this.myList.industry = item
+      console.log(item);
+      this.industry = false;
+      this.myList.industry = item;
     },
     setAddres() {
-      this.addresStater = true
+      this.addresStater = true;
     },
-    Addres: function (Addres) {
+    Addres: function(Addres) {
       // childValue就是子组件传过来的值
-      this.addresStater = false
+      this.addresStater = false;
       if (!Addres) {
-        this.myList.city = ''
+        this.myList.city = "";
       } else {
-        this.myList.city = `${Addres.Province}-${Addres.City}-${Addres.District}`
+        this.myList.city = `${Addres.Province}-${Addres.City}-${
+          Addres.District
+        }`;
       }
       // this.myList = childValue
     },
     baocunBtn() {
-      editUser(this.myList).then((res) => {
+      editUser(this.myList).then(res => {
         if (res.code === ERR_OK) {
-          this.trueBox = true
-          var self = this
-          setTimeout(function () {
-            self.trueBox = false
-          }, 1500)
+          this.trueBox = true;
+          var self = this;
+          setTimeout(function() {
+            self.trueBox = false;
+          }, 1500);
         }
-      })
+      });
     },
     _getUserById() {
-      getUserById(storage.get('__userID__', [])).then((res) => {
+      getUserById(storage.get("__userID__", [])).then(res => {
         if (res.code === ERR_OK) {
-          console.log('个人信息')
-          console.log(res)
-          this.myList = Object.assign({}, this.myList, res.data)
-          console.log(this.myList)
+          console.log("个人信息");
+          console.log(res);
+          this.myList = Object.assign({}, this.myList, res.data);
+          console.log(this.myList);
         }
-      })
+      });
     }
   },
   components: {
     Addres
   }
-}
+};
 </script>
 
 <style  lang="scss" rel="stylesheet/scss" scoped>

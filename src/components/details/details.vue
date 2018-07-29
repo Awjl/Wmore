@@ -90,82 +90,154 @@
             <span v-show="dataList.state != 2 && dataList.state != 1 && dataList.courseState == 1">已满员</span>
           </div>
         </div>
+    </div>
+    <div class="trueReady" v-if="show">
+      <div class="trueReady-box">
+        <div class="trueReady-title">确认预约</div>
+        <div class="trueReady-text">您是否确认预约这节课</div>
+        <div class="trueReady-footer"><span @click="quxiao()">取消</span><span class="active" @click="trueShow()">确认</span></div>
       </div>
+    </div>
   </div>
 </template>
 
 <script>
-import Swiper from 'base/swiper/swiper'
-import { getCourseDetail,insertUC } from 'api/dataList'
-import Notice from 'base/notice/notice'
-import {ERR_OK} from 'api/config'
-import storage from 'good-storage'
+import Swiper from "base/swiper/swiper";
+import { getCourseDetail, insertUC } from "api/dataList";
+import Notice from "base/notice/notice";
+import { ERR_OK } from "api/config";
+import storage from "good-storage";
 
 export default {
-  inject: ['reload'],
-  data () {
+  inject: ["reload"],
+  data() {
     return {
-      widthOen: '',
-      widthTwo: '',
-      widthThree: '',
-      widthFour: '',
+      widthOen: "",
+      widthTwo: "",
+      widthThree: "",
+      widthFour: "",
       listImg: [],
       dataList: [],
       zhuyiData: [],
-      queren: true
-    }
+      queren: true,
+      show: false
+    };
   },
   components: {
     Swiper
   },
-  created () {
-    this._getCourseDetail()
-    console.log('课程333333详情')
+  created() {
+    this._getCourseDetail();
+    console.log("课程333333详情");
   },
   methods: {
-    courseState () {
-      console.log('确认预约')
-      insertUC(storage.get('__userID__', []), this.$route.params.item).then((res) => {
-        if (res.code === ERR_OK) {
-          console.log('确认预约')
-          this.dataList.state = 1
-          this.reload()
-          console.log(this.dataList.state)
-        }
-      })
+    quxiao() {
+      this.show = false;
     },
-    _getCourseDetail () {
-      getCourseDetail(storage.get('__userID__', []), this.$route.params.item).then((res) => {
-        if (res.code === ERR_OK) {
-          console.log('课程详情')
-          console.log(res.data)
-          this.dataList = res.data
-          var arr = this.dataList.pictureUrl.split(',');
-          var arr2 = this.dataList.trainingEffect.split(',');
-          this.widthOen = arr2[0] + 'px'
-          this.widthTwo = arr2[1] + 'px'
-          this.widthThree = arr2[2] + 'px'
-          this.widthFour = arr2[3] + 'px'
-          var obj = {}
-          for (let i = 0; i < arr.length; i++) {
-            obj.pictureUrl = arr[i]
-            this.listImg.push(obj)
+    trueShow() {
+      insertUC(storage.get("__userID__", []), this.$route.params.item).then(
+        res => {
+          if (res.code === ERR_OK) {
+            this.show = false;
+            console.log("确认预约");
+            this.dataList.state = 1;
+            this.reload();
+            console.log(this.dataList.state);
           }
-          this.zhuyiData = JSON.parse(this.dataList.otherBusiness)
         }
-      })
+      );
+    },
+    courseState() {
+      console.log("确认预约");
+      this.show = true;
+    },
+    _getCourseDetail() {
+      getCourseDetail(
+        storage.get("__userID__", []),
+        this.$route.params.item
+      ).then(res => {
+        if (res.code === ERR_OK) {
+          console.log("课程详情");
+          console.log(res.data);
+          this.dataList = res.data;
+          var arr = this.dataList.pictureUrl.split(",");
+          var arr2 = this.dataList.trainingEffect.split(",");
+          this.widthOen = arr2[0] + "px";
+          this.widthTwo = arr2[1] + "px";
+          this.widthThree = arr2[2] + "px";
+          this.widthFour = arr2[3] + "px";
+          var obj = {};
+          for (let i = 0; i < arr.length; i++) {
+            obj.pictureUrl = arr[i];
+            this.listImg.push(obj);
+          }
+          this.zhuyiData = JSON.parse(this.dataList.otherBusiness);
+        }
+      });
     }
   },
   components: {
     Notice
   }
-}
+};
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
 .details {
   width: 100vw;
   height: 100vh;
-  .he140{
+  .trueReady {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: rgba(000, 000, 000, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .trueReady-box {
+      width: 60vw;
+      height: 300px;
+      background: #fff;
+      border-radius: 30px;
+      overflow: hidden;
+      .trueReady-title {
+        width: 100%;
+        height: 80px;
+        text-align: center;
+        line-height: 80px;
+        font-size: 36px;
+        border-bottom: 2px solid #ddd;
+      }
+      .trueReady-text {
+        width: 100%;
+        height: 150px;
+        line-height: 150px;
+        text-align: center;
+      }
+      .trueReady-footer {
+        width: 100%;
+        height: 70px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        span {
+          display: block;
+          width: 50%;
+          height: 70px;
+          line-height: 70px;
+          text-align: center;
+          border-top: 2px solid #57c2cf;
+        }
+        span.active {
+          background: #57c2cf;
+          margin-top: 0px;
+          color: #fff;
+        }
+      }
+    }
+  }
+  .he140 {
     height: 140px;
   }
   .line {
@@ -223,11 +295,11 @@ export default {
       }
     }
   }
-  .active{
+  .active {
     background: #fff;
     margin: 0;
     margin-top: 10px;
-    p{
+    p {
       color: #000;
       font-weight: bold;
     }
@@ -239,20 +311,20 @@ export default {
     font-size: 20px;
     letter-spacing: 2px;
     margin-bottom: 20px;
-    .xun{
+    .xun {
       display: flex;
       align-items: center;
-      span{
+      span {
         font-weight: bold;
       }
-      .list{
+      .list {
         height: 24px;
         background: #fff;
         border-radius: 20px;
-        border:2px solid #81d1db;
+        border: 2px solid #81d1db;
         position: relative;
         margin-left: 20px;
-        .item{
+        .item {
           height: 24px;
           position: absolute;
           top: 0;
@@ -262,10 +334,10 @@ export default {
         }
       }
     }
-    ul ol{
+    ul ol {
       display: flex;
       margin-bottom: 10px;
-      span{
+      span {
         font-size: 40px;
         font-weight: bold;
         color: #57c2cf;
@@ -273,30 +345,30 @@ export default {
       }
     }
   }
-  .footer{
+  .footer {
     position: fixed;
     bottom: 0;
     width: 100%;
     background: #fff;
-    .footer-bot{
+    .footer-bot {
       display: flex;
       justify-content: space-between;
       height: 100px;
-      div{
+      div {
         width: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
         font-size: 30px;
         font-weight: bold;
-        img{
+        img {
           width: 33px;
           height: 33px;
           margin-right: 20px;
         }
-        &.footer-active{
+        &.footer-active {
           background: #81d1db;
-          span{
+          span {
             color: #fff;
             font-weight: bold;
           }

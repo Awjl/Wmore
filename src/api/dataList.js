@@ -1,9 +1,9 @@
 import { api } from './config'
 import axios from 'axios'
 // 微信接口
-export function getWechat (id) {
+export function getWechat(id) {
   const url = `${api}/wmore/user/userId`
-  return axios.get(url,{
+  return axios.get(url, {
     params: {
       key: id
     }
@@ -192,7 +192,7 @@ export function sendSMS(ip) {
 
 // 获取用户未评价
 // POST /wmore/userCourse/getIsEvaluateCoursePOST /wmore/userCourse/getIsEvaluateCourse
-export function getIsEvaluateCourse (id) {
+export function getIsEvaluateCourse(id) {
   // const url = `${api}/wmore/userCourse/getIsEvaluateCourse`
   const url = `${api}/wmore/userCourse/getIsEvaluateCourse`
   return axios.get(url, {
@@ -209,6 +209,18 @@ export function setScore(list) {
   const url = `${api}/wmore/userCourse/setScore`
   console.log(list)
   return axios.post(url, list).then((res) => {
+    return Promise.resolve(res.data)
+  })
+}
+// 上传头像
+// /wmore/user/getParam
+export function getParam(urlList) {
+  const url = `${api}/wmore/user/getParam`
+  return axios.get(url, {
+    params: {
+      url: urlList
+    }
+  }).then((res) => {
     return Promise.resolve(res.data)
   })
 }

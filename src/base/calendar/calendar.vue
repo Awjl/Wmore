@@ -43,7 +43,7 @@
       </div>
       <ul class="days">
         <!-- v-for循环 每一次循环用<li>标签创建一天 -->
-        <li v-for="(dayobject, index) in days" style='height: 56px' :key='index'>
+        <li v-for="(dayobject, index) in days" style='height: 56px' :key='index' @click="godetile(dayobject.data.isday , dayobject.data.id)">
           <!--本月-->
           <!--如果不是本月  改变类名加灰色-->
           <span v-if="dayobject.day.getMonth()+1 != currentMonth" class="other-month">{{ dayobject.day.getDate() }}</span>
@@ -63,9 +63,13 @@
             <span v-else>{{ dayobject.day.getDate() }}</span>
           </span>
           <!--显示剩余多少数量-->
-          <p v-if="dayobject.data">
+          <p v-if="dayobject.data && dayobject.data.isday == 1">
             <span>{{ dayobject.data.courseName }}</span>
             <span>{{ dayobject.data.courseNameen }}</span>
+            <!-- <span>{{dayobject.data.isday}}</span> -->
+          </p>
+           <p v-if="dayobject.data && dayobject.data.isday == 2 "  @click.stop="emitEvent()">
+            更多
           </p>
         </li>
       </ul>
@@ -74,9 +78,9 @@
 </template>
 
 <script>
-import { getCourse } from 'api/dataList'
-import { ERR_OK } from 'api/config'
-import storage from 'good-storage'
+import { getCourse } from "api/dataList";
+import { ERR_OK } from "api/config";
+import storage from "good-storage";
 
 export default {
   data() {
@@ -91,95 +95,108 @@ export default {
       already: 0, // 已选
       team: 4, // 团建
       datas: []
-    }
+    };
   },
   created() {
     // 在vue初始化时调用
-    this.dataTime()
-    this._getCourse()
+    this.dataTime();
+    this._getCourse();
   },
   methods: {
     _getCourse(cur) {
       if (this.currentMonth < 10) {
-        this.currentMonth = '0' + this.currentMonth
+        this.currentMonth = "0" + this.currentMonth;
       }
-      getCourse(storage.get('__userID__', []), `${this.currentYear}-${this.currentMonth}`).then((res) => {
+      getCourse(
+        storage.get("__userID__", []),
+        `${this.currentYear}-${this.currentMonth}`
+      ).then(res => {
         if (res.code === ERR_OK) {
-          this.datas = res.data
-          console.log(this.datas)
-          this.initData(cur)
+          this.datas = res.data;
+          console.log(this.datas);
+          this.initData(cur);
         }
-      })
+      });
     },
     dataTime() {
-      let date = new Date()
-      this.currentDay = date.getDate()
-      this.currentYear = date.getFullYear()
-      this.currentMonth = date.getMonth() + 1
+      let date = new Date();
+      this.currentDay = date.getDate();
+      this.currentYear = date.getFullYear();
+      this.currentMonth = date.getMonth() + 1;
     },
     initData(cur) {
       // let leftcount = 0 // 存放剩余数量
-      let date
+      let date;
       // this.initleftcount(); 每次初始化更新数量
       // 有两种方案  一种是每次翻页 ajax获取数据初始化   http请求过多会导致资源浪费
       // 一种是每次请求 ajax获取数据初始化    数据更新过慢会导致缺少实时性
       // 还可以setTimeout 定时请求更新数据  实现数据刷新（可能会更好）
 
       if (cur) {
-        date = new Date(cur)
+        date = new Date(cur);
       } else {
-        let now = new Date()
-        let d = new Date(this.formatDate(now.getFullYear(), now.getMonth(), 1))
-        d.setDate(31)
-        date = new Date(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
+        let now = new Date();
+        let d = new Date(this.formatDate(now.getFullYear(), now.getMonth(), 1));
+        d.setDate(31);
+        date = new Date(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
       }
-      this.currentDay = date.getDate()
-      this.currentYear = date.getFullYear()
-      this.currentMonth = date.getMonth() + 1
+      this.currentDay = date.getDate();
+      this.currentYear = date.getFullYear();
+      this.currentMonth = date.getMonth() + 1;
       // console.log(this.currentMonth)
-      this.currentWeek = date.getDay() // 1...6,0
+      this.currentWeek = date.getDay(); // 1...6,0
       if (this.currentWeek === 0) {
-        this.currentWeek = 7
+        this.currentWeek = 7;
       }
       let str = this.formatDate(
         this.currentYear,
         this.currentMonth,
         this.currentDay
-      )
-      this.days.length = 0
+      );
+      this.days.length = 0;
       // 今天是周日，放在第一行第7个位置，前面6个
       // 初始化本周
       for (let i = this.currentWeek; i >= 0; i--) {
-        let d = new Date(str)
-        d.setDate(d.getDate() - i)
-        let dayobject = {}
-        dayobject.day = d
+        let d = new Date(str);
+        d.setDate(d.getDate() - i);
+        let dayobject = {};
+        dayobject.day = d;
         if (this.datas.length > 0) {
           for (let j = 0; j < this.datas.length; j++) {
-            let courseDateDay = this.datas[j].courseDate
-            if (d.getFullYear() === new Date(courseDateDay).getFullYear() && d.getMonth() + 1 === new Date(courseDateDay).getMonth() + 1 && d.getDate() === new Date(courseDateDay).getDate()) {
-              dayobject.data = this.datas[j]
+            let courseDateDay = this.datas[j].courseDate;
+            if (
+              d.getFullYear() === new Date(courseDateDay).getFullYear() &&
+              d.getMonth() + 1 === new Date(courseDateDay).getMonth() + 1 &&
+              d.getDate() === new Date(courseDateDay).getDate()
+            ) {
+              dayobject.data = this.datas[j];
             }
           }
         }
-        this.days.push(dayobject)
+        this.days.push(dayobject);
       }
       // 其他周
       for (let i = 1; i <= 41 - this.currentWeek; i++) {
-        let d = new Date(str)
-        d.setDate(d.getDate() + i)
-        let dayobject = {}
-        dayobject.day = d
+        let d = new Date(str);
+        d.setDate(d.getDate() + i);
+        let dayobject = {};
+        dayobject.day = d;
         if (this.datas.length > 0) {
           for (let j = 0; j < this.datas.length; j++) {
-            let courseDateDay = this.datas[j].courseDate
-            if (dayobject.day.getFullYear() === new Date(courseDateDay).getFullYear() && dayobject.day.getMonth() + 1 === new Date(courseDateDay).getMonth() + 1 && dayobject.day.getDate() === new Date(courseDateDay).getDate()) {
-              dayobject.data = this.datas[j]
+            let courseDateDay = this.datas[j].courseDate;
+            if (
+              dayobject.day.getFullYear() ===
+                new Date(courseDateDay).getFullYear() &&
+              dayobject.day.getMonth() + 1 ===
+                new Date(courseDateDay).getMonth() + 1 &&
+              dayobject.day.getDate() === new Date(courseDateDay).getDate()
+            ) {
+              dayobject.data = this.datas[j];
             }
           }
         }
 
-        this.days.push(dayobject)
+        this.days.push(dayobject);
       }
       // console.log(this.days)
     },
@@ -187,47 +204,47 @@ export default {
       // setDate(0); 上月最后一天
       // setDate(-1); 上月倒数第二天
       // setDate(dx) 参数dx为 上月最后一天的前后dx天
-      let d = new Date(this.formatDate(year, month, 1))
-      d.setDate(0)
-      this.currentMonth = d.getMonth() + 1
-      this._getCourse(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
+      let d = new Date(this.formatDate(year, month, 1));
+      d.setDate(0);
+      this.currentMonth = d.getMonth() + 1;
+      this._getCourse(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
       // this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
     },
     pickNext(year, month) {
-      console.log(month)
-      let d = new Date(this.formatDate(year, month, 1))
-      d.setDate(42)
-      this.currentMonth = d.getMonth() + 1
-      this._getCourse(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
+      console.log(month);
+      let d = new Date(this.formatDate(year, month, 1));
+      d.setDate(42);
+      this.currentMonth = d.getMonth() + 1;
+      this._getCourse(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
     },
     // 返回 类似 2016-01-02 格式的字符串
     formatDate(year, month, day) {
-      let y = year
-      let m = month
-      if (m < 10) m = '0' + m
-      let d = day
-      if (d < 10) d = '0' + d
-      return y + '-' + m + '-' + d
+      let y = year;
+      let m = month;
+      if (m < 10) m = "0" + m;
+      let d = day;
+      if (d < 10) d = "0" + d;
+      return y + "-" + m + "-" + d;
+    },
+    godetile(items, id) {
+      if (items == 1) {
+        console.log("123");
+        this.$router.push({
+          path: `/Details/${id}`
+        });
+      }
+    },
+    emitEvent() {
+      this.$emit("my-event", true);
+      //通过按钮的点击事件触发方法，然后用$emit触发一个my-event的自定义方法，传递this.msg数据。
     }
-    // // 数据填充
-    // dataList() {
-    //   for (let j = 0; j < this.datas.length; j++) {
-    //     let courseDateDay = this.datas[j].courseDate
-    //     if (this.days[i].day.getFullYear() === new Date(courseDateDay).getFullYear() && this.days[i].day.getMonth() + 1 === new Date(courseDateDay).getMonth() + 1 && this.days[i].day.getDate() === new Date(courseDateDay).getDate()) {
-    //       this.days[i].data = []
-    //       this.days[i].data.push(this.datas[j])
-    //       console.log(this.days[i])
-    //       console.log(this.days)
-    //     }
-    //   }
-    // }
   },
   watch: {
-    datas: function () {
-      this.$emit('datas', this.datas)
+    datas: function() {
+      this.$emit("datas", this.datas);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
