@@ -78,7 +78,7 @@ export default {
     getMyEvent(msg) {
       // console.log("接收的数据--------->" + msg); //接收的数据--------->我是子组件中的数据
       if (msg) {
-         document.documentElement.scrollTop = 500
+         document.body.scrollTop = 500
       }
     },
     goDetails(item) {

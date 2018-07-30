@@ -40,14 +40,14 @@ export default {
     },
     _getWechat() {
       storage.set("_key_", window.location.href.split("=")[1]);
-      storage.set("__userID__", 22);
-      // getWechat(window.location.href.split('=')[1]).then((res) => {
-      //   if (res.code === ERR_OK) {
-      //     console.log("获取USERID" + res.data)
-      //     storage.set('__userID__', res.data)
-      //     console.log('首次加载' + storage.set('__userID__', res.data))
-      //   }
-      // })
+      // storage.set("__userID__", 22);
+      getWechat(window.location.href.split('=')[1]).then((res) => {
+        if (res.code === ERR_OK) {
+          console.log("获取USERID" + res.data)
+          storage.set('__userID__', res.data)
+          console.log('首次加载' + storage.set('__userID__', res.data))
+        }
+      })
     }
   },
   components: {

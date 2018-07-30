@@ -10,7 +10,7 @@
           <img src="./logo.gif" alt="">
       </div>
       <div class="trueClick" @click="clickGO()">
-          点击进入
+        CLICK HERE
       </div>
   </div>
 </template>
@@ -117,7 +117,6 @@ export default {
     height: 60px;
     line-height: 60px;
     text-align: center;
-    border-radius: 10px;
     background: #000;
     color: #fff;
     z-index: 12;

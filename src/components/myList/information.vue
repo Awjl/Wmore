@@ -3,7 +3,8 @@
     <div class="scroll">
       <div class="heart">
         <div class="heart-img">
-          <img :src="`http://${myList.pictureUrl}?x-oss-process=image/format,png`" alt="">
+          <img :src="`http://${myList.pictureUrl}?x-oss-process=image/format,png`" alt="" v-if="!wxImg">
+          <img :src="`${wxImg}`" alt="" v-else>
         </div>
         <div class="heart-name">
           <div class="myHello">
@@ -16,7 +17,8 @@
             </div>
           </div>
           <div class="heart-tou" @click="uplode()">
-            <img :src="`http://${myList.pictureUrl}?x-oss-process=image/format,png`" alt="">
+            <img :src="`http://${myList.pictureUrl}?x-oss-process=image/format,png`" alt="" v-if="!wxImg">
+            <img :src="`${wxImg}`" alt="" v-else>
           </div>
         </div>
       </div>
@@ -96,9 +98,9 @@
         </div>
       </div>
       <div class="line"></div>
-      <div class="btn" @click="baocunBtn()">
+      <!-- <div class="btn" @click="baocunBtn()">
         保存
-      </div>
+      </div> -->
     </div>
     <div class="education-box" v-if="educationState">
       <div class="box">
@@ -157,7 +159,7 @@
 
 <script>
 import Addres from "base/addres/addres";
-import { getUserById, editUser, getParam } from "api/dataList";
+import { getUserById, editUser, getParam, uploadHead } from "api/dataList";
 import { ERR_OK } from "api/config";
 import storage from "good-storage";
 
@@ -246,7 +248,9 @@ export default {
         { name: "乐器" },
         { name: "美食" }
       ],
-      hobbyListItem: []
+      hobbyListItem: [],
+      wxImg: '',
+      serverId: ''
     };
   },
   methods: {
@@ -256,8 +260,9 @@ export default {
         type: "datePicker",
         onOk: date => {
           this.date = date.replace(new RegExp(/-/gm), "/");
-          this.myList.birthday = this.date.replace(new RegExp(/-/gm), "-");
-          console.log(this.myList.birthday.replace(new RegExp(/-/gm), "/"));
+          console.log('日期格式1', this.date);
+          this.myList.birthday = this.date.split("/")[0] + '-' + this.date.split("/")[1] + '-' + this.date.split("/")[2];
+          console.log('日期格式', this.myList.birthday);
         }
       });
     },
@@ -298,40 +303,39 @@ export default {
       this.hobby = true;
     },
     uplode() {
-      console.log(window.location.href);
-      getParam(window.location.href).then(res => {
+      console.log(window.location.href.split('#')[0]);
+      getParam(window.location.href.split('#')[0]).then(res => {
+        var serverId, wxImg
         if (res.code === ERR_OK) {
-          console.log(res.data);
+          console.log('开始配置微信');
           wx.config({
             debug: false, //调试模式   当为tru时，开启调试模式
             appId: res.data.appid,
             timestamp: res.data.timestamp, //签名时间戳
             nonceStr: res.data.nonceStr, //生成签名的随机串
             signature: res.data.signature, //签名
-            jsApiList: ['chooseImage', 'uploadImage', 'downloadImage'],
-            success: function() {
-              alert("配置成功");
-            },
-            fail: function() {
-              alert("配置失败");
-            }
-          });
+            jsApiList: ['chooseImage', 'uploadImage'],
+          })
+          var self = this
+          wx.ready(function () {
+            wx.chooseImage({
+              count: 1, // 默认9
+              sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+              sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+              success: function (res) {
+                self.wxImg = res.localIds[0].toString(); // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                wx.uploadImage({
+                  localId: self.wxImg, // 需要上传的图片的本地ID，由chooseImage接口获得
+                  isShowProgressTips: 1, // 默认为1，显示进度提示
+                  success: function (res) {
+                    self.serverId = res.serverId
+                  }
+                });
+              }
+            });
+          })
         }
-      });
-      wx.ready(function () {
-        // 在这里调用 API
-        wx.checkJsApi({
-          jsApiList: [
-            'chooseImage',
-            'uploadImage',
-            'getLocalImgData',
-            'downloadImage'
-          ],
-          success: function (res) {
-            console.log(JSON.stringify(res));
-          }
-        });
-      });
+      })
     },
     hobbyItemOne(ind) {
       var arr = this.hobbyListItem.splice(ind, 1)[0];
@@ -366,7 +370,7 @@ export default {
     setAddres() {
       this.addresStater = true;
     },
-    Addres: function(Addres) {
+    Addres: function (Addres) {
       // childValue就是子组件传过来的值
       this.addresStater = false;
       if (!Addres) {
@@ -374,7 +378,7 @@ export default {
       } else {
         this.myList.city = `${Addres.Province}-${Addres.City}-${
           Addres.District
-        }`;
+          }`;
       }
       // this.myList = childValue
     },
@@ -383,7 +387,7 @@ export default {
         if (res.code === ERR_OK) {
           this.trueBox = true;
           var self = this;
-          setTimeout(function() {
+          setTimeout(function () {
             self.trueBox = false;
           }, 1500);
         }
@@ -402,6 +406,23 @@ export default {
   },
   components: {
     Addres
+  },
+  watch: {
+    serverId: function () {
+      var that = this
+      uploadHead(this.myList.pictureId, this.serverId).then((res) => {
+        if (res.code === ERR_OK) {
+          that.myList.pictureUrl = res.data
+          this.reload();
+        }
+      })
+    },
+    myList: {
+      handler() {
+        this.baocunBtn()
+      },
+      deep: true
+    }
   }
 };
 </script>

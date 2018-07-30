@@ -69,7 +69,7 @@
             <!-- <span>{{dayobject.data.isday}}</span> -->
           </p>
            <p v-if="dayobject.data && dayobject.data.isday == 2 "  @click.stop="emitEvent()">
-            更多
+            查看更多
           </p>
         </li>
       </ul>

@@ -224,3 +224,16 @@ export function getParam(urlList) {
     return Promise.resolve(res.data)
   })
 }
+// 请求新路径
+export function uploadHead(oss, wxid) {
+  const url = `${api}/wmore/user/uploadHead`
+  alert(url, oss, wxid)
+  return axios.get(url, {
+    params: {
+      mediaId: wxid,
+      pictureId: oss
+    }
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  })
+}

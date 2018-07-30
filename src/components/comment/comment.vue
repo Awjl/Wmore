@@ -201,7 +201,6 @@ export default {
       this.states = false
       setScore(data).then((res) => {
         if (res.code === ERR_OK) {
-          alert('提交完成')
           this.states = false
         }
       })
