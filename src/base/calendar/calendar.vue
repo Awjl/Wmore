@@ -25,7 +25,7 @@
           <span class="choose-year">{{ currentYear }}年</span>
           <span class="choose-month">{{ currentMonth }}月</span>
         </li>
-        <li class="arrow" @click="pickNext(currentYear,currentMonth)">❯</li>
+        <li class="arrow" @click="pickNext(currentYear,currentMonth)" v-if="showRight">❯</li>
       </ul>
       <div class="already">
         <img src="./already-icon.png" alt=""> 已约
@@ -68,7 +68,7 @@
             <span>{{ dayobject.data.courseNameen }}</span>
             <!-- <span>{{dayobject.data.isday}}</span> -->
           </p>
-           <p v-if="dayobject.data && dayobject.data.isday == 2 "  @click.stop="emitEvent()">
+          <p v-if="dayobject.data && dayobject.data.isday == 2 " @click.stop="emitEvent()">
             查看更多
           </p>
         </li>
@@ -94,7 +94,8 @@ export default {
       full: 0, // 已满
       already: 0, // 已选
       team: 4, // 团建
-      datas: []
+      datas: [],
+      showRight: true
     };
   },
   created() {
@@ -186,9 +187,9 @@ export default {
             let courseDateDay = this.datas[j].courseDate;
             if (
               dayobject.day.getFullYear() ===
-                new Date(courseDateDay).getFullYear() &&
+              new Date(courseDateDay).getFullYear() &&
               dayobject.day.getMonth() + 1 ===
-                new Date(courseDateDay).getMonth() + 1 &&
+              new Date(courseDateDay).getMonth() + 1 &&
               dayobject.day.getDate() === new Date(courseDateDay).getDate()
             ) {
               dayobject.data = this.datas[j];
@@ -204,6 +205,7 @@ export default {
       // setDate(0); 上月最后一天
       // setDate(-1); 上月倒数第二天
       // setDate(dx) 参数dx为 上月最后一天的前后dx天
+      this.showRight = true
       let d = new Date(this.formatDate(year, month, 1));
       d.setDate(0);
       this.currentMonth = d.getMonth() + 1;
@@ -211,8 +213,16 @@ export default {
       // this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
     },
     pickNext(year, month) {
+      console.log(month)
+      var dateMonth = new Date()
+      console.log(dateMonth.getMonth() + 1)
+      if (month - dateMonth.getMonth() + 1 > 1) {
+        this.showRight = false
+      } else {
+        this.showRight = true
+      }
       console.log(month);
-      let d = new Date(this.formatDate(year, month, 1));
+      let d = new Date(this.formatDate(year, month, 1))
       d.setDate(42);
       this.currentMonth = d.getMonth() + 1;
       this._getCourse(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
@@ -240,7 +250,7 @@ export default {
     }
   },
   watch: {
-    datas: function() {
+    datas: function () {
       this.$emit("datas", this.datas);
     }
   }

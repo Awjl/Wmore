@@ -227,7 +227,6 @@ export function getParam(urlList) {
 // 请求新路径
 export function uploadHead(oss, wxid) {
   const url = `${api}/wmore/user/uploadHead`
-  alert(url, oss, wxid)
   return axios.get(url, {
     params: {
       mediaId: wxid,
