@@ -20,7 +20,7 @@
       </div>
       <ul>
         <!--点击会触发pickpre函数，重新刷新当前日期 @click(vue v-on:click缩写) -->
-        <li class="arrow" @click="pickPre(currentYear,currentMonth)">❮</li>
+        <li class="arrow" @click="pickPre(currentYear,currentMonth)" v-if="!showRight">❮</li>
         <li class="year-month">
           <span class="choose-year">{{ currentYear }}年</span>
           <span class="choose-month">{{ currentMonth }}月</span>
@@ -102,6 +102,7 @@ export default {
     // 在vue初始化时调用
     this.dataTime();
     this._getCourse();
+    this.initData(this.formatDate(this.currentYear, this.currentMonth, this.currentDay));
   },
   methods: {
     _getCourse(cur) {
@@ -114,8 +115,7 @@ export default {
       ).then(res => {
         if (res.code === ERR_OK) {
           this.datas = res.data;
-          console.log(this.datas);
-          this.initData(cur);
+          this.initData(this.formatDate(this.currentYear, this.currentMonth, this.currentDay));
         }
       });
     },
@@ -124,6 +124,7 @@ export default {
       this.currentDay = date.getDate();
       this.currentYear = date.getFullYear();
       this.currentMonth = date.getMonth() + 1;
+      console.log(this.currentDay, this.currentYear, this.currentMonth)
     },
     initData(cur) {
       // let leftcount = 0 // 存放剩余数量
@@ -205,6 +206,12 @@ export default {
       // setDate(0); 上月最后一天
       // setDate(-1); 上月倒数第二天
       // setDate(dx) 参数dx为 上月最后一天的前后dx天
+      // var dateMonth = new Date()
+      // console.log(dateMonth.getMonth() + 1)
+      // if (month - dateMonth.getMonth() + 1 > 1) {
+      // } else {
+      //   this.showRight = true
+      // }
       this.showRight = true
       let d = new Date(this.formatDate(year, month, 1));
       d.setDate(0);
@@ -213,15 +220,15 @@ export default {
       // this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
     },
     pickNext(year, month) {
-      console.log(month)
-      var dateMonth = new Date()
-      console.log(dateMonth.getMonth() + 1)
-      if (month - dateMonth.getMonth() + 1 > 1) {
+      // console.log(month)
+      // var dateMonth = new Date()
+      // console.log(dateMonth.getMonth() + 1)
+      // if (month - dateMonth.getMonth() + 1 > 1) {
         this.showRight = false
-      } else {
-        this.showRight = true
-      }
-      console.log(month);
+      // } else {
+      //   this.showRight = true
+      // }
+      // console.log(month);
       let d = new Date(this.formatDate(year, month, 1))
       d.setDate(42);
       this.currentMonth = d.getMonth() + 1;
@@ -234,7 +241,7 @@ export default {
       if (m < 10) m = "0" + m;
       let d = day;
       if (d < 10) d = "0" + d;
-      return y + "-" + m + "-" + d;
+      return y + "/" + m + "/" + d;
     },
     godetile(items, id) {
       if (items == 1) {
@@ -357,7 +364,7 @@ export default {
         width: 41px;
         img {
           position: absolute;
-          top: 0;
+          top: -15px;
           left: 0;
           width: 100%;
         }

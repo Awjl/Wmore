@@ -164,6 +164,7 @@ import { ERR_OK } from "api/config";
 import storage from "good-storage";
 
 export default {
+  inject: ["reload"],
   created() {
     this._getUserById();
   },
