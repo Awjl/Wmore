@@ -10,7 +10,7 @@
           <div class="myHello">
             <img :src="helloUrl" alt="">
             <div class="myName">
-              {{ myList.nickname }}
+              {{ myList.name}}
             </div>
             <div class="myId">
               ID：{{myList.id}}

@@ -4,8 +4,25 @@
     <Calendar v-on:datas="datas" @my-event="getMyEvent"></Calendar>
     <div class="line-clo">
     </div>
-    <div class="listcomment"  @click="goDetails(item.id)" v-for="(item, index) in listItem" :key="index">
-      <div class="list">
+    <div class="listcomment" v-for="(item, index) in listItem" :key="index">
+      <div class="list" v-if=" new Date(item.courseDate).getFullYear() <= new Date().getFullYear() && new Date(item.courseDate).getMonth() <= new Date().getMonth() &&  new Date(item.courseDate).getDate() < new Date().getDate()">
+        <div class="Item">
+          <div class="time">
+            <p>{{new Date(item.courseDate).getMonth() + 1}}月{{ new Date(item.courseDate).getDate() > 10 ? new Date(item.courseDate).getDate() : '0' + new Date(item.courseDate).getDate()}}日</p>
+            <p>{{new Date(item.courseDate).getHours()}}:{{new Date(item.courseDate).getMinutes() > 10 ? new Date(item.courseDate).getMinutes() : '0' + new Date(item.courseDate).getMinutes()}}</p>
+          </div>
+          <div class="line-shu">
+          </div>
+          <div class="name">
+            <p>{{item.courseName}} {{item.courseNameen}}</p>
+            <p><img src="../Icon/yuan-icon.png" alt=""> 员工课</p>
+          </div>
+        </div>
+        <div class="list-btn active">
+          已过期
+        </div>
+      </div>
+      <div class="list" @click="goDetails(item.id)" v-else>
         <div class="Item">
           <div class="time">
             <p>{{new Date(item.courseDate).getMonth() + 1}}月{{ new Date(item.courseDate).getDate() > 10 ? new Date(item.courseDate).getDate() : '0' + new Date(item.courseDate).getDate()}}日</p>
@@ -34,27 +51,6 @@
       <div class="line-clo">
       </div>
     </div>
-    <!-- <div class="listcomment"  @click="goDetails(23123)">
-      <div class="list">
-        <div class="Item">
-          <div class="time">
-            <p>6月10日</p>
-            <p>14:00</p>
-          </div>
-          <div class="line-shu">
-          </div>
-          <div class="name">
-            <p>瑜伽中级 YOGA-INTERMEDIATE</p>
-            <p><img src="../Icon/yuan-icon.png" alt=""> 员工课</p>
-          </div>
-        </div>
-        <div class="list-btn active">
-          满员
-        </div>
-      </div>
-      <div class="line-clo">
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -79,7 +75,7 @@ export default {
     getMyEvent(msg) {
       // console.log("接收的数据--------->" + msg); //接收的数据--------->我是子组件中的数据
       if (msg) {
-         document.body.scrollTop = 500
+        document.body.scrollTop = 500
       }
     },
     goDetails(item) {
