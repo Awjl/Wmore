@@ -1,17 +1,17 @@
 <template>
   <div class="animation" v-if="show">
-      <div class="bgone" ref="bgone">
-          <img src="./bgOne.jpg" alt="">
-      </div>
-      <div class="bgtwo" ref="bgtwo">
-          <img src="./bgTwo.jpg" alt="">
-      </div>
-      <div class="logobg">
-          <img src="./logo.gif" alt="">
-      </div>
-      <div class="trueClick" @click="clickGO()">
-        CLICK HERE
-      </div>
+    <div class="bgone" ref="bgone">
+      <img src="./bgOne.jpg" alt="">
+    </div>
+    <div class="bgtwo" ref="bgtwo">
+      <img src="./bgTwo.jpg" alt="">
+    </div>
+    <div class="logobg">
+      <img src="./logo.gif" alt="">
+    </div>
+    <div class="trueClick" @click="clickGO()">
+      CLICK HERE
+    </div>
   </div>
 </template>
 
@@ -20,41 +20,50 @@ export default {
   data() {
     return {
       show: true,
-      stateShow: false
+      stateShow: false,
+      count: 0
     };
   },
   mounted() {
-    this.$refs.bgone.style.right = 419 + "px";
-    this.$refs.bgtwo.style.right = 0 + "px";
-    var self = this;
-    setTimeout(function() {
-      self.$refs.bgone.style.right = 0;
-      setTimeout(function() {
-        self.$refs.bgtwo.style.opacity = 1;
-        self.$refs.bgtwo.style.right = 419 + "px";
-        self.stateShow = true;
-      }, 2000);
-    }, 0);
     // // var tath = this
     // console.log(this.$refs);
+    var _this = this
+    let imgs = document.querySelectorAll('img')
+    console.log(imgs)
+    Array.from(imgs).forEach((item) => {
+      let img = new Image()
+      img.onload = () => {
+        this.count++
+      }
+      img.src = item.getAttribute('src')
+    })
   },
   methods: {
     clickGO() {
       this.show = false;
     }
-    // animation() {
-    //   //   表示从 $refs对象 中, 获取 ref 属性值为: h1ele DOM元素或组件
-    //   setTimeout(function() {
-    //     this.$refs.bgone.style.right = 0;
-    //   }, 2000);
-    // }
   },
   watch: {
-    stateShow: function() {
+    stateShow: function () {
       var self = this;
-      setTimeout(function() {
+      setTimeout(function () {
         self.show = false;
       }, 3000);
+    },
+    count(val, oldval) {
+      if (val == 4) {
+        this.$refs.bgone.style.right = 419 + "px";
+        this.$refs.bgtwo.style.right = 0 + "px";
+        var self = this;
+        setTimeout(function () {
+          self.$refs.bgone.style.right = 0;
+          setTimeout(function () {
+            self.$refs.bgtwo.style.opacity = 1;
+            self.$refs.bgtwo.style.right = 419 + "px";
+            self.stateShow = true;
+          }, 2000);
+        }, 0);
+      }
     }
   }
 };
