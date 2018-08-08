@@ -102,7 +102,7 @@ export default {
     // 在vue初始化时调用
     this.dataTime();
     this._getCourse();
-    this.initData(this.formatDate(this.currentYear, this.currentMonth, this.currentDay));
+    this.initData();
   },
   methods: {
     _getCourse(cur) {
@@ -124,7 +124,6 @@ export default {
       this.currentDay = date.getDate();
       this.currentYear = date.getFullYear();
       this.currentMonth = date.getMonth() + 1;
-      console.log(this.currentDay, this.currentYear, this.currentMonth)
     },
     initData(cur) {
       // let leftcount = 0 // 存放剩余数量
@@ -138,8 +137,7 @@ export default {
         date = new Date(cur);
       } else {
         let now = new Date();
-        let d = new Date(this.formatDate(now.getFullYear(), now.getMonth(), 1));
-        d.setDate(31);
+        let d = new Date(this.formatDate(now.getFullYear(), now.getMonth()+ 1, 1));
         date = new Date(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
       }
       this.currentDay = date.getDate();

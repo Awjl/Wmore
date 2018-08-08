@@ -1,6 +1,6 @@
 <template>
   <div class="curriculum">
-    <Swiper :listImg="listImg"></Swiper>
+    <Swiper :listImg="listImg" :height="height"></Swiper>
     <Calendar v-on:datas="datas" @my-event="getMyEvent"></Calendar>
     <div class="line-clo">
     </div>
@@ -68,7 +68,8 @@ export default {
   data() {
     return {
       listImg: [],
-      listItem: []
+      listItem: [],
+      height: '163'
     };
   },
   created() {

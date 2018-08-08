@@ -1,6 +1,6 @@
 <template>
   <div class="cla">
-    <Swiper :listImg="listImg"></Swiper>
+    <Swiper :listImg="listImg" :height="height"></Swiper>
     <div class="appointment">
       <div class="img">
         <img :src="imgUrl" alt="">
@@ -25,7 +25,8 @@ export default {
     return {
       imgUrl: './static/images/icon/slogan.png',
       logo: './static/images/icon/logo.png',
-      listImg: []
+      listImg: [],
+      height: '322'
     }
   },
   created() {

@@ -1,7 +1,7 @@
 <template>
   <div class="swiper-container">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" v-for="(str, index) in listImg" :key="index">
+      <div class="swiper-slide" v-for="(str, index) in listImg" :key="index" :style="{height: height + 'px' }">
         <img :src="`http://${str.pictureUrl}?x-oss-process=image/format,png`" @click="goDetails(str.contentUrl)" />
       </div>
     </div>
@@ -13,7 +13,7 @@
 import Swiper from 'swiper'
 import 'swiper/dist/css/swiper.min.css'
 export default {
-  props: ['listImg'],
+  props: ['listImg','height'],
   mounted() {
     var swiper = new Swiper('.swiper-container', {
       observer: true,
@@ -24,14 +24,11 @@ export default {
         // bulletActiveClass: 'my-bullet-active'
       },
       paginationClickable: true,
-      loop: false,
+      loop: true,
       speed: 600,
       autoplay: {
         delay: 1000,
         disableOnInteraction: false
-      },
-      onTouchEnd: function () {
-        swiper.startAutoplay()
       }
     })
   },
