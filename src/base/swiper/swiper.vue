@@ -1,8 +1,8 @@
 <template>
   <div class="swiper-container">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" v-for="(str, index) in listImg" :key="index" :style="{height: height + 'px' }">
-        <img :src="`http://${str.pictureUrl}?x-oss-process=image/format,png`" @click="goDetails(str.contentUrl)" />
+      <div class="swiper-slide" v-for="(str, index) in listImg" :key="index" :style="{height: height + 'px' }" :data-url="str.contentUrl">
+        <img :src="`http://${str.pictureUrl}?x-oss-process=image/format,png`" />
       </div>
     </div>
     <div class="swiper-pagination swiper-pagination-white"></div>
@@ -13,15 +13,13 @@
 import Swiper from 'swiper'
 import 'swiper/dist/css/swiper.min.css'
 export default {
-  props: ['listImg','height'],
-  mounted() {
+  props: ['listImg', 'height'],
+  updated() {
     var swiper = new Swiper('.swiper-container', {
       observer: true,
       observeParents: true,
       pagination: {
         el: '.swiper-pagination'
-        // bulletClass: 'my-bullet',
-        // bulletActiveClass: 'my-bullet-active'
       },
       paginationClickable: true,
       loop: true,
@@ -29,14 +27,14 @@ export default {
       autoplay: {
         delay: 1000,
         disableOnInteraction: false
-      }
+      },
+      on: {
+        click: function () {
+          let realIndex = this.realIndex;
+          window.location.href = this.slides[realIndex].getAttribute("data-url");
+        }
+      },
     })
-  },
-  methods: {
-    goDetails(item) {
-      console.log(item)
-      window.location.href = item;
-    }
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="details">
     <Notice></Notice>
-    <Swiper :listImg="listImg"></Swiper>
+    <Swiper :listImg="listImg" :height="height"></Swiper>
     <div class="details-content">
       <div class="details-title">
         <div class="detalis-name">
@@ -120,7 +120,8 @@ export default {
       dataList: [],
       zhuyiData: [],
       queren: true,
-      show: false
+      show: false,  
+      height: '163'
     };
   },
   components: {
