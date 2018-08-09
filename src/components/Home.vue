@@ -1,5 +1,6 @@
 <template>
   <div class="cla">
+    <Notice></Notice>
     <Swiper :listImg="listImg" :height="height"></Swiper>
     <div class="appointment">
       <div class="img">
@@ -17,6 +18,7 @@
 
 <script>
 import Swiper from 'base/swiper/swiper'
+import Notice from "base/notice/notice";
 import { getBigBannerPictures } from 'api/dataList'
 import { ERR_OK } from 'api/config'
 import storage from 'good-storage'
@@ -55,7 +57,8 @@ export default {
     }
   },
   components: {
-    Swiper
+    Swiper,
+    Notice,
   }
 }
 </script>

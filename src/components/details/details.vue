@@ -1,6 +1,12 @@
 <template>
   <div class="details">
-    <Notice></Notice>
+    <div class="detailsnotice" v-show="showstate">
+      <div class="detailsnotice-box" @click="godie()">
+        <img src="./yi-icon.png" alt="">
+        <span>{{success.content}}</span>
+        <span>{{new Date(success.createDate).getMonth() + 1}}月{{ new Date(success.createDate).getDate() > 10 ? new Date(success.createDate).getDate() : '0' + new Date(success.createDate).getDate()}}日</span>
+      </div>
+    </div>
     <Swiper :listImg="listImg" :height="height"></Swiper>
     <div class="details-content">
       <div class="details-title">
@@ -71,31 +77,37 @@
     </div>
     <div class="detalis-claText">
       <ul>
-        <ol v-for="(item, index) in zhuyiData" :key="index"><span>&bull;</span> <p>{{item.otherBusiness}}</p>  </ol>
+        <ol v-for="(item, index) in zhuyiData" :key="index">
+          <span>&bull;</span>
+          <p>{{item.otherBusiness}}</p>
+        </ol>
       </ul>
     </div>
     <div class="line"></div>
     <div class="he140"></div>
     <div class="footer">
       <div class="line"></div>
-        <div class="footer-bot">
-          <div>
-            <img src="../Icon/timer-icon.png" alt="">{{new Date(dataList.courseDate).getMonth() + 1}}月{{(new Date(dataList.courseDate).getDate() > 10) ? new Date(dataList.courseDate).getDate() :"0"+ new Date(dataList.courseDate).getDate()}}日 {{new Date(dataList.courseDate).getHours()}} :{{new Date(dataList.courseDate).getMinutes()}}
-          </div>
-          <div class="footer-active" :class="{ fooActive: dataList.state == 1}">
-            <img src="../Icon/xiao-icon.png" alt=""> 
-            <span v-show="dataList.state != 2 && dataList.state != 1 && dataList.courseState == 2 " @click="courseState()">确认预约</span>
-            <span v-show="dataList.state == 1">已预约</span>
-            <span v-show="dataList.state == 2">已完成</span>
-            <span v-show="dataList.state != 2 && dataList.state != 1 && dataList.courseState == 1">已满员</span>
-          </div>
+      <div class="footer-bot">
+        <div>
+          <img src="../Icon/timer-icon.png" alt="">{{new Date(dataList.courseDate).getMonth() + 1}}月{{(new Date(dataList.courseDate).getDate() > 10) ? new Date(dataList.courseDate).getDate() :"0"+ new Date(dataList.courseDate).getDate()}}日 {{new Date(dataList.courseDate).getHours()}} :{{new Date(dataList.courseDate).getMinutes()}}
         </div>
+        <div class="footer-active" :class="{ fooActive: dataList.state == 1}">
+          <img src="../Icon/xiao-icon.png" alt="">
+          <span v-show="dataList.state != 2 && dataList.state != 1 && dataList.courseState == 2 " @click="courseState()">确认预约</span>
+          <span v-show="dataList.state == 1">已预约</span>
+          <span v-show="dataList.state == 2">已完成</span>
+          <span v-show="dataList.state != 2 && dataList.state != 1 && dataList.courseState == 1">已满员</span>
+        </div>
+      </div>
     </div>
     <div class="trueReady" v-if="show">
       <div class="trueReady-box">
         <div class="trueReady-title">确认预约</div>
         <div class="trueReady-text">您是否确认预约这节课</div>
-        <div class="trueReady-footer"><span @click="quxiao()">取消</span><span class="active" @click="trueShow()">确认</span></div>
+        <div class="trueReady-footer">
+          <span @click="quxiao()">取消</span>
+          <span class="active" @click="trueShow()">确认</span>
+        </div>
       </div>
     </div>
   </div>
@@ -104,7 +116,6 @@
 <script>
 import Swiper from "base/swiper/swiper";
 import { getCourseDetail, insertUC } from "api/dataList";
-import Notice from "base/notice/notice";
 import { ERR_OK } from "api/config";
 import storage from "good-storage";
 
@@ -120,8 +131,11 @@ export default {
       dataList: [],
       zhuyiData: [],
       queren: true,
-      show: false,  
-      height: '163'
+      show: false,
+      height: '163',
+      data: [],
+      showstate: false,
+      success: {}
     };
   },
   components: {
@@ -135,21 +149,33 @@ export default {
     quxiao() {
       this.show = false;
     },
+    godie() {
+      this.showstate = false
+      // clearTimeout(timer)
+      this.$router.push({
+        path: `/MyNotice`
+      })
+    },
     trueShow() {
       insertUC(storage.get("__userID__", []), this.$route.params.item).then(
         res => {
           if (res.code === ERR_OK) {
-            this.show = false;
-            console.log("确认预约");
-            this.dataList.state = 1;
-            this.reload();
-            console.log(this.dataList.state);
+            this.show = false
+            this.showstate = true
+            console.log("已预约")
+            this.dataList.state = 1
+            this.success = res.data
+            var self = this
+            setTimeout(function () {
+              self.showstate = false
+            }, 4000)
+            console.log(res.data);
+            console.log(this.success);
           }
         }
       );
     },
     courseState() {
-      console.log("确认预约");
       this.show = true;
     },
     _getCourseDetail() {
@@ -176,9 +202,6 @@ export default {
         }
       });
     }
-  },
-  components: {
-    Notice
   }
 };
 </script>
@@ -186,6 +209,33 @@ export default {
 .details {
   width: 100vw;
   height: 100vh;
+  .detailsnotice {
+    position: fixed;
+    width: 90vw;
+    height: 100px;
+    background: #fff;
+    z-index: 99;
+    left: 0;
+    right: 0;
+    top: 40px;
+    margin: 0 auto;
+    border-radius: 20px;
+    padding: 0 30px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .detailsnotice-box {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    img {
+      width: 56px;
+      height: 62px;
+    }
+  }
   .trueReady {
     position: fixed;
     width: 100vw;

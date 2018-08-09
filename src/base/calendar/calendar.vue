@@ -50,15 +50,7 @@
           <!--如果是本月  还需要判断是不是这一天-->
           <span v-else class="days-cla">
             <span v-if="dayobject.day.getFullYear() <= new Date().getFullYear() && dayobject.day.getMonth() <= new Date().getMonth() && dayobject.day.getDate() < new Date().getDate()">
-              <!-- <img src="./OptionalTwo-icon.png" alt="" v-show="dayobject.data && dayobject.state != 1 && dayobject.data.courseState == 2 && dayobject.data.state != 2"> -->
               <img src="./fullTwo-icon.png" alt="" v-show="dayobject.data">
-
-              <!-- <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state == 1">
-              <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data .state == 2 ">
-              <img src="./teamTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.type == 2" style="top: 0;
-            left:22px;
-            width: 5px;
-            height: 5px;"> -->
             </span>
             <span v-else>
               <img src="./OptionalTwo-icon.png" alt="" v-show="dayobject.data && dayobject.state != 1 && dayobject.data.courseState == 2 && dayobject.data.state != 2">
@@ -73,7 +65,8 @@
             </span>
             <!--今天  同年同月同日-->
             <span v-if="dayobject.day.getFullYear() <= new Date().getFullYear() && dayobject.day.getMonth() <= new Date().getMonth() && dayobject.day.getDate() < new Date().getDate()" style="color:gainsboro">{{ dayobject.day.getDate() }}</span>
-            <span v-else @click="godetile(dayobject.data.isday , dayobject.data.id)">{{ dayobject.day.getDate() }}</span>
+            <span v-else @click="godetile(dayobject.data.isday , dayobject.data.id,dayobject.data.courseDate
+)">{{ dayobject.day.getDate() }}</span>
           </span>
           <!--显示剩余多少数量-->
           <div v-if="dayobject.day.getFullYear() <= new Date().getFullYear() && dayobject.day.getMonth() <= new Date().getMonth() && dayobject.day.getDate() < new Date().getDate()">
@@ -268,7 +261,10 @@ export default {
       if (d < 10) d = "0" + d;
       return y + "/" + m + "/" + d;
     },
-    godetile(items, id) {
+    godetile(items, id, tiem) {
+      if (tiem <= Date.parse(new Date())) {
+        return
+      }
       if (items == 1) {
         console.log("123");
         this.$router.push({

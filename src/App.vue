@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <startAnimation></startAnimation>
-    <Notice></Notice>
     <router-view  v-wechat-title="$route.meta.title" v-if="isRouterAlive">
     </router-view>
     <comment></comment>
@@ -10,7 +9,6 @@
 
 <script>
 import Comment from "components/comment/comment";
-import Notice from "base/notice/notice";
 import startAnimation from "base/startAnimation/startAnimation";
 import storage from "good-storage";
 
@@ -52,7 +50,6 @@ export default {
   },
   components: {
     Comment,
-    Notice,
     startAnimation
   }
 };

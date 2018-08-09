@@ -58,10 +58,5 @@ export default {
       height: 100%;
     }
   }
-  // .erwei{
-  //   width: 311px;
-  //   height: 318px;
-  //   border: 1px solid #ddd;
-  // }
 }
 </style>

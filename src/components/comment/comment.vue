@@ -174,14 +174,10 @@ export default {
           if (res.code === ERR_OK) {
             this.dataList = res.data
             if (this.dataList.length > 0) {
-              this.states = true
+              if (new Date().getHours() >= new Date(this.dataList.courseDate).getHours() + 2) {
+                this.states = true
+              }
             }
-            // this.dataList = res.data
-            // console.log(res.data.lenght)
-            // console.log(this.dataList)
-            // if (this.dataList.lenght > 0) {
-            //   this.states = true
-            // }
           }
         })
       }

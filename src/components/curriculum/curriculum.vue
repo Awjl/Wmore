@@ -5,7 +5,7 @@
     <div class="line-clo">
     </div>
     <div class="listcomment" v-for="(item, index) in listItem" :key="index">
-      <div class="list" v-if=" new Date(item.courseDate).getFullYear() <= new Date().getFullYear() && new Date(item.courseDate).getMonth() <= new Date().getMonth() &&  new Date(item.courseDate).getDate() < new Date().getDate()">
+      <div class="list" v-if="item.courseDate <= Date.parse(new Date()) ">
         <div class="Item">
           <div class="time">
             <p>{{new Date(item.courseDate).getMonth() + 1}}月{{ new Date(item.courseDate).getDate() > 10 ? new Date(item.courseDate).getDate() : '0' + new Date(item.courseDate).getDate()}}日</p>
