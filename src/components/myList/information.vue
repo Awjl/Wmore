@@ -93,14 +93,14 @@
       <div class="informationItem" @click="hobbyClick()">
         <div>&nbsp;&nbsp;&nbsp;爱好</div>
         <div class="informationItem-img">
-          <span style="width:200px;height:30px;line-height: 30px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;overflow: hidden;">{{myList.hobby}}</span>
+          <span style="width:200px;height:30px;line-height: 30px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;overflow: hidden;text-align:right">{{myList.hobby}}</span>
           <img src="../Icon/right-icon.png" alt="">
         </div>
       </div>
       <div class="line"></div>
-      <!-- <div class="btn" @click="baocunBtn()">
-        保存
-      </div> -->
+      <div class="btn">
+         - 我们是有底线的 -
+      </div>
     </div>
     <div class="education-box" v-if="educationState">
       <div class="box">
@@ -289,9 +289,9 @@ export default {
     gohobby() {
       this.myList.hobby = "";
       for (let i = 0; i < this.hobbyListItem.length; i++) {
-        this.myList.hobby =
-          this.myList.hobby + this.hobbyListItem[i].name + "、";
+        this.myList.hobby = this.myList.hobby + this.hobbyListItem[i].name + "、";
       }
+      this.myList.hobby=this.myList.hobby.slice(0,this.myList.hobby.length-1)
       this.hobby = false;
     },
     setSexquxiao() {
@@ -397,9 +397,8 @@ export default {
     _getUserById() {
       getUserById(storage.get("__userID__", [])).then(res => {
         if (res.code === ERR_OK) {
-          console.log("个人信息");
-          console.log(res);
-          this.myList = Object.assign({}, this.myList, res.data);
+          console.log("个人信息2312");
+          this.myList = res.data;
           console.log(this.myList);
         }
       });
@@ -410,11 +409,14 @@ export default {
   },
   watch: {
     serverId: function () {
-      var that = this
       uploadHead(this.myList.pictureId, this.serverId).then((res) => {
         if (res.code === ERR_OK) {
-          that.myList.pictureUrl = res.data
-          this.reload();
+          this.myList.pictureUrl = res.data
+          if (this.myList.pictureUrl) {
+            this.baocunBtn()
+          } else {
+            alert('保存失败')
+          }
         }
       })
     },
@@ -445,14 +447,12 @@ export default {
       background: linear-gradient(to right, #81d1db, #c6cbcc, #85d2db);
     }
     .btn {
-      width: 50%;
+      width: 100%;
       height: 60px;
       line-height: 60px;
       text-align: center;
-      background: #000;
-      color: #fff;
-      margin: 60px auto 0;
-      border-radius: 40px;
+      color: #ddd;
+      margin-top: 30px;
     }
     .heart {
       width: 100%;

@@ -53,7 +53,7 @@
               <img src="./fullTwo-icon.png" alt="" v-show="dayobject.data">
             </span>
             <span v-else>
-              <img src="./OptionalTwo-icon.png" alt="" v-show="dayobject.data && dayobject.state != 1 && dayobject.data.courseState == 2 && dayobject.data.state != 2">
+              <img src="./OptionalTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state != 1 && dayobject.data.courseState == 2 && dayobject.data.state != 2">
               <img src="./fullTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state != 1 && dayobject.data.courseState == 1 &&  dayobject.data.state != 2">
               <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state == 1">
               <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data .state == 2 ">

@@ -8,7 +8,7 @@
         <div class="comment-text">您的评价会让我们做的更好</div>
         <div class="comment-name">{{list.courseName}}</div>
         <div class="comment-name">{{list.courseNameEN}}</div>
-        <div class="comment-timer">{{new Date(list.courseDate).getMonth() + 1}}月{{new Date(list.courseDate).getDate()}}日{{new Date(list.courseDate).getHours()}}:{{new Date(list.courseDate).getMinutes()}}</div>
+        <div class="comment-timer">{{new Date(list.courseDate).getMonth() + 1 >= 10 ?new Date(list.courseDate).getMonth() + 1 : `0${new Date(list.courseDate).getMonth() + 1}`}}月{{new Date(list.courseDate).getDate() >= 10 ? new Date(list.courseDate).getDate() : `0${new Date(list.courseDate).getDate()}`}}日{{new Date(list.courseDate).getHours() >=10 ?new Date(list.courseDate).getHours() : `0${new Date(list.courseDate).getHours()}`}}:{{new Date(list.courseDate).getMinutes()>= 10 ?new Date(list.courseDate).getMinutes() : `0${new Date(list.courseDate).getMinutes()}`}}</div>
         <div class="comment-listItem">
           <div class="comment-iconName">教练专业性</div>
           <div class="comment-icon">
@@ -173,8 +173,19 @@ export default {
         getIsEvaluateCourse(storage.get('__userID__', [])).then((res) => {
           if (res.code === ERR_OK) {
             this.dataList = res.data
+            console.log(this.dataList[0].courseDate)
+            console.log(new Date(this.dataList[0].courseDate).getMonth() + 1)
+            console.log(new Date(this.dataList[0].courseDate).getDate())
             if (this.dataList.length > 0) {
-              if (Date.parse(new Date()) > Date.parse(new Date(this.dataList[0].courseDate)) + 120000) {
+              // this.states = true
+              console.log('本地')
+              console.log(Date.parse(new Date()))
+              console.log('服务器')
+              console.log(Date.parse(new Date(this.dataList[0].courseDate)))
+              console.log(Date.parse(new Date(this.dataList[0].courseDate))+ 60000)
+              console.log('判断')
+              console.log(Date.parse(new Date()) > Date.parse(new Date(this.dataList[0].courseDate)) + 60000)
+              if (Date.parse(new Date()) > Date.parse(new Date(this.dataList[0].courseDate)) + 60000) {
                 this.states = true
               }
             }

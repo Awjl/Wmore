@@ -79,12 +79,9 @@ export default {
       })
     },
     _getUserById() {
-      console.log("我的个人中心"+storage.get('__userID__', []))
       if (storage.get('__userID__', []) != '0') {
         getUserById(storage.get('__userID__', [])).then((res) => {
           if (res.code === ERR_OK) {
-            console.log('个人信息')
-            console.log(res)
             this.myList = res.data
           }
         })

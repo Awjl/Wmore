@@ -13,8 +13,8 @@
       <div class="list" v-for="(list, index) in topList" :key="index">
         <div class="Item">
           <div class="time">
-            <p>{{new Date(list.courseDate).getMonth() + 1}}月{{new Date(list.courseDate).getDate()}}日</p>
-            <p>{{new Date(list.courseDate).getHours()>10 ?new Date(list.courseDate).getHours() : '0' + new Date(list.courseDate).getHours() }}:{{new Date(list.courseDate).getMinutes() >10 ? new Date(list.courseDate).getMinutes() : '0' + new Date(list.courseDate).getMinutes() }}</p>
+            <p>{{new Date(list.courseDate).getMonth() + 1 >= 10 ?new Date(list.courseDate).getMonth() + 1: `0${new Date(list.courseDate).getMonth() + 1}`}}月{{new Date(list.courseDate).getDate() >= 10 ?new Date(list.courseDate).getDate(): `0${new Date(list.courseDate).getDate()}`}}日</p>
+            <p>{{new Date(list.courseDate).getHours()>= 10 ?new Date(list.courseDate).getHours() : `0${new Date(list.courseDate).getHours() }`}}:{{new Date(list.courseDate).getMinutes() >= 10 ? new Date(list.courseDate).getMinutes() : `0${new Date(list.courseDate).getMinutes() }`}}</p>
           </div>
           <div class="line-shu">
 
@@ -22,7 +22,9 @@
           <div class="name">
             <p>{{list.courseName}} {{list.courseNameEN}}</p>
             <p v-if="list.type == 1"><img src="../Icon/yuan-icon.png" alt=""> 员工课</p>
-            <p v-if="list.type == 2"><img src="../Icon/hu-icon.png" alt=""> 户外课</p>
+            <p v-if="list.type == 3"><img src="../Icon/hu-icon.png" alt=""> 户外课</p>
+            <p v-if="list.type == 2"><img src="../Icon/yuan-icon.png" alt=""> 团建课</p>
+            <p v-if="list.type == 4"><img src="../Icon/gao-icon.png" alt=""> 高管课</p>
           </div>
         </div>
         <div class="line-clo">

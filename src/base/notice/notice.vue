@@ -3,7 +3,7 @@
     <div class="notice-box" v-for="(list, index) in data" :key="index" @click="godie()">
       <img src="./yi-icon.png" alt="">
       <span>{{list.title}}</span>
-      <span>{{new Date(list.createDate).getMonth() + 1 > 10 ?new Date(list.createDate).getMonth() + 1 : '0' + new Date(list.createDate).getMonth() + 1}}月{{ new Date(list.createDate).getDate() > 10 ? new Date(list.createDate).getDate(): '0'+new Date(list.createDate).getDate()}}日</span>
+      <span>{{new Date(list.createDate).getMonth() + 1 > 10 ? new Date(list.createDate).getMonth() + 1 : `0${new Date(list.createDate).getMonth() + 1}`}}月{{ new Date(list.createDate).getDate() > 10 ? new Date(list.createDate).getDate(): `0${new Date(list.createDate).getDate()}`}}日</span>
     </div>
   </div>
 </template>
@@ -71,6 +71,7 @@ export default {
   padding: 0 30px;
   box-sizing: border-box;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   .notice-box {
@@ -78,6 +79,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 30px;
   }
   img {
     width: 56px;

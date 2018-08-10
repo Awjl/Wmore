@@ -8,14 +8,17 @@
       <div class="list" v-if="item.courseDate <= Date.parse(new Date()) ">
         <div class="Item">
           <div class="time">
-            <p>{{new Date(item.courseDate).getMonth() + 1}}月{{ new Date(item.courseDate).getDate() > 10 ? new Date(item.courseDate).getDate() : '0' + new Date(item.courseDate).getDate()}}日</p>
-            <p>{{new Date(item.courseDate).getHours()}}:{{new Date(item.courseDate).getMinutes() > 10 ? new Date(item.courseDate).getMinutes() : '0' + new Date(item.courseDate).getMinutes()}}</p>
+            <p>{{new Date(item.courseDate).getMonth() + 1 >= 10 ? new Date(item.courseDate).getMonth() + 1 : `0${new Date(item.courseDate).getMonth() + 1}`}}月{{ new Date(item.courseDate).getDate() >= 10 ? new Date(item.courseDate).getDate() : `0${new Date(item.courseDate).getDate()}`}}日</p>
+            <p>{{new Date(item.courseDate).getHours()>=10? new Date(item.courseDate).getHours(): `0${new Date(item.courseDate).getHours()}`}}:{{new Date(item.courseDate).getMinutes() >= 10 ? new Date(item.courseDate).getMinutes() : `0${new Date(item.courseDate).getMinutes()}`}}</p>
           </div>
           <div class="line-shu">
           </div>
           <div class="name">
             <p>{{item.courseName}} {{item.courseNameen}}</p>
-            <p><img src="../Icon/yuan-icon.png" alt=""> 员工课</p>
+            <p v-if="item.type == 1"><img src="../Icon/yuan-icon.png" alt=""> 员工课</p>
+            <p v-if="item.type == 3"><img src="../Icon/hu-icon.png" alt=""> 户外课</p>
+            <p v-if="item.type == 2"><img src="../Icon/yuan-icon.png" alt=""> 团建课</p>
+            <p v-if="item.type == 4"><img src="../Icon/gao-icon.png" alt=""> 高管课</p>
           </div>
         </div>
         <div class="list-btn active">
@@ -25,14 +28,17 @@
       <div class="list" @click="goDetails(item.id)" v-else>
         <div class="Item">
           <div class="time">
-            <p>{{new Date(item.courseDate).getMonth() + 1}}月{{ new Date(item.courseDate).getDate() > 10 ? new Date(item.courseDate).getDate() : '0' + new Date(item.courseDate).getDate()}}日</p>
-            <p>{{new Date(item.courseDate).getHours() > 10 ? new Date(item.courseDate).getHours() : "0" + new Date(item.courseDate).getHours()}}:{{new Date(item.courseDate).getMinutes() > 10 ? new Date(item.courseDate).getMinutes() : '0' + new Date(item.courseDate).getMinutes()}}</p>
+            <p>{{new Date(item.courseDate).getMonth() + 1 >= 10 ? new Date(item.courseDate).getMonth() + 1 : `0${new Date(item.courseDate).getMonth() + 1}`}}月{{ new Date(item.courseDate).getDate() >= 10 ? new Date(item.courseDate).getDate() : `0${new Date(item.courseDate).getDate()}`}}日</p>
+            <p>{{new Date(item.courseDate).getHours() >= 10 ? new Date(item.courseDate).getHours() :`0${new Date(item.courseDate).getHours()}`}}:{{new Date(item.courseDate).getMinutes() >= 10 ? new Date(item.courseDate).getMinutes() : `0${new Date(item.courseDate).getMinutes()}`}}</p>
           </div>
           <div class="line-shu">
           </div>
           <div class="name">
             <p>{{item.courseName}} {{item.courseNameen}}</p>
-            <p><img src="../Icon/yuan-icon.png" alt=""> 员工课</p>
+            <p v-if="item.type == 1"><img src="../Icon/yuan-icon.png" alt=""> 员工课</p>
+            <p v-if="item.type == 3"><img src="../Icon/hu-icon.png" alt=""> 户外课</p>
+            <p v-if="item.type == 2"><img src="../Icon/yuan-icon.png" alt=""> 团建课</p>
+            <p v-if="item.type == 4"><img src="../Icon/gao-icon.png" alt=""> 高管课</p>
           </div>
         </div>
         <div class="list-btn" v-if="item.state != 1 && item.courseState == 2 && item.state != 2">

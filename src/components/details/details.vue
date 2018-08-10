@@ -4,7 +4,7 @@
       <div class="detailsnotice-box" @click="godie()">
         <img src="./yi-icon.png" alt="">
         <span>{{success.content}}</span>
-        <span>{{new Date(success.createDate).getMonth() + 1}}月{{ new Date(success.createDate).getDate() > 10 ? new Date(success.createDate).getDate() : '0' + new Date(success.createDate).getDate()}}日</span>
+        <span>{{new Date(success.createDate).getMonth() + 1>=10? new Date(success.createDate).getMonth() + 1 : `0${new Date(success.createDate).getMonth() + 1}`}}月{{ new Date(success.createDate).getDate() >= 10 ? new Date(success.createDate).getDate() : `0${new Date(success.createDate).getDate()}`}}日</span>
       </div>
     </div>
     <Swiper :listImg="listImg" :height="height"></Swiper>
@@ -89,9 +89,9 @@
       <div class="line"></div>
       <div class="footer-bot">
         <div>
-          <img src="../Icon/timer-icon.png" alt="">{{new Date(dataList.courseDate).getMonth() + 1}}月{{(new Date(dataList.courseDate).getDate() > 10) ? new Date(dataList.courseDate).getDate() :"0"+ new Date(dataList.courseDate).getDate()}}日 {{new Date(dataList.courseDate).getHours()}} :{{new Date(dataList.courseDate).getMinutes()}}
+          <img src="../Icon/timer-icon.png" alt="">{{new Date(dataList.courseDate).getMonth() + 1>= 10 ?new Date(dataList.courseDate).getMonth() + 1 : `0${new Date(dataList.courseDate).getMonth() + 1}`}}月{{new Date(dataList.courseDate).getDate() >= 10 ? new Date(dataList.courseDate).getDate() :`0${new Date(dataList.courseDate).getDate()}`}}日 {{new Date(dataList.courseDate).getHours() >= 10 ? new Date(dataList.courseDate).getHours() : `0${new Date(dataList.courseDate).getHours()}`}} :{{new Date(dataList.courseDate).getMinutes() >= 10 ? new Date(dataList.courseDate).getMinutes() : `0${new Date(dataList.courseDate).getMinutes()}`}}
         </div>
-        <div class="footer-active" :class="{ fooActive: dataList.state == 1}">
+        <div class="footer-active" :class="{ fooActive: (dataList.state == 1) || (dataList.state != 2 && dataList.state != 1 && dataList.courseState == 1)}">
           <img src="../Icon/xiao-icon.png" alt="">
           <span v-show="dataList.state != 2 && dataList.state != 1 && dataList.courseState == 2 " @click="courseState()">确认预约</span>
           <span v-show="dataList.state == 1">已预约</span>
@@ -187,17 +187,19 @@ export default {
           console.log("课程详情");
           console.log(res.data);
           this.dataList = res.data;
-          var arr = this.dataList.pictureUrl.split(",");
+          this.listImg = JSON.parse(this.dataList.pictureUrl)
+          console.log( this.listImg )
+          // var arr = this.dataList.pictureUrl.split(",");
           var arr2 = this.dataList.trainingEffect.split(",");
           this.widthOen = arr2[0] + "px";
           this.widthTwo = arr2[1] + "px";
           this.widthThree = arr2[2] + "px";
           this.widthFour = arr2[3] + "px";
           var obj = {};
-          for (let i = 0; i < arr.length; i++) {
-            obj.pictureUrl = arr[i];
-            this.listImg.push(obj);
-          }
+          // for (let i = 0; i < arr.length; i++) {
+          //   obj.pictureUrl = arr[i];
+          //   this.listImg.push(obj);
+          // }
           this.zhuyiData = JSON.parse(this.dataList.otherBusiness);
         }
       });

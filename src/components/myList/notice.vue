@@ -5,7 +5,7 @@
         <div class="popup-title">{{dataContent.title}}</div>
         <div class="popup-line"></div>
         <div class="popup-content">{{dataContent.content}}</div>
-        <div class="popup-timer">{{new Date(dataContent.createDate).getMonth() + 1}}月{{ new Date(dataContent.createDate).getDate() > 10 ? new Date(dataContent.createDate).getDate(): '0'+new Date(dataContent.createDate).getDate()}}日</div>
+        <div class="popup-timer">{{new Date(dataContent.createDate).getMonth() + 1>= 10 ?new Date(dataContent.createDate).getMonth() + 1: `0${new Date(dataContent.createDate).getMonth() + 1}` }}月{{ new Date(dataContent.createDate).getDate() >= 10 ? new Date(dataContent.createDate).getDate(): `0${new Date(dataContent.createDate).getDate()}`}}日</div>
       </div>
       <div class="popup-btn" @click="gohide()">
         确定
@@ -32,7 +32,7 @@
           <div class="name">
             <div>
               <span>{{list.title}}</span>
-              <span>{{new Date(list.createDate).getMonth() + 1}}月{{ new Date(list.createDate).getDate() > 10 ? new Date(list.createDate).getDate(): '0'+new Date(list.createDate).getDate()}}日</span>
+              <span>{{new Date(list.createDate).getMonth() + 1 >= 10 ? new Date(list.createDate).getMonth() + 1: `0${new Date(list.createDate).getMonth() + 1}` }}月{{ new Date(list.createDate).getDate() >= 10 ? new Date(list.createDate).getDate():`0${new Date(list.createDate).getDate()}`}}日</span>
             </div>
             <p>{{list.content}}</p>
           </div>
@@ -155,7 +155,7 @@ export default {
     z-index: 9999;
     .popup-box {
       width: 80vw;
-      height: 60vh;
+      height: 30vh;
       background: #fff;
       border-radius: 20px;
       display: flex;
@@ -183,17 +183,16 @@ export default {
         height: 60px;
         line-height: 60px;
         margin: 0 auto;
-        text-align: right;
-        font-size: 18px;
+        text-align: center;
+        font-size: 24px;
       }
       .popup-content {
         width: 90%;
-        margin: 40px auto;
+        margin: 80px 0 50px;
         word-wrap: break-word;
+        text-align: center;
         font-size: 28px;
         line-height: 36px;
-        letter-spacing: 2px;
-        text-indent: 2em;
       }
     }
     .popup-btn {
