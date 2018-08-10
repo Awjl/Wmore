@@ -26,7 +26,7 @@
         <div class="Item">
           <div class="time">
             <p>{{new Date(item.courseDate).getMonth() + 1}}月{{ new Date(item.courseDate).getDate() > 10 ? new Date(item.courseDate).getDate() : '0' + new Date(item.courseDate).getDate()}}日</p>
-            <p>{{new Date(item.courseDate).getHours()}}:{{new Date(item.courseDate).getMinutes() > 10 ? new Date(item.courseDate).getMinutes() : '0' + new Date(item.courseDate).getMinutes()}}</p>
+            <p>{{new Date(item.courseDate).getHours() > 10 ? new Date(item.courseDate).getHours() : "0" + new Date(item.courseDate).getHours()}}:{{new Date(item.courseDate).getMinutes() > 10 ? new Date(item.courseDate).getMinutes() : '0' + new Date(item.courseDate).getMinutes()}}</p>
           </div>
           <div class="line-shu">
           </div>

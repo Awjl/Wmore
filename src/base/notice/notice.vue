@@ -3,7 +3,7 @@
     <div class="notice-box" v-for="(list, index) in data" :key="index" @click="godie()">
       <img src="./yi-icon.png" alt="">
       <span>{{list.title}}</span>
-      <span>{{list.noticeDate}}</span>
+      <span>{{new Date(list.createDate).getMonth() + 1 > 10 ?new Date(list.createDate).getMonth() + 1 : '0' + new Date(list.createDate).getMonth() + 1}}月{{ new Date(list.createDate).getDate() > 10 ? new Date(list.createDate).getDate(): '0'+new Date(list.createDate).getDate()}}日</span>
     </div>
   </div>
 </template>

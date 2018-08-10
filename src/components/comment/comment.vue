@@ -174,7 +174,7 @@ export default {
           if (res.code === ERR_OK) {
             this.dataList = res.data
             if (this.dataList.length > 0) {
-              if (new Date().getHours() >= new Date(this.dataList.courseDate).getHours() + 2) {
+              if (Date.parse(new Date()) > Date.parse(new Date(this.dataList[0].courseDate)) + 120000) {
                 this.states = true
               }
             }
@@ -194,7 +194,7 @@ export default {
         professional: this.ItemOne,
         userId: this.dataList[0].userId
       }
-      this.states = false
+      // this.states = false
       setScore(data).then((res) => {
         if (res.code === ERR_OK) {
           this.states = false

@@ -55,13 +55,9 @@
             <span v-else>
               <img src="./OptionalTwo-icon.png" alt="" v-show="dayobject.data && dayobject.state != 1 && dayobject.data.courseState == 2 && dayobject.data.state != 2">
               <img src="./fullTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state != 1 && dayobject.data.courseState == 1 &&  dayobject.data.state != 2">
-
               <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.state == 1">
               <img src="./alreadyTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data .state == 2 ">
-              <img src="./teamTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.type == 2" style="top: 0;
-            left:22px;
-            width: 5px;
-            height: 5px;">
+              <img src="./teamTwo-icon.png" alt="" v-show="dayobject.data && dayobject.data.type == 2" style="top: 0;left:22px;width:5px;height: 5px;">
             </span>
             <!--今天  同年同月同日-->
             <span v-if="dayobject.day.getFullYear() <= new Date().getFullYear() && dayobject.day.getMonth() <= new Date().getMonth() && dayobject.day.getDate() < new Date().getDate()" style="color:gainsboro">{{ dayobject.day.getDate() }}</span>
@@ -72,7 +68,6 @@
           <div v-if="dayobject.day.getFullYear() <= new Date().getFullYear() && dayobject.day.getMonth() <= new Date().getMonth() && dayobject.day.getDate() < new Date().getDate()">
             <p v-if="dayobject.data && dayobject.data.isday == 1">
               <span>已过期</span>
-              <!-- <span>{{dayobject.data.isday}}</span> -->
             </p>
             <p v-if="dayobject.data && dayobject.data.isday == 2 ">
               已过期
@@ -82,13 +77,11 @@
             <p v-if="dayobject.data && dayobject.data.isday == 1">
               <span>{{ dayobject.data.courseName }}</span>
               <span>{{ dayobject.data.courseNameen }}</span>
-              <!-- <span>{{dayobject.data.isday}}</span> -->
             </p>
             <p v-if="dayobject.data && dayobject.data.isday == 2 " @click.stop="emitEvent()">
               查看更多
             </p>
           </div>
-
         </li>
       </ul>
     </div>
@@ -221,32 +214,14 @@ export default {
       // console.log(this.days)
     },
     pickPre(year, month) {
-      // setDate(0); 上月最后一天
-      // setDate(-1); 上月倒数第二天
-      // setDate(dx) 参数dx为 上月最后一天的前后dx天
-      // var dateMonth = new Date()
-      // console.log(dateMonth.getMonth() + 1)
-      // if (month - dateMonth.getMonth() + 1 > 1) {
-      // } else {
-      //   this.showRight = true
-      // }
       this.showRight = true
       let d = new Date(this.formatDate(year, month, 1));
       d.setDate(0);
       this.currentMonth = d.getMonth() + 1;
       this._getCourse(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
-      // this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
     },
     pickNext(year, month) {
-      // console.log(month)
-      // var dateMonth = new Date()
-      // console.log(dateMonth.getMonth() + 1)
-      // if (month - dateMonth.getMonth() + 1 > 1) {
       this.showRight = false
-      // } else {
-      //   this.showRight = true
-      // }
-      // console.log(month);
       let d = new Date(this.formatDate(year, month, 1))
       d.setDate(42);
       this.currentMonth = d.getMonth() + 1;

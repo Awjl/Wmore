@@ -1,36 +1,39 @@
 <template>
   <div class="MyNotice">
     <div class="popup" v-if="stateShow">
-        <div class="popup-box">
-          <div class="popup-title">{{dataContent.title}}</div>
-          <div class="popup-line"></div>
-          <div class="popup-content">{{dataContent.content}}</div>
-          <div class="popup-timer">{{new Date(dataContent.noticeDate).getMonth() + 1}}月{{ new Date(dataContent.noticeDate).getDate()}}日</div>
-        </div>
-        <div class="popup-btn" @click="gohide()">
-            确定
-        </div>
+      <div class="popup-box">
+        <div class="popup-title">{{dataContent.title}}</div>
+        <div class="popup-line"></div>
+        <div class="popup-content">{{dataContent.content}}</div>
+        <div class="popup-timer">{{new Date(dataContent.createDate).getMonth() + 1}}月{{ new Date(dataContent.createDate).getDate() > 10 ? new Date(dataContent.createDate).getDate(): '0'+new Date(dataContent.createDate).getDate()}}日</div>
+      </div>
+      <div class="popup-btn" @click="gohide()">
+        确定
+      </div>
     </div>
     <div class="heard">
       <div class="ClassTitle">
         <div class="Title" :class="{TitleActive:index==1}" @click="appointment()">未读</div>
-          <div class="line"></div>
-          <div class="Title" :class="{TitleActive:index==2}" @click="over()">已读</div>
-        </div>
+        <div class="line"></div>
+        <div class="Title" :class="{TitleActive:index==2}" @click="over()">已读</div>
+      </div>
       <div class="line-clo"></div>
     </div>
     <div class="toplist">
-        <!-- <li v-for="(list, index) in topList" :key="index">{{list}}</li> -->
+      <!-- <li v-for="(list, index) in topList" :key="index">{{list}}</li> -->
       <div class="list" v-for="(list, index) in topList" :key="index" @click="goReatNotice(list.id, index)">
         <div class="Item">
           <div class="Item-img" v-if="list.isRead == 1">
-              <img src="../Icon/wei-icon.png" alt="">
+            <img src="../Icon/wei-icon.png" alt="">
           </div>
           <div class="Item-img" v-else>
-              <img src="../Icon/yi-icon.png" alt="">
+            <img src="../Icon/yi-icon.png" alt="">
           </div>
           <div class="name">
-            <div><span>{{list.title}}</span> <span>{{new Date(list.noticeDate).getMonth() + 1}}月{{new Date(list.noticeDate).getDate()}}日</span></div>
+            <div>
+              <span>{{list.title}}</span>
+              <span>{{new Date(list.createDate).getMonth() + 1}}月{{ new Date(list.createDate).getDate() > 10 ? new Date(list.createDate).getDate(): '0'+new Date(list.createDate).getDate()}}日</span>
+            </div>
             <p>{{list.content}}</p>
           </div>
         </div>
@@ -45,15 +48,15 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {getUnreadNotice, getReadNotice, toReadNotice} from 'api/dataList'
+import { getUnreadNotice, getReadNotice, toReadNotice } from 'api/dataList'
 import { ERR_OK } from 'api/config'
 import storage from 'good-storage'
 
 export default {
-  created () {
+  created() {
     this._getUnreadNotice()
   },
-  data () {
+  data() {
     return {
       topList: [],
       index: 1,
@@ -63,17 +66,17 @@ export default {
     }
   },
   methods: {
-    appointment () {
+    appointment() {
       this.index = 1
       this.overState = false
       this._getUnreadNotice()
     },
-    over () {
+    over() {
       this.index = 2
       this.overState = true
       this._getReadNotice()
     },
-    goReatNotice (id, index) {
+    goReatNotice(id, index) {
       this.dataContent = []
       if (!this.overState) {
         this.topList.splice(index, 1)
@@ -81,10 +84,10 @@ export default {
       this._toReadNotice(id)
       this.stateShow = true
     },
-    gohide () {
+    gohide() {
       this.stateShow = false
     },
-    _getUnreadNotice () {
+    _getUnreadNotice() {
       getUnreadNotice(storage.get('__userID__', [])).then((res) => {
         if (res.code === ERR_OK) {
           console.log('未读')
@@ -93,7 +96,7 @@ export default {
         }
       })
     },
-    _getReadNotice () {
+    _getReadNotice() {
       getReadNotice(storage.get('__userID__', [])).then((res) => {
         if (res.code === ERR_OK) {
           console.log('已读')
@@ -102,7 +105,7 @@ export default {
         }
       })
     },
-    _toReadNotice (item) {
+    _toReadNotice(item) {
       toReadNotice(item).then((res) => {
         if (res.code === ERR_OK) {
           console.log('查看通知')
@@ -125,7 +128,7 @@ export default {
   padding-bottom: 120px;
   padding-top: 134px;
   overflow-x: auto;
-  .toplist-none{
+  .toplist-none {
     width: 100%;
     height: 50px;
     text-align: center;
@@ -138,10 +141,10 @@ export default {
       // font-weight: bold;
     }
   }
-  .popup{
+  .popup {
     position: fixed;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
     background: rgba(000, 000, 000, 0.5);
@@ -150,7 +153,7 @@ export default {
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    .popup-box{
+    .popup-box {
       width: 80vw;
       height: 60vh;
       background: #fff;
@@ -158,7 +161,7 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
-      .popup-title{
+      .popup-title {
         width: 90%;
         height: 60px;
         text-align: center;
@@ -167,7 +170,7 @@ export default {
         margin: 20px 0;
         font-weight: bold;
       }
-      .popup-line{
+      .popup-line {
         width: 100%;
         height: 2px;
         background: -webkit-linear-gradient(left, #81d1db, #c6cbcc, #85d2db);
@@ -175,7 +178,7 @@ export default {
         background: -moz-linear-gradient(right, #81d1db, #c6cbcc, #85d2db);
         background: linear-gradient(to right, #81d1db, #c6cbcc, #85d2db);
       }
-      .popup-timer{
+      .popup-timer {
         width: 90%;
         height: 60px;
         line-height: 60px;
@@ -183,17 +186,17 @@ export default {
         text-align: right;
         font-size: 18px;
       }
-      .popup-content{
+      .popup-content {
         width: 90%;
         margin: 40px auto;
-        word-wrap:break-word;
+        word-wrap: break-word;
         font-size: 28px;
         line-height: 36px;
         letter-spacing: 2px;
         text-indent: 2em;
       }
     }
-    .popup-btn{
+    .popup-btn {
       margin-top: 80px;
       width: 80vw;
       text-align: center;
@@ -203,7 +206,7 @@ export default {
       border-radius: 40px;
     }
   }
-  .heard{
+  .heard {
     position: fixed;
     top: 0;
     left: 0;
@@ -268,22 +271,22 @@ export default {
             width: 590px;
             display: flex;
             justify-content: space-between;
-            span{
-            height: 45px;
-            font-size: 26px;
-            font-weight: bold;
-            line-height: 45px;
+            span {
+              height: 45px;
+              font-size: 26px;
+              font-weight: bold;
+              line-height: 45px;
             }
           }
           p {
             height: 45px;
             width: 590px;
             font-size: 22px;
-            color:#c2c2c2;
-            letter-spacing:3px ;
+            color: #c2c2c2;
+            letter-spacing: 3px;
             line-height: 45px;
             overflow: hidden;
-            text-overflow:ellipsis;
+            text-overflow: ellipsis;
             white-space: nowrap;
           }
         }

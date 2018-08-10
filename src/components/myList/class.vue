@@ -14,7 +14,7 @@
         <div class="Item">
           <div class="time">
             <p>{{new Date(list.courseDate).getMonth() + 1}}月{{new Date(list.courseDate).getDate()}}日</p>
-            <p>{{new Date(list.courseDate).getHours()}}:{{new Date(list.courseDate).getMinutes()}}</p>
+            <p>{{new Date(list.courseDate).getHours()>10 ?new Date(list.courseDate).getHours() : '0' + new Date(list.courseDate).getHours() }}:{{new Date(list.courseDate).getMinutes() >10 ? new Date(list.courseDate).getMinutes() : '0' + new Date(list.courseDate).getMinutes() }}</p>
           </div>
           <div class="line-shu">
 
@@ -92,7 +92,7 @@ export default {
   padding-bottom: 120px;
   padding-top: 134px;
   overflow-x: auto;
-  .toplist-none{
+  .toplist-none {
     width: 100%;
     height: 50px;
     text-align: center;

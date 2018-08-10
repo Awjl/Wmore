@@ -46,7 +46,7 @@
       </div>
     </div>
     <div class="box" v-if="show">
-      <span>匹配中</span>
+      <span>{{boxName}}</span>
     </div>
   </div>
 </template>
@@ -69,6 +69,7 @@ export default {
         key: ''
       },
       show: false,
+      boxName: '匹配中',
       timer: 0,
       content: '发送验证',
       totalTime: 60,
@@ -82,7 +83,6 @@ export default {
   },
   methods: {
     Curriculum() {
-      this.show = true
       this.userData.key = storage.get('_key_', [])
       if (!this.userData.code) {
         this.codeCenter = '请输入企业代码'
@@ -99,7 +99,7 @@ export default {
       } else {
         var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
         if (!myreg.test(this.userData.mobile)) {
-           this.mobileCenter = '请输入正确的手机号'
+          this.mobileCenter = '请输入正确的手机号'
         } else {
           this.mobileCenter = ''
         }
@@ -123,7 +123,15 @@ export default {
       var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
       var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
       if (this.userData.code && this.userData.name && this.userData.mobile && this.userData.email && reg.test(this.userData.email) && this.userData.verCode && myreg.test(this.userData.mobile)) {
+        this.show = true
         getmatchUser(this.userData).then((res) => {
+          console.log(res)
+          if (res.code === -1) {
+            this.boxName = '信息不符'
+            setTimeout(() => {
+              this.show = false
+            }, 1500);
+          }
           if (res.code === ERR_OK) {
             storage.set('__userID__', res.data.userId)
             this.show = false
@@ -131,9 +139,13 @@ export default {
               path: `/Curriculum`
             })
           }
-        }).catch(function (err) {
-          alert(err)
-        });
+          if (res.code === 500110) {
+            this.boxName = '无登录权限'
+            setTimeout(() => {
+              this.show = false
+            }, 1500);
+          }
+        })
       }
     },
     yanzheng() {
@@ -186,16 +198,27 @@ export default {
   overflow: hidden;
   background-size: 100%;
   .box {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100vw;
     height: 100vh;
     position: fixed;
+    display: flex;
     justify-content: center;
     align-items: center;
     z-index: 999999999;
     span {
+      display: block;
+      width: 300px;
+      height: 300px;
+      text-align: center;
+      line-height: 300px;
       padding: 10px;
       background: rgba($color: #000000, $alpha: 0.5);
       color: #fff;
+      font-size: 30px;
     }
   }
   .login-csroll {
