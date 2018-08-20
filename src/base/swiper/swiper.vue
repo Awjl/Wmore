@@ -1,8 +1,8 @@
 <template>
   <div class="swiper-container">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" v-for="(str, index) in listImg" :key="index" :style="{height: height + 'px' }" :data-url="str.contentUrl">
-        <img :src="`http://${str.pictureUrl}?x-oss-process=image/format,png`" />
+      <div class="swiper-slide" v-for="(str, index) in listImg" :key="index" :style="{height: height + 'px' }">
+        <a :href="str.contentUrl"><img :src="`http://${str.pictureUrl}?x-oss-process=image/format,png`" /></a>
       </div>
     </div>
     <div class="swiper-pagination swiper-pagination-white"></div>
@@ -25,15 +25,9 @@ export default {
       loop: true,
       speed: 600,
       autoplay: {
-        delay: 1000,
+        delay: 3000,
         disableOnInteraction: false
-      },
-      on: {
-        click: function () {
-          let realIndex = this.realIndex;
-          window.location.href = this.slides[realIndex].getAttribute("data-url");
-        }
-      },
+      }
     })
   }
 }
