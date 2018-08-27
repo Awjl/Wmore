@@ -119,15 +119,12 @@
 
 <script>
 import { getIsEvaluateCourse, setScore } from 'api/dataList'
-import { ERR_OK } from 'api/config'
+import { ERR_OK, vxconfig } from 'api/config'
 import storage from 'good-storage'
 export default {
-  beforeCreate() {
-  },
   created() {
     this._getIsEvaluateCourse()
-  },
-  beforeMount() {
+    this._getParam()
   },
   mounted() {
     this.stateList()
@@ -143,6 +140,9 @@ export default {
     }
   },
   methods: {
+    _getParam() {
+      vxconfig(window.location.href.split('#')[0])
+    },
     btn() {
       this._setScore()
       console.log(this.states)
@@ -182,7 +182,7 @@ export default {
               console.log(Date.parse(new Date()))
               console.log('服务器')
               console.log(Date.parse(new Date(this.dataList[0].courseDate)))
-              console.log(Date.parse(new Date(this.dataList[0].courseDate))+ 60000)
+              console.log(Date.parse(new Date(this.dataList[0].courseDate)) + 60000)
               console.log('判断')
               console.log(Date.parse(new Date()) > Date.parse(new Date(this.dataList[0].courseDate)) + 60000)
               if (Date.parse(new Date()) > Date.parse(new Date(this.dataList[0].courseDate)) + 60000) {

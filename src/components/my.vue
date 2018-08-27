@@ -44,12 +44,13 @@
 
 <script>
 import { getUserById } from 'api/dataList'
-import { ERR_OK } from 'api/config'
+import { ERR_OK, vxconfig} from 'api/config'
 import storage from 'good-storage'
 
 export default {
   created() {
     this._getUserById()
+    this._getParam()
   },
   data() {
     return {
@@ -90,7 +91,10 @@ export default {
           path: `/Login`
         })
       }
-    }
+    },
+     _getParam() {
+      vxconfig(window.location.href.split('#')[0])
+    },
   }
 }
 </script>

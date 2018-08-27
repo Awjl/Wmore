@@ -53,7 +53,7 @@
 
 <script type="text/ecmascript-6">
 import { sendSMS, getmatchUser } from 'api/dataList'
-import { ERR_OK } from 'api/config'
+import { ERR_OK, vxconfig} from 'api/config'
 import storage from 'good-storage'
 export default {
   data() {
@@ -81,7 +81,13 @@ export default {
       verCodeCenter: '',
     }
   },
+  created() {
+    this._getParam()
+  },
   methods: {
+     _getParam() {
+      vxconfig(window.location.href.split('#')[0])
+    },
     Curriculum() {
       this.userData.key = storage.get('_key_', [])
       if (!this.userData.code) {

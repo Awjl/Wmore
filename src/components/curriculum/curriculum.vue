@@ -61,10 +61,10 @@
 </template>
 
 <script>
-import Calendar from "base/calendar/calendar";
-import Swiper from "base/swiper/swiper";
-import { getSmallBannerPictures } from "api/dataList";
-import { ERR_OK } from "api/config";
+import Calendar from "base/calendar/calendar"
+import Swiper from "base/swiper/swiper"
+import { getSmallBannerPictures } from "api/dataList"
+import { ERR_OK, vxconfig } from 'api/config'
 
 export default {
   data() {
@@ -75,11 +75,14 @@ export default {
     };
   },
   created() {
-    this._getSmallBannerPictures();
+    this._getSmallBannerPictures()
+    this._getParam()
   },
   methods: {
+    _getParam() {
+      vxconfig(window.location.href.split('#')[0])
+    },
     getMyEvent(msg) {
-      // console.log("接收的数据--------->" + msg); //接收的数据--------->我是子组件中的数据
       if (msg) {
         document.body.scrollTop = 500
       }
@@ -89,17 +92,13 @@ export default {
       this.$router.push({
         path: `/Details/${item}`
       });
-      console.log(item);
     },
     datas(datas) {
       this.listItem = datas;
-      console.log(`父组件获取数据`);
     },
     _getSmallBannerPictures() {
       getSmallBannerPictures().then(res => {
         if (res.code === ERR_OK) {
-          console.log("小banner-内部");
-          console.log(res.data);
           this.listImg = res.data;
         }
       });

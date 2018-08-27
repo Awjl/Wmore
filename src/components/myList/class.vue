@@ -39,12 +39,13 @@
 
 <script type="text/ecmascript-6">
 import { getReservedCourse, getFinishedCourse } from 'api/dataList'
-import { ERR_OK } from 'api/config'
+import { ERR_OK, vxconfig} from 'api/config'
 import storage from 'good-storage'
 
 export default {
   created() {
     this._getReservedCourse()
+    this._getParam()
   },
   data() {
     return {
@@ -60,6 +61,9 @@ export default {
     over() {
       this.index = 2
       this._getFinishedCourse()
+    },
+    _getParam() {
+      vxconfig(window.location.href.split('#')[0])
     },
     _getReservedCourse() {
       console.log('我的课程')

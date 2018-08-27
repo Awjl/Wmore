@@ -45,12 +45,13 @@
 
 <script>
 import { getActionById } from 'api/dataList'
-import { ERR_OK } from 'api/config'
+import { ERR_OK, vxconfig } from 'api/config'
 import storage from 'good-storage'
 
 export default {
   created () {
     this._getActionById()
+    this._getParam()
   },
   data () {
     return {
@@ -65,6 +66,9 @@ export default {
       this.$router.push({
         path: `/MyInformation`
       })
+    },
+    _getParam() {
+      vxconfig(window.location.href.split('#')[0])
     },
     _getActionById () {
       console.log('我的积分')

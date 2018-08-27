@@ -160,13 +160,14 @@
 <script>
 import Addres from "base/addres/addres";
 import { getUserById, editUser, getParam, uploadHead } from "api/dataList";
-import { ERR_OK } from "api/config";
+import { ERR_OK, vxconfig} from 'api/config'
 import storage from "good-storage";
 
 export default {
   inject: ["reload"],
   created() {
-    this._getUserById();
+    this._getUserById()
+    this._getParam()
   },
   data() {
     return {
@@ -392,7 +393,10 @@ export default {
             self.trueBox = false;
           }, 1500);
         }
-      });
+      })
+    },
+    _getParam() {
+      vxconfig(window.location.href.split('#')[0])
     },
     _getUserById() {
       getUserById(storage.get("__userID__", [])).then(res => {

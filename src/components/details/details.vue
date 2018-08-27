@@ -116,7 +116,7 @@
 <script>
 import Swiper from "base/swiper/swiper";
 import { getCourseDetail, insertUC } from "api/dataList";
-import { ERR_OK } from "api/config";
+import { ERR_OK, vxconfig } from 'api/config'
 import storage from "good-storage";
 
 export default {
@@ -143,9 +143,12 @@ export default {
   },
   created() {
     this._getCourseDetail();
-    console.log("课程333333详情");
+    this._getParam()
   },
   methods: {
+    _getParam() {
+      vxconfig(window.location.href.split('#')[0])
+    },
     quxiao() {
       this.show = false;
     },
@@ -188,7 +191,7 @@ export default {
           console.log(res.data);
           this.dataList = res.data;
           this.listImg = JSON.parse(this.dataList.pictureUrl)
-          console.log( this.listImg )
+          console.log(this.listImg)
           // var arr = this.dataList.pictureUrl.split(",");
           var arr2 = this.dataList.trainingEffect.split(",");
           this.widthOen = arr2[0] + "px";

@@ -20,7 +20,7 @@
 import Swiper from 'base/swiper/swiper'
 import Notice from "base/notice/notice";
 import { getBigBannerPictures } from 'api/dataList'
-import { ERR_OK } from 'api/config'
+import { ERR_OK, vxconfig} from 'api/config'
 import storage from 'good-storage'
 export default {
   data() {
@@ -33,10 +33,11 @@ export default {
   },
   created() {
     this._getBigBannerPictures()
+    this._getParam()
   },
   methods: {
     login() {
-      console.log("首页约课"+storage.get('__userID__', []))
+      console.log("首页约课" + storage.get('__userID__', []))
       if (storage.get('__userID__', []) != '0') {
         this.$router.push({
           path: `/Curriculum`
@@ -46,6 +47,9 @@ export default {
           path: `/Login`
         })
       }
+    },
+    _getParam() {
+      vxconfig(window.location.href.split('#')[0])
     },
     _getBigBannerPictures() {
       getBigBannerPictures().then((res) => {
