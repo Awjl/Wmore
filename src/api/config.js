@@ -26,6 +26,7 @@ export function vxconfig(url) {
           link: `${window.location.href.split('#')[0]}/govx.html`, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
           imgUrl: `${window.location.href.split('#')[0]}/static/images/logo.jpg`, // 分享图标
           success: function () {
+            _hmt.push(['_trackEvent', '分享', '微信分享', '分享到朋友圈']);
             alert('分享成功')
           },
         })
@@ -36,6 +37,7 @@ export function vxconfig(url) {
           imgUrl: `${window.location.href.split('#')[0]}/static/images/logo.jpg`, // 分享图标
           // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
           success: function () {
+            _hmt.push(['_trackEvent', '分享', '微信分享', '分享给朋友']);
             alert('分享成功')
           }
         });
