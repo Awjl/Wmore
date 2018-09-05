@@ -13,15 +13,12 @@
             <input type="text" placeholder="企业代码" v-model="userData.code">
             <div class="line"></div>
             <div class="required">{{codeCenter}} </div>
-            <div class="he40"></div>
             <input type="text" placeholder="真实姓名" v-model="userData.name">
             <div class="line"></div>
             <div class="required">{{nameCenter}}</div>
-            <div class="he40"></div>
             <input type="text" placeholder="企业邮箱" v-model="userData.email">
             <div class="line"></div>
             <div class="required">{{emailCenter}}</div>
-            <div class="he40"></div>
             <div class="iphone">
               <div class="iphone-line">
                 <input type="text" placeholder="输入手机号" v-model="userData.mobile">
@@ -32,12 +29,12 @@
               </div>
             </div>
             <div class="required">{{mobileCenter}}</div>
-            <div class="he40"></div>
             <input type="text" placeholder="输入验证码" v-model="userData.verCode">
             <div class="line"></div>
             <div class="required">{{verCodeCenter}}</div>
-            <div class="he40"></div>
             <p>请确认您所在的企业已购买Wmore企业课程</p>
+            <p class="disclaimer">点击下面的确定按钮，即代表您同意<br>《<span class="disclaimer_btn" @click="todisclaimer">Wmore运动风险免责协议</span>》</p>
+            
             <div class="loging-btn" @click="Curriculum()">
               确定
             </div>
@@ -87,6 +84,11 @@ export default {
   methods: {
      _getParam() {
       vxconfig(window.location.href.split('#')[0])
+    },
+    todisclaimer() {
+      this.$router.push({
+        path: `/Disclaimer`
+      })
     },
     Curriculum() {
       this.userData.key = storage.get('_key_', [])
@@ -258,17 +260,22 @@ export default {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        margin-top: 120px;
+        margin-top: 80px;
         .login-node {
           width: 399px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
           p {
             font-size: 20px;
             color: #57c2cf;
             text-align: center;
+            &.disclaimer {
+              color: #57c2cf;
+              margin:10px 0 50px;
+              line-height: 30px;
+              span{
+                color: #fff;
+                text-decoration: underline;
+              }
+            }
           }
           .loging-btn {
             width: 166px;
@@ -280,10 +287,7 @@ export default {
             border-radius: 40px;
             margin-top: 42px;
             margin-bottom: 140px;
-          }
-          .he40 {
-            height: 10px;
-            width: 100%;
+            margin: 20px auto 0;
           }
           .required {
             width: 100%;
@@ -327,11 +331,11 @@ export default {
             }
             .yanzhen {
               width: 160px;
-              height: 65px;
-              line-height: 65px;
+              height: 55px;
+              line-height: 60px;
               text-align: center;
               border: 2px solid #ddd;
-              margin-top: -20px;
+              margin-top: -5px;
               color: #fff;
               border-radius: 30px;
               span {

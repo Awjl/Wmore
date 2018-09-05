@@ -10,6 +10,7 @@ import MyNotice from '@/components/myList/notice' // 我的通知
 import Login from '@/components/login/login' // 登陆
 import Curriculum from '@/components/curriculum/curriculum' // 我的课程页面
 import Details from '@/components/details/details'
+import Disclaimer from '@/components/login/disclaimer'
 
 Vue.use(Router)
 
@@ -83,6 +84,13 @@ export default new Router({
       component: Details,
       meta: {
         title: '课程详情'
+      }
+    },
+    {
+      path: '/Disclaimer',
+      component: Disclaimer,
+      meta: {
+        title: '免责声明'
       }
     }
   ]
