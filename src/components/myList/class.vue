@@ -66,11 +66,8 @@ export default {
       vxconfig(window.location.href.split('#')[0])
     },
     _getReservedCourse() {
-      console.log('我的课程')
       getReservedCourse(storage.get('__userID__', [])).then((res) => {
         if (res.code === ERR_OK) {
-          console.log('已预约')
-          console.log(res.data)
           this.topList = res.data
         }
       })
@@ -78,8 +75,6 @@ export default {
     _getFinishedCourse() {
       getFinishedCourse(storage.get('__userID__', [])).then((res) => {
         if (res.code === ERR_OK) {
-          console.log('已完成')
-          console.log(res.data)
           this.topList = res.data
         }
       })

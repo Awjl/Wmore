@@ -45,7 +45,6 @@ export default {
   },
   watch: {
     showstate: function () {
-      console.log('12312')
       var self = this
       setTimeout(function () {
         self.showstate = false

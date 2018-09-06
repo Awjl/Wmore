@@ -145,7 +145,6 @@ export default {
     },
     btn() {
       this._setScore()
-      console.log(this.states)
     },
     ListItemOne(item) {
       this.ItemOne = item
@@ -173,18 +172,8 @@ export default {
         getIsEvaluateCourse(storage.get('__userID__', [])).then((res) => {
           if (res.code === ERR_OK) {
             this.dataList = res.data
-            console.log(this.dataList[0].courseDate)
-            console.log(new Date(this.dataList[0].courseDate).getMonth() + 1)
-            console.log(new Date(this.dataList[0].courseDate).getDate())
             if (this.dataList.length > 0) {
               // this.states = true
-              console.log('本地')
-              console.log(Date.parse(new Date()))
-              console.log('服务器')
-              console.log(Date.parse(new Date(this.dataList[0].courseDate)))
-              console.log(Date.parse(new Date(this.dataList[0].courseDate)) + 60000)
-              console.log('判断')
-              console.log(Date.parse(new Date()) > Date.parse(new Date(this.dataList[0].courseDate)) + 60000)
               if (Date.parse(new Date()) > Date.parse(new Date(this.dataList[0].courseDate)) + 60000) {
                 this.states = true
               }

@@ -133,7 +133,6 @@ export default {
       if (this.userData.code && this.userData.name && this.userData.mobile && this.userData.email && reg.test(this.userData.email) && this.userData.verCode && myreg.test(this.userData.mobile)) {
         this.show = true
         getmatchUser(this.userData).then((res) => {
-          console.log(res)
           if (res.code === -1) {
             this.boxName = '信息不符'
             setTimeout(() => {
@@ -167,7 +166,6 @@ export default {
         } else {
           this.mobileCenter = ''
         }
-        console.log('12312')
         if (!this.canClick) return  //改动的是这两行代码
         this.canClick = false
         this.content = this.totalTime + 's后重新发送'
@@ -181,9 +179,7 @@ export default {
             this.canClick = true  //这里重新开启
           }
         }, 1000)
-        console.log('进入')
         sendSMS(this.userData.mobile).then((res) => {
-          console.log('发送验证码')
           this.timer = 60
           var self = this
           setInterval(function () {

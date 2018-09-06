@@ -91,8 +91,6 @@ export default {
     _getUnreadNotice() {
       getUnreadNotice(storage.get('__userID__', [])).then((res) => {
         if (res.code === ERR_OK) {
-          console.log('未读')
-          console.log(res.data)
           this.topList = res.data
         }
       })
@@ -100,8 +98,6 @@ export default {
     _getReadNotice() {
       getReadNotice(storage.get('__userID__', [])).then((res) => {
         if (res.code === ERR_OK) {
-          console.log('已读')
-          console.log(res.data)
           this.topList = res.data
         }
       })
@@ -109,8 +105,6 @@ export default {
     _toReadNotice(item) {
       toReadNotice(item).then((res) => {
         if (res.code === ERR_OK) {
-          console.log('查看通知')
-          console.log(res.data)
           this.dataContent = res.data
         }
       })

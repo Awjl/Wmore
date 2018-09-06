@@ -27,16 +27,13 @@ export default {
   },
   mounted() {
     // // var tath = this
-    // console.log(this.$refs);
     var _this = this
     let imgs = document.querySelectorAll('img')
     this.imglength = imgs.length
-    console.log(imgs)
     Array.from(imgs).forEach((item) => {
       let img = new Image()
       img.onload = () => {
         this.count++
-        console.log('加载完成')
       }
       img.src = item.getAttribute('src')
     })
@@ -55,7 +52,6 @@ export default {
     },
     count(val, oldval) {
       if (val == this.imglength) {
-        console.log(this.count)
         this.$refs.bgone.style.right = 419 + "px";
         this.$refs.bgtwo.style.right = 0 + "px";
         var self = this;

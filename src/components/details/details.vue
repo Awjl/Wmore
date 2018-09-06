@@ -165,15 +165,12 @@ export default {
           if (res.code === ERR_OK) {
             this.show = false
             this.showstate = true
-            console.log("已预约")
             this.dataList.state = 1
             this.success = res.data
             var self = this
             setTimeout(function () {
               self.showstate = false
             }, 4000)
-            console.log(res.data);
-            console.log(this.success);
           }
         }
       );
@@ -187,11 +184,8 @@ export default {
         this.$route.params.item
       ).then(res => {
         if (res.code === ERR_OK) {
-          console.log("课程详情");
-          console.log(res.data);
           this.dataList = res.data;
           this.listImg = JSON.parse(this.dataList.pictureUrl)
-          console.log(this.listImg)
           // var arr = this.dataList.pictureUrl.split(",");
           var arr2 = this.dataList.trainingEffect.split(",");
           this.widthOen = arr2[0] + "px";

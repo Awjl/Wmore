@@ -262,9 +262,7 @@ export default {
         type: "datePicker",
         onOk: date => {
           this.date = date.replace(new RegExp(/-/gm), "/");
-          console.log('日期格式1', this.date);
           this.myList.birthday = this.date.split("/")[0] + '-' + this.date.split("/")[1] + '-' + this.date.split("/")[2];
-          console.log('日期格式', this.myList.birthday);
         }
       });
     },
@@ -305,11 +303,9 @@ export default {
       this.hobby = true;
     },
     uplode() {
-      console.log(window.location.href.split('#')[0]);
       getParam(window.location.href.split('#')[0]).then(res => {
         var serverId, wxImg
         if (res.code === ERR_OK) {
-          console.log('开始配置微信');
           wx.config({
             debug: false, //调试模式   当为tru时，开启调试模式
             appId: res.data.appid,
@@ -349,23 +345,17 @@ export default {
     },
     industryover() {
       this.industry = false;
-      console.log(this.industryData);
       this.myList.industry = this.industryData;
-      console.log(this.myList);
     },
     hobbyover() {
       this.hobby = false;
       this.myList.hobby = this.hobbyData;
-      console.log(this.myList);
     },
     goueducation(item) {
-      console.log(item);
       this.educationState = false;
       this.myList.education = item;
-      console.log(this.myList);
     },
     goindustry(item) {
-      console.log(item);
       this.industry = false;
       this.myList.industry = item;
     },
@@ -401,9 +391,7 @@ export default {
     _getUserById() {
       getUserById(storage.get("__userID__", [])).then(res => {
         if (res.code === ERR_OK) {
-          console.log("个人信息2312");
           this.myList = res.data;
-          console.log(this.myList);
         }
       });
     }

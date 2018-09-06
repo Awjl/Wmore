@@ -25,7 +25,7 @@ export default new Router({
           path: '/Home',
           component: Home,
           meta: {
-            title: '约课'
+            title: 'Wmore 变野'
           }
         },
         {

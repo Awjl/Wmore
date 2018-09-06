@@ -71,14 +71,10 @@ export default {
       vxconfig(window.location.href.split('#')[0])
     },
     _getActionById () {
-      console.log('我的积分')
       getActionById(storage.get('__userID__', [])).then((res) => {
         if (res.code === ERR_OK) {
-          console.log('我的积分')
-          console.log(res)
           this.topList = res.data
           this.dataList = Object.assign({}, this.dataList, res.data)
-          console.log(this.topList)
         }
       })
     }

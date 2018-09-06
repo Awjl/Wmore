@@ -126,8 +126,6 @@ export default {
       ).then(res => {
         if (res.code === ERR_OK) {
           this.datas = res.data;
-          console.log('数据')
-          console.log(this.datas)
           this.initData(this.formatDate(this.currentYear, this.currentMonth, this.currentDay));
         }
       });
@@ -156,7 +154,6 @@ export default {
       this.currentDay = date.getDate();
       this.currentYear = date.getFullYear();
       this.currentMonth = date.getMonth() + 1;
-      // console.log(this.currentMonth)
       this.currentWeek = date.getDay(); // 1...6,0
       if (this.currentWeek === 0) {
         this.currentWeek = 7;
@@ -211,7 +208,6 @@ export default {
 
         this.days.push(dayobject);
       }
-      // console.log(this.days)
     },
     pickPre(year, month) {
       this.showRight = true
@@ -241,7 +237,6 @@ export default {
         return
       }
       if (items == 1) {
-        console.log("123");
         this.$router.push({
           path: `/Details/${id}`
         });

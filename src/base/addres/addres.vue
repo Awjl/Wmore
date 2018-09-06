@@ -3724,7 +3724,6 @@ export default {
       this.showDistrictList[index].selected = true
       // 选取市区选项之后关闭弹层
       // this.addresStater = false;
-      console.log(this.Addres)
       this.$emit('Addres', this.Addres)
     },
     districtSelected () {
