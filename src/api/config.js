@@ -9,8 +9,6 @@ import { getParam } from 'api/dataList'
 export function vxconfig(url) {
   getParam(url).then(res => {
     if (res.code === ERR_OK) {
-      console.log('开始配置微信');
-      console.log(res.data)
       wx.config({
         debug: false, //调试模式   当为tru时，开启调试模式
         appId: res.data.appid,

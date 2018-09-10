@@ -50,6 +50,7 @@ export default {
   bottom: 0;
   justify-content: space-around;
   align-items: center;
+  z-index: 9999999;
   .line {
     height: 43px;
     width: 2px;
