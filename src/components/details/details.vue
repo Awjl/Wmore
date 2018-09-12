@@ -229,6 +229,10 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      img{
+        width: 35px;
+        height: 70px;
+      }
     }
     img {
       width: 56px;

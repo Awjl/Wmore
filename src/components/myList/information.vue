@@ -262,7 +262,7 @@ export default {
         type: "datePicker",
         onOk: date => {
           this.date = date.replace(new RegExp(/-/gm), "/");
-          this.myList.birthday = this.date.split("/")[0] + '-' + this.date.split("/")[1] + '-' + this.date.split("/")[2];
+          this.myList.birthday = this.date.split("/")[0] + '-' + (this.date.split("/")[1] < 10 ? '0' + this.date.split("/")[1] : this.date.split("/")[1] ) + '-' + (this.date.split("/")[2] < 10 ? '0' + this.date.split("/")[2] : this.date.split("/")[2])
         }
       });
     },

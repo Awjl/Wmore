@@ -171,7 +171,6 @@ export function insertUC(id, claId) {
 // /wmore/user/editUser
 export function editUser(list) {
   const url = `${api}/wmore/user/editUser`
-  console.log(list)
   return axios.post(url, list).then((res) => {
     return Promise.resolve(res.data)
   })

@@ -78,6 +78,10 @@ export default {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
+    img {
+      width: 35px;
+      height: 70px;
+    }
   }
   img {
     width: 56px;
