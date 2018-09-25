@@ -36,9 +36,8 @@
     </div>
     <!-- 日期 -->
     <div class="days-box">
-      <div class="box" v-show="datas.length<1">
-        <div class="box-cont">
-          当月课程更新中，<br> 您目前没有可选的课程。
+      <div class="box" v-show="showbox">
+        <div class="box-cont" v-html="showData">
         </div>
       </div>
       <ul class="days">
@@ -64,7 +63,6 @@
             <span v-else @click="godetile(dayobject.data.isday , dayobject.data.id,dayobject.data.courseDate
 )">{{ dayobject.day.getDate() }}</span>
           </span>
-          <!--显示剩余多少数量-->
           <div v-if="dayobject.day.getFullYear() <= new Date().getFullYear() && dayobject.day.getMonth() <= new Date().getMonth() && dayobject.day.getDate() < new Date().getDate()">
             <p v-if="dayobject.data && dayobject.data.isday == 1">
               <span>已过期</span>
@@ -106,7 +104,9 @@ export default {
       already: 0, // 已选
       team: 4, // 团建
       datas: [],
-      showRight: true
+      showRight: true,
+      showbox: true,
+      showData: '加载中...'
     };
   },
   created() {
@@ -126,6 +126,12 @@ export default {
       ).then(res => {
         if (res.code === ERR_OK) {
           this.datas = res.data;
+          if (this.datas.length<1) {
+            this.showData = '当月课程更新中，<br>您目前没有可选的课程。'
+          } else {
+            this.showbox = false
+            this.showData = '加载中...'
+          }
           this.initData(this.formatDate(this.currentYear, this.currentMonth, this.currentDay));
         }
       });
@@ -211,6 +217,7 @@ export default {
     },
     pickPre(year, month) {
       this.showRight = true
+      this.showbox = true
       let d = new Date(this.formatDate(year, month, 1));
       d.setDate(0);
       this.currentMonth = d.getMonth() + 1;
@@ -218,6 +225,7 @@ export default {
     },
     pickNext(year, month) {
       this.showRight = false
+      this.showbox = true
       let d = new Date(this.formatDate(year, month, 1))
       d.setDate(42);
       this.currentMonth = d.getMonth() + 1;
@@ -373,10 +381,19 @@ export default {
         width: 100%;
         padding: 0 15px;
         box-sizing: border-box;
-        margin-top: 15px;
-        font-size: 18px;
-        overflow: hidden;
+        margin-top: 10px;
+        font-size: 16px;
         text-align: center;
+        overflow: hidden;
+        height: 50px;
+        line-height: 25px;
+        span{
+          display: block;
+          height: 25px;
+          font-size: 14px;
+          line-height: 25px;
+          overflow: hidden;
+        }
       }
       span.other-month {
         padding: 5px;

@@ -153,12 +153,12 @@ export default {
     z-index: 9999;
     .popup-box {
       width: 80vw;
-      height: 30vh;
       background: #fff;
       border-radius: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      overflow: hidden;
       .popup-title {
         width: 90%;
         height: 60px;
@@ -186,7 +186,7 @@ export default {
       }
       .popup-content {
         width: 90%;
-        margin: 80px 0 50px;
+        margin: 50px 0;
         word-wrap: break-word;
         text-align: center;
         font-size: 28px;

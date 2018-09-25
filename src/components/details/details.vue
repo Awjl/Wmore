@@ -4,7 +4,7 @@
       <div class="detailsnotice-box" @click="godie()">
         <img src="./yi-icon.png" alt="">
         <span>{{success.content}}</span>
-        <span>{{new Date(success.createDate).getMonth() + 1>=10? new Date(success.createDate).getMonth() + 1 : `0${new Date(success.createDate).getMonth() + 1}`}}月{{ new Date(success.createDate).getDate() >= 10 ? new Date(success.createDate).getDate() : `0${new Date(success.createDate).getDate()}`}}日</span>
+        <span>{{new Date(success.createDate).getMonth() + 1>=10? new Date(success.createDate).getMonth() + 1 : `0${new Date(success.createDate).getMonth() + 1}`}}/{{ new Date(success.createDate).getDate() >= 10 ? new Date(success.createDate).getDate() : `0${new Date(success.createDate).getDate()}`}}</span>
       </div>
     </div>
     <Swiper :listImg="listImg" :height="height"></Swiper>
@@ -210,7 +210,7 @@ export default {
   height: 100vh;
   .detailsnotice {
     position: fixed;
-    width: 90vw;
+    width: 95vw;
     height: 100px;
     background: #fff;
     z-index: 99;
@@ -219,7 +219,7 @@ export default {
     top: 40px;
     margin: 0 auto;
     border-radius: 20px;
-    padding: 0 30px;
+    padding: 0 20px;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
@@ -230,8 +230,11 @@ export default {
       justify-content: space-between;
       align-items: center;
       img{
-        width: 35px;
-        height: 70px;
+        width: 21px;
+        height: 42px;
+      }
+      span {
+        font-size: 23px;
       }
     }
     img {

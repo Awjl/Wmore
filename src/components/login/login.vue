@@ -132,6 +132,7 @@ export default {
       var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
       if (this.userData.code && this.userData.name && this.userData.mobile && this.userData.email && reg.test(this.userData.email) && this.userData.verCode && myreg.test(this.userData.mobile)) {
         this.show = true
+        this.boxName = '匹配中'
         getmatchUser(this.userData).then((res) => {
           if (res.code === -1) {
             this.boxName = '信息不符'

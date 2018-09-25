@@ -57,7 +57,7 @@ export default {
 <style lang="scss" rel="stylesheet/scss" scoped>
 .notice {
   position: fixed;
-  width: 90vw;
+  width: 95vw;
   height: 100px;
   background: #fff;
   z-index: 99;
@@ -66,7 +66,7 @@ export default {
   top: 40px;
   margin: 0 auto;
   border-radius: 20px;
-  padding: 0 30px;
+  padding: 0 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -79,8 +79,11 @@ export default {
     align-items: center;
     margin-bottom: 30px;
     img {
-      width: 35px;
-      height: 70px;
+      width: 21px;
+      height: 42px;
+    }
+    span {
+      font-size: 23px;
     }
   }
   img {
