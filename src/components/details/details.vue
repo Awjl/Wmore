@@ -3,7 +3,7 @@
     <div class="detailsnotice" v-show="showstate">
       <div class="detailsnotice-box" @click="godie()">
         <img src="./yi-icon.png" alt="">
-        <span>{{success.content}}</span>
+        <span style="width:78%;">{{success.content}}</span>
         <span>{{new Date(success.createDate).getMonth() + 1>=10? new Date(success.createDate).getMonth() + 1 : `0${new Date(success.createDate).getMonth() + 1}`}}/{{ new Date(success.createDate).getDate() >= 10 ? new Date(success.createDate).getDate() : `0${new Date(success.createDate).getDate()}`}}</span>
       </div>
     </div>
@@ -134,7 +134,7 @@ export default {
       show: false,
       height: '163',
       data: [],
-      showstate: false,
+      showstate: true,
       success: {}
     };
   },
